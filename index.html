@@ -1,12 +1,50 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Canales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        #search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        li a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Lista de Canales</h1>
-    <ul>
+    <input type="text" id="search-box" placeholder="Buscar canal..." oninput="filterChannels()">
+    <ul id="channel-list">
         <li><a href="https://dots.bestleague.world/cvatt.html?get=MjZfVFZfSEQ&lang=1">26_TV_HD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=QTNfQ2luZQ==&lang=1">A3_Cine</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=QTNfU2VyaWVz&lang=1">A3_Series</a></li>
@@ -47,7 +85,7 @@
         <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzY292ZXJ5VHVyYm8=&lang=1">DiscoveryTurbo</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzbmV5SnI=&lang=1">DisneyJr</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=RHJlYW13b3Jrcw==&lang=1">Dreamworks</a></li>
-        <li><a href="https://dots.bestleague.world/cvatt.html?get=RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=&lang=1">E_Entertainment_Television</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=&lang=1">E_Entertainment_Television</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=RWxfR2FyYWdl&lang=1">El_Garage</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=RW5jdWVudHJv&lang=1">Encuentro</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=RVNQTjJfQXJn&lang=1">ESPN2_Arg</a></li>
@@ -66,9 +104,9 @@
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY18x&lang=1">Flow_Music_1</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY18y&lang=1">Flow_Music_2</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY18z&lang=1">Flow_Music_3</a></li>
-        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY19YUA==&lang=1">Flow_Music_XP</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNp19YUA==&lang=1">Flow_Music_XP</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm9vZF9OZXR3b3Jr&lang=1">Food_Network</a></li>
-        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm94X05ld3M=&lang=1">Fox_News</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RmxveF9OZXdz&lang=1">Fox_News</a></li>
         <li><a href="https://dots.bestleague.world/mpdk/?get=aHR0cHM6Ly9jZG4udHJpbWkuY29tLmFyL2xpdmUvc20tbGl2ZS9FU1BOX1BSRU1fQktQNC9zYV9saXZlX2Rhc2hfbGwvRVNQTl9QUkVNX0JLUDQubXBk&key=M2I2ZmE2NTI0ZDI1NGM5NmI1YTEwMWM4MTE4ZDNhZTY=&key2=ZDVlMmE5ZDNlMmM1YWE4NTg3ZWFkYTI4MWFjZWY2YmM=&start=true">Fox_Sports_Premium_Backup</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm94X1Nwb3J0c19QcmVtaXVuX0hE&lang=1">Fox_Sports_Premium_HD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm94U3BvcnRzMl9VWQ==&lang=1">FoxSports2_UY</a></li>
@@ -85,7 +123,7 @@
         <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX1NpZ25hdHVyZQ==&lang=1">HBO_Signature</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPSEQ=&lang=1">HBOHD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=SGlzdG9yeV8y&lang=1">History_2</a></li>
-        <li><a href="https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8">History_backup</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8&lang=1">History_backup</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=SGlzdG9yeUhE&lang=1">HistoryHD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=SG9sYV9UVg==&lang=1">Hola_TV</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=SFRW&lang=1">HTV</a></li>
@@ -134,8 +172,8 @@
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VGhlYXRlcl9IRA==&lang=1">Theater_HD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VExD&lang=1">TLC</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UX0hEX0FyZw==&lang=1">TNT_HD_Arg</a></li>
-        <li><a href="https://dots.bestleague.world/mpdk/?get=aHR0cHM6Ly9jZG4.udHJpbWkuY29tLmFyL2xpdmUvc20tbGl2ZS9UTlRfU1BPUlRTX0JLUDQvc2FfbGl2ZV9kYXNoX2xsL1ROVF9TUE9SVFNfQktQNC5tcGQ=&key=NGM3OWEyN2Y0NmY0NGJmYmI3NzRiOGM3ZjFmMWU1N2Y=&key2=NTMwZmQwY2JhOWRjNTU2YTMzOWIwM2FmNGIwOTUxYjk=&start=true">TNT_Sports_Backup</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UX1Nwb3J0c19IRA&lang=1">TNT_Sports_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UX1Nwb3J0c19QcmVtaXVuX0hE&lang=1">TNT_Sports_Backup</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UU2VyaWVz&lang=1">TNTSeries</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VG9kb05vdGljaWFz&lang=1">TodoNoticias</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VHJ1VFY=&lang=1">TruTV</a></li>
@@ -144,18 +182,36 @@
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VFZfRXNwYW5h&lang=1">TV_Espana</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VHlDX0ludGVybmFjaW9uYWw=&lang=1">TyC_International</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VHlDU3BvcnQ&lang=1">TyCSport</a></li>
-        <li><a href="https://dots.bestleague.world/cvatt.html?get=VHlDU3BvcnQ&lang=1">TyCSport</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX0NoYW5uZWxfSEQ=&lang=1">Universal_Channel_HD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX0NpbmVtYQ==&lang=1">Universal_Cinema</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX0NvbWVkeQ==&lang=1">Universal_Comedy</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=dW5pdmVyc2FsX0NyaW1l&lang=1">universal_Crime</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX1ByZW1pZXJl&lang=1">Universal_Premiere</a></li>
-        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pvmVyc2FsX1JlYWxpdHk=&lang=1">Universal_Reality</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX1JlYWxpdHk=&lang=1">Universal_Reality</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VVNBX05ldHdvcms=&lang=1">USA_Network</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VmVudXM=&lang=1">Venus</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Vm9sdmVy&lang=1">Volver</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=V2FybmVySEQ=&lang=1">WarnerHD</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=V09CSQ==&lang=1">WOBI</a></li>
     </ul>
+
+    <script>
+      function filterChannels() {
+        const input = document.getElementById('search-box').value.toUpperCase();
+        const list = document.getElementById('channel-list');
+        const items = list.getElementsByTagName('li');
+        for (let i = 0; i < items.length; i++) {
+          const a = items[i].getElementsByTagName('a')[0];
+          const text = a.textContent || a.innerText;
+          if (text.toUpperCase().includes(input)) {
+            items[i].style.display = '';
+          } else {
+            items[i].style.display = 'none';
+          }
+        }
+      }
+    </script>
 </body>
 </html>
+
+
