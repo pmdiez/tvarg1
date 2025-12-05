@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Canales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        #search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        li a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Canales</h1>
+    <input type="text" id="search-box" placeholder="Buscar canal..." oninput="filterChannels()">
+
+    <!-- BOTÓN + IFRAME 1: LIBREFUTBOL -->
+    <button id="btn-agenda" onclick="toggleAgenda()">Ver LibreFutbol</button>
+    <div id="agenda-wrapper" style="display:none; margin-top:15px;">
+      <iframe
+        id="agenda-iframe"
+        src="https://librefutboltv.su/es/"
+        width="100%"
+        height="800"
+        style="border:1px solid #ccc; border-radius:4px;"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- BOTÓN + IFRAME 2: TVLIBRE -->
+    <button id="btn-agenda2" onclick="toggleIframe('wrapper2','btn-agenda2')">Ver TVLibre</button>
+    <div id="wrapper2" style="display:none; margin-top:15px;">
+      <iframe id="agenda2" src="https://tvlibree.com" width="100%" height="800"
+              style="border:1px solid #ccc; border-radius:4px;"></iframe>
+    </div>
+
+    <ul id="channel-list">
+        <!-- AQUÍ DEJAS TODA TU LISTA DE <li> TAL CUAL LA TENÍAS -->
+		<li><a href="https://dots.bestleague.world/cvatt.html?get=MjZfVFZfSEQ&lang=1">26_TV_HD</a></li>
+	    <li><a href="https://dots.bestleague.world/cvatt.html?get=QXJ0ZWFySEQ&lang=1">Canal_13_TRECE</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZWZlSEQ=&lang=1">Telefe</a></li>
+	    <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWw5&lang=1">Canal_Nueve</a></li>
+	    <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWw3&lang=1">TV_Publica</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QW1lcmljYVRW&lang=1">America_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TWFnYXppbmU=&lang=1">Ciudad_Magazine</a></li>
+	    <li><a href="https://bestleague.world/canal/?id=TELEVIDAHLS">Televida_C9Mendoza</a></li>		
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2luZWNhbmFsSEQ=&lang=1">Cinecanal</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U3BhY2U=&lang=1">Space</a></li>
+		<li><a href="https://dots.bestleague.world/cvatt.html?get=Rk9YSEQ=&lang=1">Star+</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QTNfQ2luZQ==&lang=1">A3_Cine</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QTNfU2VyaWVz&lang=1">A3_Series</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QWR1bHRfU3dpbQ==&lang=1">Adult_Swim</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QUVIRA==&lang=1">AEHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QU1DX1Nlcmllcw==&lang=1">AMC_Series</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QW1lcmljYTI0&lang=1">America24</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QW5pbWFsUGxhbmV0&lang=1">AnimalPlanet</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QW50ZW5hXzM=&lang=1">Antena_3</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QXJnZW50aW5pc2ltYQ&lang=1">Argentinisima</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QVhOSEQ=&lang=1">AXAHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QkJDX1dvcmxkX05ld3M&lang=1">BBC_World_News</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Qm9vbWVyYW5n&lang=1">Boomerang</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QnJhdm9UVg==&lang=1">BravoTV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QzVO&lang=1">C5N</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=QzlOX0M0&lang=1">C9N_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWwxMF9VUlU=&lang=1">Canal10_URU</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWwxMlVSVQ==&lang=1">Canal12URU</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWw0X1VSVQ==&lang=1">Canal4_URU</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWw3&lang=1">Canal7</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfMTJfQ0JB&lang=1">Canal_12_CBA</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfNV9Sb3Nhcmlv&lang=1">Canal_5_Rosario</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfOF9DQkE=&lang=1">Canal_8_CBA</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfOF9UdWN1bWFu&lang=1">Canal_8_Tucuman</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk&lang=1">Canal_de_la_ciudad</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==&lang=1">Canal_de_las_estrellas</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWxfUnVyYWw=&lang=1">Canal_Rural</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FydG9vbk5ldHdvcms=&lang=1">CartoonNetwork</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2luZW1heA==&lang=1">Cinemax</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q00=&lang=1">CM</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q29tZWR5Q2VudHJhbA&lang=1">ComedyCentral</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Q3JvbmljYVRW&lang=1">CronicaTV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlwdXRhZG9zX1RW&lang=1">Diputados_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzY292ZXJ5X0tpZHM=&lang=1">Discovery_Kids</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzY292ZXJ5X1NjaWVuY2U=&lang=1">Discovery_Science</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzY292ZXJ5X1dvcmxkX0hE&lang=1">Discovery_World_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE&lang=1">DiscoveryHomeHealthHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzY292ZXJ5VHVyYm8=&lang=1">DiscoveryTurbo</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RGlzbmV5SnI=&lang=1">DisneyJr</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RHJlYW13b3Jrcw==&lang=1">Dreamworks</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=&lang=1">E_Entertainment_Television</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RWxfR2FyYWdl&lang=1">El_Garage</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RW5jdWVudHJv&lang=1">Encuentro</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RVNQTjJfQXJn&lang=1">ESPN2_Arg</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RVNQTjJfVVk=&lang=1">ESPN2_UY</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RVNQTjNfVXktUHk=&lang=1">ESPN3_Uy-Py</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RVNQTjQ=&lang=1">ESPN4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RVNQTl9VWQ==&lang=1">ESPN_UY</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RXVyb2NoYW5uZWw=&lang=1">Eurochannel</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RXVyb25ld3M=&lang=1">Euronews</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RXVyb3BhX0V1cm9wYQ&lang=1">Europa_Europa</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RXZlbnRvczFIRA&lang=1">Eventos1HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RXZlbnRvc18yX0hE&lang=1">Eventos_2_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RXZlbnRvc19IRF9VeQ==&lang=1">Eventos_HD_UY</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U2V4dHJlbWU&lang=1">Extreme</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RmlsbV9BcnRz&lang=1">Film_Arts</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY18x&lang=1">Flow_Music_1</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY18y&lang=1">Flow_Music_2</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNpY18z&lang=1">Flow_Music_3</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rmxvd19NdXNp19YUA==&lang=1">Flow_Music_XP</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm9vZF9OZXR3b3Jr&lang=1">Food_Network</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=RmxveF9OZXdz&lang=1">Fox_News</a></li>
+        <li><a href="https://dots.bestleague.world/mpdk/?get=aHR0cHM6Ly9jZG4udHJpbWkuY29tLmFyL2xpdmUvc20tbGl2ZS9FU1BOX1BSRU1fQktQNC9zYV9saXZlX2Rhc2hfbGwvRVNQTl9QUkVNX0JLUDQubXBk&key=M2I2ZmE2NTI0ZDI1NGM5NmI1YTEwMWM4MTE4ZDNhZTY=&key2=ZDVlMmE5ZDNlMmM1YWE4NTg3ZWFkYTI4MWFjZWY2YmM=&start=true">Fox_Sports_Premium_Backup</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm94X1Nwb3J0c19QcmVtaXVuX0hE&lang=1">Fox_Sports_Premium_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm94U3BvcnRzMl9VWQ==&lang=1">FoxSports2_UY</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Rm94U3BvcnRzM19VWQ==&lang=1">FoxSports3_UY</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=R0VOX1RW&lang=1">GEN_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=R2xpdHo=&lang=1">Glitz</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=R29sZGVu&lang=1">Golden</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPXzI=&lang=1">HBO_2</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX0V4dHJlbWU=&lang=1">HBO_Extreme</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX0ZhbWlseQ==&lang=1">HBO_Family</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX011bmRp&lang=1">HBO_Mundi</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX1BsdXM=&lang=1">HBO_Plus</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX1BPUA==&lang=1">HBO_POP</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPX1NpZ25hdHVyZQ==&lang=1">HBO_Signature</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SEJPSEQ=&lang=1">HBOHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SGlzdG9yeV8y&lang=1">History_2</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8&lang=1">History_backup</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SGlzdG9yeUhE&lang=1">HistoryHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SG9sYV9UVg==&lang=1">Hola_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SFRW&lang=1">HTV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SUQ=&lang=1">ID</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SU5DQUFfVHY=&lang=1">INCAA_Tv</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=&lang=1">Investigacion_Periodistica</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=SVNBVA==&lang=1">ISAT</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=S1pP&lang=1">KZO</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TGFfTmFjaW9u&lang=1">La_Nacion</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TEFfVEVMRV9DNA==&lang=1">LA_TELE_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TGlmZXRpbWU=&lang=1">Lifetime</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TWV0cm8&lang=1">Metro</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TVRWMDA=&lang=1">MTV00</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TVRWX0hE&lang=1">MTV_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TVRWX0hpdHM=&lang=1">MTV_Hits</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TmF0R2VvSEQ=&lang=1">NatGeoHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TkJBX1RW&lang=1">NBA_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=TmV0X1RW&lang=1">Net_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Tmlja19Kcg==&lang=1">Nick_Jr</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Tmlja2Vsb2Rlb24=&lang=1">Nickelodeon</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Tk9USUNJQVNfUFlfQzQ=&lang=1">NOTICIAS_PY_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UEFLQV9QQUtB&lang=1">PAKA_PAKA</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UGFyYWd1YXlfVFY=&lang=1">Paraguay_TV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UGFyYW1vdW50&lang=1">Paramount</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UEFSQVZJU0lPTl9DNA==&lang=1">PARAVISION_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UGxheWJveQ&lang=1">Playboy</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UXVpZXJvX0hE&lang=1">Quiero_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UkFJ&lang=1">RAI</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=UlBDX0M0&lang=1">RPC_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U05UX0M0&lang=1">SNT_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U29ueUhE&lang=1">SonyHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U3R1ZGlvX1VuaXZlcnNhbA==&lang=1">Studio_Universal</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U3VuX0NoYW5uZWw=&lang=1">Sun_Channel</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U1VSX1RWX0M0&lang=1">SUR_TV_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=U3lGeQ==&lang=1">SyFy</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VEJT&lang=1">TBS</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VENN&lang=1">TCM</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZWZlSEQ=&lang=1">Telefe_HD</a></li>
+        <li><a href="https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513">Telefe_HD_backup</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZWZlX05ldXF1ZW4=&lang=1">Telefe_Neuqen</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZWZlX1NhbHRh&lang=1">Telefe_Salta</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VEVMRUZVVFVST19DNA==&lang=1">TELEFUTURO_C4</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZW1heA&lang=1">Telemax</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZW11bmRvX0hE&lang=1">Telemundo_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZXN1cg==&lang=1">Telesur</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VGhlYXRlcl9IRA==&lang=1">Theater_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VExD&lang=1">TLC</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UX0hEX0FyZw==&lang=1">TNT_HD_Arg</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UX1Nwb3J0c19IRA&lang=1">TNT_Sports_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UX1Nwb3J0c19QcmVtaXVuX0hE&lang=1">TNT_Sports_Backup</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VE5UU2VyaWVz&lang=1">TNTSeries</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VG9kb05vdGljaWFz&lang=1">TodoNoticias</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VHJ1VFY=&lang=1">TruTV</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VFY1X01vbmRl&lang=1">TV5_Monde</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VHZfQ2hpbGU=&lang=1">TV_Chile</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VFZfRXNwYW5h&lang=1">TV_Espana</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VHlDX0ludGVybmFjaW9uYWw=&lang=1">TyC_International</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VHlDU3BvcnQ&lang=1">TyCSport</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX0NoYW5uZWxfSEQ=&lang=1">Universal_Channel_HD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX0NpbmVtYQ==&lang=1">Universal_Cinema</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX0NvbWVkeQ==&lang=1">Universal_Comedy</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=dW5pdmVyc2FsX0NyaW1l&lang=1">universal_Crime</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX1ByZW1pZXJl&lang=1">Universal_Premiere</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VW5pdmVyc2FsX1JlYWxpdHk=&lang=1">Universal_Reality</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VVNBX05ldHdvcms=&lang=1">USA_Network</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=VmVudXM=&lang=1">Venus</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=Vm9sdmVy&lang=1">Volver</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=V2FybmVySEQ=&lang=1">WarnerHD</a></li>
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=V09CSQ==&lang=1">WOBI</a></li>
+        <!-- ... -->
+    </ul>
+
+    <script>
+      function filterChannels() {
+        const input = document.getElementById('search-box').value.toUpperCase();
+        const list = document.getElementById('channel-list');
+        const items = list.getElementsByTagName('li');
+        for (let i = 0; i < items.length; i++) {
+          const a = items[i].getElementsByTagName('a')[0];
+          const text = a.textContent || a.innerText;
+          if (text.toUpperCase().includes(input)) {
+            items[i].style.display = '';
+          } else {
+            items[i].style.display = 'none';
+          }
+        }
+      }
+
+      // Botón LibreFutbol
+      function toggleAgenda() {
+        const wrapper = document.getElementById('agenda-wrapper');
+        const btn = document.getElementById('btn-agenda');
+
+        if (wrapper.style.display === 'none' || wrapper.style.display === '') {
+          wrapper.style.display = 'block';
+          btn.textContent = 'Ocultar LibreFutbol';
+        } else {
+          wrapper.style.display = 'none';
+          btn.textContent = 'Ver LibreFutbol';
+        }
+      }
+
+      // Botón TVLibre (reutilizable para otros iframes si quieres)
+      function toggleIframe(wrapperId, btnId) {
+        const wrapper = document.getElementById(wrapperId);
+        const btn = document.getElementById(btnId);
+
+        if (wrapper.style.display === 'none' || wrapper.style.display === '') {
+          wrapper.style.display = 'block';
+          btn.textContent = 'Ocultar TVLibre';
+        } else {
+          wrapper.style.display = 'none';
+          btn.textContent = 'Ver TVLibre';
+        }
+      }
+    </script>
+</body>
+</html>
