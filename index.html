@@ -37,6 +37,22 @@
         li a:hover {
             text-decoration: underline;
         }
+        /* Estilo para los botones de iframe */
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -63,9 +79,15 @@
               style="border:1px solid #ccc; border-radius:4px;"></iframe>
     </div>
 
+    <!-- BOTÓN + IFRAME 3: TVARG (NUEVO) -->
+    <button id="btn-tvarg" onclick="toggleIframe('wrapper3','btn-tvarg')">Ver TVArg</button>
+    <div id="wrapper3" style="display:none; margin-top:15px;">
+      <iframe id="tvarg-iframe" src="http://tvarg.vercel.app" width="100%" height="800"
+              style="border:1px solid #ccc; border-radius:4px;" loading="lazy"></iframe>
+    </div>
+
     <ul id="channel-list">
-        <!-- AQUÍ DEJAS TODA TU LISTA DE <li> TAL CUAL LA TENÍAS -->
-		<li><a href="https://dots.bestleague.world/cvatt.html?get=MjZfVFZfSEQ&lang=1">26_TV_HD</a></li>
+  <li><a href="https://dots.bestleague.world/cvatt.html?get=MjZfVFZfSEQ&lang=1">26_TV_HD</a></li>
 	    <li><a href="https://dots.bestleague.world/cvatt.html?get=QXJ0ZWFySEQ&lang=1">Canal_13_TRECE</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VGVsZWZlSEQ=&lang=1">Telefe</a></li>
 	    <li><a href="https://dots.bestleague.world/cvatt.html?get=Q2FuYWw5&lang=1">Canal_Nueve</a></li>
@@ -222,8 +244,7 @@
         <li><a href="https://dots.bestleague.world/cvatt.html?get=VmVudXM=&lang=1">Venus</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=Vm9sdmVy&lang=1">Volver</a></li>
         <li><a href="https://dots.bestleague.world/cvatt.html?get=V2FybmVySEQ=&lang=1">WarnerHD</a></li>
-        <li><a href="https://dots.bestleague.world/cvatt.html?get=V09CSQ==&lang=1">WOBI</a></li>
-        <!-- ... -->
+        <li><a href="https://dots.bestleague.world/cvatt.html?get=V09CSQ==&lang=1">WOBI</a></li>     
     </ul>
 
     <script>
@@ -242,7 +263,7 @@
         }
       }
 
-      // Botón LibreFutbol
+      // Botón LibreFutbol (primero)
       function toggleAgenda() {
         const wrapper = document.getElementById('agenda-wrapper');
         const btn = document.getElementById('btn-agenda');
@@ -256,17 +277,18 @@
         }
       }
 
-      // Botón TVLibre (reutilizable para otros iframes si quieres)
+      // Botón reutilizable para TVLibre y TVArg
       function toggleIframe(wrapperId, btnId) {
         const wrapper = document.getElementById(wrapperId);
         const btn = document.getElementById(btnId);
+        const btnText = btn.textContent.includes('Ocultar') ? 'Ver ' + btnId.replace('btn-', '').toUpperCase() : 'Ocultar ' + btnId.replace('btn-', '').toUpperCase();
 
         if (wrapper.style.display === 'none' || wrapper.style.display === '') {
           wrapper.style.display = 'block';
-          btn.textContent = 'Ocultar TVLibre';
+          btn.textContent = 'Ocultar TVArg';
         } else {
           wrapper.style.display = 'none';
-          btn.textContent = 'Ver TVLibre';
+          btn.textContent = 'Ver TVArg';
         }
       }
     </script>
