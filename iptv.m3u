@@ -3,6 +3,10 @@
 # Noticias / General
 #EXTINF:-1,América
 https://val01.ride.com.ar/tvmia/l24/playlist.m3u8
+#EXTINF:-1,TV Pública
+https://val02.ride.com.ar/tvmia/04an/playlist.m3u8
+#EXTINF:-1,Canal 9
+https://val02.ride.com.ar/tvmia/an05/playlist.m3u8
 #EXTINF:-1,Telefe
 https://val03.ride.com.ar/tvmia/1an11/playlist.m3u8
 #EXTINF:-1,Canal Trece
@@ -13,12 +17,6 @@ https://val03.ride.com.ar/tvmia/an65/playlist.m3u8
 https://val03.ride.com.ar/tvmia/c10/playlist.m3u8
 #EXTINF:-1,C5N
 https://val02.ride.com.ar/tvmia/an06/playlist.m3u8
-#EXTINF:-1,BugaTV
-https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m58/a812fab4807e65924e5ff7dbd4180ac9.sdp/chunks.m3u8
-#EXTINF:-1,TV Pública
-https://val02.ride.com.ar/tvmia/04an/playlist.m3u8
-#EXTINF:-1,Canal 9
-https://val02.ride.com.ar/tvmia/an05/playlist.m3u8
 #EXTINF:-1,Crónica
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m10/feb4607ba618fc29ce602220b82ea34c.sdp/chunks.m3u8
 #EXTINF:-1,26
