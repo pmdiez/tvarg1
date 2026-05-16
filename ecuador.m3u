@@ -1,0 +1,22 @@
+#EXTM3U
+
+#EXTINF:-1, Ecuavisa
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m69/840bc1514932c0e91bd732d0d089a38e.sdp/playlist.m3u8
+
+#EXTINF:-1, TeleAmazonas
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m70/6b3525d97adee237c64190514dae34ec.sdp/playlist.m3u8
+
+#EXTINF:-1, RTS
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m71/cc515d7ec181b6c3e295e2cdb7010e0e.sdp/playlist.m3u8
+
+#EXTINF:-1, TC
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m74/8c550293d9d103b7d16aa25abae05576.sdp/playlist.m3u8
+
+#EXTINF:-1, TVC
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m72/d02ded02d68d81d7c3521cdd1a7baf3f.sdp/playlist.m3u8
+
+#EXTINF:-1, Ecuador TV
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m73/dfdb820823868d987beb34f0b46c07fb.sdp/playlist.m3u8
+
+#EXTINF:-1, Gamavision
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m75/01929fc4f5139a18ebf0ad1fc293df87.sdp/playlist.m3u8
