@@ -1,0 +1,31 @@
+#EXTM3U
+
+#EXTINF:-1, ATV
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m62/147ce7a8e2aa795c0379127bcb097170.sdp/playlist.m3u8
+
+#EXTINF:-1, Latina
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m41/b16a816cf83a24d13e4a066b823dc1b8.sdp/playlist.m3u8
+
+#EXTINF:-1, TV Mia 05BN
+https://val01.ride.com.ar/tvmia/05bn/playlist.m3u8
+
+#EXTINF:-1, Canal N
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m68/adb01f34cf7e8d6bec93bdad864b06d6.sdp/playlist.m3u8
+
+#EXTINF:-1, Panamericana TV
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m63/1b38e2253dfdd20b9344fcba7583a5eb.sdp/playlist.m3u8
+
+#EXTINF:-1, Canal 6
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m42/360e2b915bc814a8d649957b055f2b7d.sdp/playlist.m3u8
+
+#EXTINF:-1, RPP
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m67/38db88ad1943ff69322a0e39fb9dce42.sdp/playlist.m3u8
+
+#EXTINF:-1, TV Peru
+https://val03.ride.com.ar/tvmia/an36/playlist.m3u8
+
+#EXTINF:-1, Exitosa
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m43/82a3c9548322b04f55b520eeaf3a447f.sdp/playlist.m3u8
+
+#EXTINF:-1, Global
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m40/c2842bd9a6b498b17792a6360d737e3e.sdp/playlist.m3u8
