@@ -1,0 +1,40 @@
+#EXTM3U
+
+#EXTINF:-1 group-title="Colombia",Telepacifico
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m51/3b0bae243f3a03a7420e26e7a03250bc.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",RCN
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m50/53aa05199b051348ff6aa3931f2c9428.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",CityTV
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m47/a12e4ab2fb046608f423601f0f7c0382.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",BugaTV
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m58/a812fab4807e65924e5ff7dbd4180ac9.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",ElTiempo Television
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m48/54ed5168d4a7b43597b72d71bbf5e76d.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",Uno Canal
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m52/9f861d282684f1859f24a1fdcebc225e.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",Teleantioquia
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m53/856144d301d3d5a0b5510580629aef3b.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",NTN24
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m46/ceffb792d93b3b9375e14f364841126b.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",Señal Colombia
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m49/e0c48a804880356ba7071f9077d4c73b.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",T9
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m54/7c89b91a9f1bbdfc3f9e146fbdd2c881.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",Trece
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m44/f7eaa0bc843d0f1beb29accd5f1a38eb.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",Capital
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m45/3b5a17951398f63bf2695eacc20c605c.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Colombia",HolaTV
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m87/1df05f1afcc3eefff85434bbfffac107.sdp/playlist.m3u8
