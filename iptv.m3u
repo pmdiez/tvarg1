@@ -127,8 +127,43 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m65/2a76dd74b04f8f6276068cf9134f
 
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/chile/estadio-cdf-cl.png",ECDF
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m76/7e9ca221cc38c339510834135152b206.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",La 1
+https://j7md5zrwdrwv-hls-live.5centscdn.com/41mvt90/53bf18ff0ba6a6a01c78624da7cf8ecc.sdp/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",La 2
+https://val01.ride.com.ar/tvmia/sn202/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",Antena 3
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m78/7ccdf53d41f52a63398735b80d92ee6e.sdp/playlist.m3u8
+#EXTINF:-1 group-title="Internacional",Cuatro
+https://val02.ride.com.ar/tvmia/sn404/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",TeleCinco
+https://val02.ride.com.ar/tvmia/sn050/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",TeleMadrid
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m38/d1d278d86c6ff55bf62663675c30342b.sdp/playlist.m3u8
+
+
+#EXTINF:-1 group-title="Internacional",24h
+https://val02.ride.com.ar/tvmia/sn909/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",8 Mediterraneo
+https://val02.ride.com.ar/tvmia/sn707/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional",8 tdp
+https://val02.ride.com.ar/tvmia/sn212/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional", BOM Cine
+https://val01.ride.com.ar/tvmia/sn525/playlist.m3u8
+
+#EXTINF:-1 group-title="Internacional", TRECE
+https://val02.ride.com.ar/tvmia/sn424/playlist.m3u8
+
 #EXTINF:-1 group-title="Colombia",Telepacifico
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m51/3b0bae243f3a03a7420e26e7a03250bc.sdp/playlist.m3u8
+
 
 #EXTINF:-1 group-title="Colombia",RCN
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m50/53aa05199b051348ff6aa3931f2c9428.sdp/playlist.m3u8
