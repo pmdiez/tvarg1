@@ -38,6 +38,9 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m10/feb4607ba618fc29ce602220b82e
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/canal-26-ar.png",26
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m15/1e1102717dc1b4ad6ccb302fc470a31d.sdp/playlist.m3u8
+#EXTINF:-1 group-title="Noticias / General" , INFOBAE
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m90/fc5068902c6e2da6bcff8c5a85f9fc1e.sdp/playlist.m3u8
+
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/kzo-ar.png",KZO
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m27/1ba2528d2ffb283cc94a40dac7ce2a2c.sdp/playlist.m3u8
@@ -53,8 +56,8 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m12/9147062b971a73f8c0275171ad33
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m17/341bc8bcbbdf508bc24a6eab59de4429.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/volver-ar.png",Volver
-https://val02.ride.com.ar/tvmia/an818/playlist.m3u8
-#https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m19/ee2842b51e2e7308661b8de7795cb047.sdp/playlist.m3u8
+#https://val02.ride.com.ar/tvmia/an818/playlist.m3u8
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m19/ee2842b51e2e7308661b8de7795cb047.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/encuentro-ar.png",Encuentro
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m13/897693731c964b6fbe32f45eaded9be8.sdp/playlist.m3u8
