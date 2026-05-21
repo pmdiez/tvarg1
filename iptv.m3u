@@ -152,7 +152,7 @@ https://val02.ride.com.ar/tvmia/sn909/playlist.m3u8
 #EXTINF:-1 group-title="Internacional",8 Mediterraneo
 https://val02.ride.com.ar/tvmia/sn707/playlist.m3u8
 
-#EXTINF:-1 group-title="Internacional",8 tdp
+#EXTINF:-1 group-title="Internacional", tdp
 https://val02.ride.com.ar/tvmia/sn212/playlist.m3u8
 
 #EXTINF:-1 group-title="Internacional", BOM Cine
