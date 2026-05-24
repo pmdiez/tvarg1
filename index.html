@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Canales</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --text-color: #222;
+            --link-color: #007bff;
+            --link-hover: #0056b3;
+            --button-bg: #007bff;
+            --button-text: white;
+            --button-hover: #0056b3;
+            --border-color: #ccc;
+            --card-bg: white;
+            --transition: all 0.3s ease;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --link-color: #4dabf7;
+            --link-hover: #81c3ff;
+            --button-bg: #0056b3;
+            --button-text: #ffffff;
+            --button-hover: #003d82;
+            --border-color: #444;
+            --card-bg: #1e1e1e;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+        }
+        #search-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px; /* Reducido para dar paso a los filtros */
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+            box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+        }
+        
+        /* --- ESTILOS DE LOS FILTROS --- */
+        #filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .filter-btn {
+            width: auto;
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            border-radius: 20px; /* Estilo píldora */
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 0;
+            display: inline-block; /* Asegura comportamiento correcto */
+        }
+        .filter-btn:hover {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border-color: var(--button-bg);
+        }
+        .filter-btn.active {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border-color: var(--button-bg);
+            font-weight: bold;
+        }
+        #results-count {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        /* --- ESTILOS DE LISTA --- */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        li a {
+            text-decoration: none;
+            color: var(--link-color);
+            transition: var(--transition);
+        }
+        li a:hover {
+            text-decoration: underline;
+            color: var(--link-hover);
+        }
+        li span.emoji {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        /* --- ESTILOS DE BOTONES GRANDES (IFRAMES) --- */
+        button.iframe-toggle-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        button.iframe-toggle-btn:hover {
+            background-color: var(--button-hover);
+        }
+        
+        /* Botón de tema */
+        #theme-toggle {
+            width: auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 auto 20px;
+            display: block;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Iframes responsive con aspect-ratio */
+        .iframe-wrapper {
+            width: 100%;
+            margin-top: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .iframe-wrapper iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            height: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: #000;
+            transition: var(--transition);
+        }
+        @media (max-width: 768px) {
+            .iframe-wrapper iframe {
+                max-height: 70vh;
+            }
+        }
+        li a.mirror {
+            font-size: 0.9em;
+            margin-left: 8px;
+            color: #666;
+        }
+        li a.mirror:hover {
+            color: var(--link-hover);
+        }
+    </style>
+</head>
+<body>
+    <button id="theme-toggle">🌙 Cambiar a Modo Oscuro</button>
+    <h1>Lista de Canales</h1>
+    
+    <input type="text" id="search-box" placeholder="Buscar canal..." oninput="filterChannels()">
+    
+    <div id="filter-container">
+        <button class="filter-btn active" data-filter="all">📋 Todos</button>
+        <button class="filter-btn" data-filter="📺">📺 TV</button>
+        <button class="filter-btn" data-filter="🎥">🎥 Cine</button>
+        <button class="filter-btn" data-filter="⚽">⚽ Deportes</button>
+        <button class="filter-btn" data-filter="🏀">🏀 Basket</button>
+        <button class="filter-btn" data-filter="📰">📰 Noticias</button>
+        <button class="filter-btn" data-filter="🌍">🌍 Docu/Cultura</button>
+        <button class="filter-btn" data-filter="🧸">🧸 Infantil</button>
+        <button class="filter-btn" data-filter="🎵">🎵 Música</button>
+        <button class="filter-btn" data-filter="🔞">🔞 Adultos</button>
+        <button class="filter-btn" data-filter="🌐">🌐 Internacional</button>
+    </div>
+    <div id="results-count"></div>
+<a href="/iptv.m3u" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="IPTV-List" class="iframe-toggle-btn">
+    Lista ARG y Deportes ↗
+  </button>
+  <button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://pelotalibretv.su/', '_blank')">
+  Ver LibreFutbol ↗
+</button>
+</div>
+	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://futbollibretv.su/', '_blank')">
+  Ver LibreFutbol1 ↗
+</button>
+	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://la14hd.com/', '_blank')">
+  Ver La14HD ↗
+</button>
+	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://tvtvhd.com/', '_blank')">
+  Ver TVTVHD ↗
+</button>
+	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://megadeportes.net/', '_blank')">
+  Ver MegaDeportes ↗
+</button>
+	<a href="https://xuperlive.com/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Ver XUPERLIVE ↗
+  </button>
+</a>
+
+<button id="btn-agenda2" class="iframe-toggle-btn" onclick="toggleIframe('wrapper2','btn-agenda2','TVLibre')">
+  Ver TVLibre
+</button>
+<div id="wrapper2" class="iframe-wrapper" style="display:none;">
+  <iframe
+    id="agenda2"
+    src="https://tvlibree.com"
+    loading="lazy"
+    sandbox="allow-scripts"
+    referrerpolicy="no-referrer">
+  </iframe>
+</div>
+
+<button id="btn-tvarg" class="iframe-toggle-btn" onclick="toggleIframe('wrapper3','btn-tvarg','TVArg')">
+  Ver TVArg
+</button>
+<div id="wrapper3" class="iframe-wrapper" style="display:none;">
+  <iframe
+    id="tvarg-iframe"
+    src="https://tvarg.vercel.app"
+    loading="lazy"
+    sandbox="allow-scripts"
+    referrerpolicy="no-referrer">
+  </iframe>
+</div>
+	
+<button id="btn-telefull" class="iframe-toggle-btn" onclick="toggleIframe('wrapper4','btn-telefull','TelefullHD')">
+  Ver TelefullHD
+</button>
+<div id="wrapper4" class="iframe-wrapper" style="display:none;">
+  <iframe
+    id="telefull-iframe"
+    src="https://telefullhd.net"
+    loading="lazy"
+    sandbox="allow-scripts"
+    referrerpolicy="no-referrer">
+  </iframe>
+</div>
+
+<button id="btn-tele-libre" class="iframe-toggle-btn" onclick="toggleIframe('wrapper5','btn-tele-libre','Tele-Libre')">
+  Ver Tele-Libre
+</button>
+<div id="wrapper5" class="iframe-wrapper" style="display:none;">
+  <iframe
+    id="tele-libre-iframe"
+    src="https://tele-libre.store/"
+    loading="lazy"
+    sandbox="allow-scripts"
+    referrerpolicy="no-referrer">
+  </iframe>
+    </div>
+<a href="http://rojadirecta.eu/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-rojadirecta" class="iframe-toggle-btn">
+    Ver Rojadirecta ↗
+  </button>
+</a>
+<button
+  id="btn-FutbolAndres"
+  class="iframe-toggle-btn"
+  onclick="window.open('https://www.futbolandres.xyz/', '_blank')">
+  Ver FutbolAndres
+</button>
+
+<div id="wrapper7" class="iframe-wrapper" style="display:none;">
+  <iframe
+    id="FutbolAndres-iframe"
+    src="https://www.futbolandres.xyz/"
+    loading="lazy"
+    sandbox="allow-scripts"
+    referrerpolicy="no-referrer">
+  </iframe>
+  </div>
+	<a href="https://geo.dailymotion.com/player.html?video=x82ug5r" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-telesur" class="iframe-toggle-btn">
+    Ver TeleSur ↗
+  </button>
+</a>
+	<a href="https://odysee.com/@hispantv:d/live:400" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-hispantv" class="iframe-toggle-btn">
+    Ver HispanTV ↗
+  </button>
+</a>
+	<a href="https://odysee.com/@ActualidadRT:9/envivo_transmision_rt:6" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-RT" class="iframe-toggle-btn">
+    Ver RT ↗
+  </button>
+</a>
+	<a href="https://espanol.cgtn.com/en-directo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-RT" class="iframe-toggle-btn">
+    Ver CGTN en Español ↗
+  </button>
+</a>
+	<a href="https://flixtor.to/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-flixtor" class="iframe-toggle-btn">
+    Ir a flixtor ↗
+  </button>
+</a>
+	<a href="https://sflix.ps/home" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-sflix" class="iframe-toggle-btn">
+    Ir a sflix ↗
+  </button>
+</a>
+	<a href="https://dominioscuevana.com/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cuevana" class="iframe-toggle-btn">
+    Ir a Cuevana ↗
+  </button>
+</a>
+	<a href="https://www.youtube.com/watch?v=Qr61waJ6AZg" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Ir a CNN en Español ↗
+  </button>
+</a>
+	<a href="https://www.youtube.com/watch?v=iEpJwprxDdk" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Bloomberg news ↗
+  </button>
+</a>
+	<a href="https://mi8.com.ar/en-vivo/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Ver Canal-8-Mar del Plata ↗
+  </button>
+</a>
+	
+	<a href="https://www.canal10mardelplata.tv/#EnVivo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Ver Canal-10-Mar del Plata ↗
+  </button>
+</a>
+	<a href="https://www.youtube.com/watch?v=gCNeDWCI0vo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Al Jazeera ↗
+  </button>
+</a>
+	<a href="https://teleonline.org/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    Ir a Canales España ↗
+  </button>
+</a>
+	<a href="https://www.freeshot.live/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn" class="iframe-toggle-btn">
+    FreeShot Live ↗
+  </button>
+</a>
+	
+	
+<ul id="channel-list">
+<li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=MjZfVFZfSEQ" target="_blank" rel="noopener noreferrer">26_TV_HD</a> <a href="https://cointv.site/cvatt.html?get=MjZfVFZfSEQ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=MjZfVFZfSEQ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=QXJ0ZWFySEQ" target="_blank" rel="noopener noreferrer">Canal_13_TRECE</a> <a href="https://cointv.site/cvatt.html?get=QXJ0ZWFySEQ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QXJ0ZWFySEQ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZWZlSEQ=" target="_blank" rel="noopener noreferrer">Telefe</a> <a href="https://cointv.site/cvatt.html?get=VGVsZWZlSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZWZlSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWw5" target="_blank" rel="noopener noreferrer">Canal_Nueve</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWw5" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWw5" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWw3" target="_blank" rel="noopener noreferrer">TV_Publica</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWw3" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWw3" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=QW1lcmljYVRW" target="_blank" rel="noopener noreferrer">America_TV</a> <a href="https://cointv.site/cvatt.html?get=QW1lcmljYVRW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QW1lcmljYVRW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=TWFnYXppbmU=" target="_blank" rel="noopener noreferrer">Ciudad_Magazine</a> <a href="https://cointv.site/cvatt.html?get=TWFnYXppbmU=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TWFnYXppbmU=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://bestleague.world/canal/?id=TELEVIDAHLS" target="_blank" rel="noopener noreferrer">Televida_C9Mendoza</a> <a href="https://bestleague.world/canal/?id=TELEVIDAHLS" class="mirror">(mirror1)</a> <a href="https://bestleague.world/canal/?id=TELEVIDAHLS" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=Q2luZWNhbmFsSEQ=" target="_blank" rel="noopener noreferrer">Cinecanal</a> <a href="https://cointv.site/cvatt.html?get=Q2luZWNhbmFsSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2luZWNhbmFsSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=U3BhY2U=" target="_blank" rel="noopener noreferrer">Space</a> <a href="https://cointv.site/cvatt.html?get=U3BhY2U=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U3BhY2U=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Rk9YSEQ=" target="_blank" rel="noopener noreferrer">Star+</a> <a href="https://cointv.site/cvatt.html?get=Rk9YSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rk9YSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=QTNfQ2luZQ==" target="_blank" rel="noopener noreferrer">A3_Cine</a> <a href="https://cointv.site/cvatt.html?get=QTNfQ2luZQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QTNfQ2luZQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=QTNfU2VyaWVz" target="_blank" rel="noopener noreferrer">A3_Series</a> <a href="https://cointv.site/cvatt.html?get=QTNfU2VyaWVz" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QTNfU2VyaWVz" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=QWR1bHRfU3dpbQ==" target="_blank" rel="noopener noreferrer">Adult_Swim</a> <a href="https://cointv.site/cvatt.html?get=QWR1bHRfU3dpbQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QWR1bHRfU3dpbQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=QUVIRA==" target="_blank" rel="noopener noreferrer">AEHD</a> <a href="https://cointv.site/cvatt.html?get=QUVIRA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QUVIRA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=QU1DX1Nlcmllcw==" target="_blank" rel="noopener noreferrer">AMC_Series</a> <a href="https://cointv.site/cvatt.html?get=QU1DX1Nlcmllcw==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QU1DX1Nlcmllcw==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=QW1lcmljYTI0" target="_blank" rel="noopener noreferrer">America24</a> <a href="https://cointv.site/cvatt.html?get=QW1lcmljYTI0" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QW1lcmljYTI0" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=QW5pbWFsUGxhbmV0" target="_blank" rel="noopener noreferrer">AnimalPlanet</a> <a href="https://cointv.site/cvatt.html?get=QW5pbWFsUGxhbmV0" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QW5pbWFsUGxhbmV0" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=QW50ZW5hXzM=" target="_blank" rel="noopener noreferrer">Antena_3</a> <a href="https://cointv.site/cvatt.html?get=QW50ZW5hXzM=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QW50ZW5hXzM=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=QXJnZW50aW5pc2ltYQ" target="_blank" rel="noopener noreferrer">Argentinisima</a> <a href="https://cointv.site/cvatt.html?get=QXJnZW50aW5pc2ltYQ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QXJnZW50aW5pc2ltYQ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=QVhOSEQ=" target="_blank" rel="noopener noreferrer">AXAHD</a> <a href="https://cointv.site/cvatt.html?get=QVhOSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QVhOSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=QkJDX1dvcmxkX05ld3M" target="_blank" rel="noopener noreferrer">BBC_World_News</a> <a href="https://cointv.site/cvatt.html?get=QkJDX1dvcmxkX05ld3M" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QkJDX1dvcmxkX05ld3M" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=Qm9vbWVyYW5n" target="_blank" rel="noopener noreferrer">Boomerang</a> <a href="https://cointv.site/cvatt.html?get=Qm9vbWVyYW5n" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Qm9vbWVyYW5n" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=QnJhdm9UVg==" target="_blank" rel="noopener noreferrer">BravoTV</a> <a href="https://cointv.site/cvatt.html?get=QnJhdm9UVg==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QnJhdm9UVg==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=QzVO" target="_blank" rel="noopener noreferrer">C5N</a> <a href="https://cointv.site/cvatt.html?get=QzVO" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QzVO" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=QzlOX0M0" target="_blank" rel="noopener noreferrer">C9N_C4</a> <a href="https://cointv.site/cvatt.html?get=QzlOX0M0" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=QzlOX0M0" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWwxMF9VUlU=" target="_blank" rel="noopener noreferrer">Canal10_URU</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWwxMF9VUlU=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWwxMF9VUlU=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWwxMlVSVQ==" target="_blank" rel="noopener noreferrer">Canal12URU</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWwxMlVSVQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWwxMlVSVQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWw0X1VSVQ==" target="_blank" rel="noopener noreferrer">Canal4_URU</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWw0X1VSVQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWw0X1VSVQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWw3" target="_blank" rel="noopener noreferrer">Canal7</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWw3" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWw3" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfMTJfQ0JB" target="_blank" rel="noopener noreferrer">Canal_12_CBA</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfMTJfQ0JB" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfMTJfQ0JB" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfNV9Sb3Nhcmlv" target="_blank" rel="noopener noreferrer">Canal_5_Rosario</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfNV9Sb3Nhcmlv" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfNV9Sb3Nhcmlv" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfOF9DQkE=" target="_blank" rel="noopener noreferrer">Canal_8_CBA</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfOF9DQkE=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfOF9DQkE=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfOF9UdWN1bWFu" target="_blank" rel="noopener noreferrer">Canal_8_Tucuman</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfOF9UdWN1bWFu" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfOF9UdWN1bWFu" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk" target="_blank" rel="noopener noreferrer">Canal_de_la_ciudad</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" target="_blank" rel="noopener noreferrer">Canal_de_las_estrellas</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FuYWxfUnVyYWw=" target="_blank" rel="noopener noreferrer">Canal_Rural</a> <a href="https://cointv.site/cvatt.html?get=Q2FuYWxfUnVyYWw=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FuYWxfUnVyYWw=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=Q2FydG9vbk5ldHdvcms=" target="_blank" rel="noopener noreferrer">CartoonNetwork</a> <a href="https://cointv.site/cvatt.html?get=Q2FydG9vbk5ldHdvcms=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2FydG9vbk5ldHdvcms=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=Q2luZW1heA==" target="_blank" rel="noopener noreferrer">Cinemax</a> <a href="https://cointv.site/cvatt.html?get=Q2luZW1heA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q2luZW1heA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Q00=" target="_blank" rel="noopener noreferrer">CM</a> <a href="https://cointv.site/cvatt.html?get=Q00=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q00=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=Q29tZWR5Q2VudHJhbA" target="_blank" rel="noopener noreferrer">ComedyCentral</a> <a href="https://cointv.site/cvatt.html?get=Q29tZWR5Q2VudHJhbA" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q29tZWR5Q2VudHJhbA" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=Q3JvbmljYVRW" target="_blank" rel="noopener noreferrer">CronicaTV</a> <a href="https://cointv.site/cvatt.html?get=Q3JvbmljYVRW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Q3JvbmljYVRW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=RGlwdXRhZG9zX1RW" target="_blank" rel="noopener noreferrer">Diputados_TV</a> <a href="https://cointv.site/cvatt.html?get=RGlwdXRhZG9zX1RW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlwdXRhZG9zX1RW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5X0tpZHM=" target="_blank" rel="noopener noreferrer">Discovery_Kids</a> <a href="https://cointv.site/cvatt.html?get=RGlzY292ZXJ5X0tpZHM=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzY292ZXJ5X0tpZHM=" class="mirror">(mirror2)</a></li>
+	  <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5SEQ=" target="_blank" rel="noopener noreferrer">DiscoveryHD</a> <a href="https://cointv.site/cvatt.html?get=RGlzY292ZXJ5SEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzY292ZXJ5SEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5X1NjaWVuY2U=" target="_blank" rel="noopener noreferrer">Discovery_Science</a> <a href="https://cointv.site/cvatt.html?get=RGlzY292ZXJ5X1NjaWVuY2U=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzY292ZXJ5X1NjaWVuY2U=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5X1dvcmxkX0hE" target="_blank" rel="noopener noreferrer">Discovery_World_HD</a> <a href="https://cointv.site/cvatt.html?get=RGlzY292ZXJ5X1dvcmxkX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzY292ZXJ5X1dvcmxkX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE" target="_blank" rel="noopener noreferrer">DiscoveryHomeHealthHD</a> <a href="https://cointv.site/cvatt.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5VHVyYm8=" target="_blank" rel="noopener noreferrer">DiscoveryTurbo</a> <a href="https://cointv.site/cvatt.html?get=RGlzY292ZXJ5VHVyYm8=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzY292ZXJ5VHVyYm8=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=RGlzbmV5SnI=" target="_blank" rel="noopener noreferrer">DisneyJr</a> <a href="https://cointv.site/cvatt.html?get=RGlzbmV5SnI=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RGlzbmV5SnI=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=RHJlYW13b3Jrcw==" target="_blank" rel="noopener noreferrer">Dreamworks</a> <a href="https://cointv.site/cvatt.html?get=RHJlYW13b3Jrcw==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RHJlYW13b3Jrcw==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=" target="_blank" rel="noopener noreferrer">E_Entertainment_Television</a> <a href="https://cointv.site/cvatt.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=RWxfR2FyYWdl" target="_blank" rel="noopener noreferrer">El_Garage</a> <a href="https://cointv.site/cvatt.html?get=RWxfR2FyYWdl" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RWxfR2FyYWdl" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=RW5jdWVudHJv" target="_blank" rel="noopener noreferrer">Encuentro</a> <a href="https://cointv.site/cvatt.html?get=RW5jdWVudHJv" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RW5jdWVudHJv" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RVNQTjJfQXJn" target="_blank" rel="noopener noreferrer">ESPN2_Arg</a> <a href="https://cointv.site/cvatt.html?get=RVNQTjJfQXJn" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RVNQTjJfQXJn" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RVNQTjJfVVk=" target="_blank" rel="noopener noreferrer">ESPN2_UY</a> <a href="https://cointv.site/cvatt.html?get=RVNQTjJfVVk=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RVNQTjJfVVk=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RVNQTjNfVXktUHk=" target="_blank" rel="noopener noreferrer">ESPN3_Uy-Py</a> <a href="https://cointv.site/cvatt.html?get=RVNQTjNfVXktUHk=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RVNQTjNfVXktUHk=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RVNQTjQ=" target="_blank" rel="noopener noreferrer">ESPN4</a> <a href="https://cointv.site/cvatt.html?get=RVNQTjQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RVNQTjQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RVNQTl9VWQ==" target="_blank" rel="noopener noreferrer">ESPN_UY</a> <a href="https://cointv.site/cvatt.html?get=RVNQTl9VWQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RVNQTl9VWQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=RXVyb2NoYW5uZWw=" target="_blank" rel="noopener noreferrer">Eurochannel</a> <a href="https://cointv.site/cvatt.html?get=RXVyb2NoYW5uZWw=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RXVyb2NoYW5uZWw=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=RXVyb25ld3M=" target="_blank" rel="noopener noreferrer">Euronews</a> <a href="https://cointv.site/cvatt.html?get=RXVyb25ld3M=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RXVyb25ld3M=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=RXVyb3BhX0V1cm9wYQ" target="_blank" rel="noopener noreferrer">Europa_Europa</a> <a href="https://cointv.site/cvatt.html?get=RXVyb3BhX0V1cm9wYQ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RXVyb3BhX0V1cm9wYQ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RXZlbnRvczFIRA" target="_blank" rel="noopener noreferrer">Eventos1HD</a> <a href="https://cointv.site/cvatt.html?get=RXZlbnRvczFIRA" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RXZlbnRvczFIRA" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RXZlbnRvc18yX0hE" target="_blank" rel="noopener noreferrer">Eventos_2_HD</a> <a href="https://cointv.site/cvatt.html?get=RXZlbnRvc18yX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RXZlbnRvc18yX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=RXZlbnRvc19IRF9VeQ==" target="_blank" rel="noopener noreferrer">Eventos_HD_UY</a> <a href="https://cointv.site/cvatt.html?get=RXZlbnRvc19IRF9VeQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RXZlbnRvc19IRF9VeQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🔞</span><a href="https://tvarg1.vercel.app/player.html?get=U2V4dHJlbWU" target="_blank" rel="noopener noreferrer">Extreme</a> <a href="https://cointv.site/cvatt.html?get=U2V4dHJlbWU" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U2V4dHJlbWU" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=RmlsbV9BcnRz" target="_blank" rel="noopener noreferrer">Film_Arts</a> <a href="https://cointv.site/cvatt.html?get=RmlsbV9BcnRz" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RmlsbV9BcnRz" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18x" target="_blank" rel="noopener noreferrer">Flow_Music_1</a> <a href="https://cointv.site/cvatt.html?get=Rmxvd19NdXNpY18x" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rmxvd19NdXNpY18x" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18y" target="_blank" rel="noopener noreferrer">Flow_Music_2</a> <a href="https://cointv.site/cvatt.html?get=Rmxvd19NdXNpY18y" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rmxvd19NdXNpY18y" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18z" target="_blank" rel="noopener noreferrer">Flow_Music_3</a> <a href="https://cointv.site/cvatt.html?get=Rmxvd19NdXNpY18z" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rmxvd19NdXNpY18z" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNp19YUA==" target="_blank" rel="noopener noreferrer">Flow_Music_XP</a> <a href="https://cointv.site/cvatt.html?get=Rmxvd19NdXNp19YUA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rmxvd19NdXNp19YUA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=Rm9vZF9OZXR3b3Jr" target="_blank" rel="noopener noreferrer">Food_Network</a> <a href="https://cointv.site/cvatt.html?get=Rm9vZF9OZXR3b3Jr" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rm9vZF9OZXR3b3Jr" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=RmxveF9OZXdz" target="_blank" rel="noopener noreferrer">Fox_News</a> <a href="https://cointv.site/cvatt.html?get=RmxveF9OZXdz" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=RmxveF9OZXdz" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://dots.bestleague.world/mpdk/?get=aHR0cHM6Ly9jZG4udHJpbWkuY29tLmFyL2xpdmUvc20tbGl2ZS9FU1BOX1BSRU1fQktQNC9zYV9saXZlX2Rhc2hfbGwvRVNQTl9QUkVNX0JLUDQubXBk&key=M2I2ZmE2NTI0ZDI1NGM5NmI1YTEwMWM4MTE4ZDNhZTY=&key2=ZDVlMmE5ZDNlMmM1YWE4NTg3ZWFkYTI4MWFjZWY2YmM=&start=true" target="_blank" rel="noopener noreferrer">Fox_Sports_Premium_Backup</a> <a href="https://cointv.site/mpdk/?get=aHR0cHM6Ly9jZG4udHJpbWkuY29tLmFyL2xpdmUvc20tbGl2ZS9FU1BOX1BSRU1fQktQNC9zYV9saXZlX2Rhc2hfbGwvRVNQTl9QUkVNX0JLUDQubXBk&key=M2I2ZmE2NTI0ZDI1NGM5NmI1YTEwMWM4MTE4ZDNhZTY=&key2=ZDVlMmE5ZDNlMmM1YWE4NTg3ZWFkYTI4MWFjZWY2YmM=&start=true" class="mirror">(mirror1)</a> <a href="https://cointv.site/mpdk/?get=aHR0cHM6Ly9jZG4udHJpbWkuY29tLmFyL2xpdmUvc20tbGl2ZS9FU1BOX1BSRU1fQktQNC9zYV9saXZlX2Rhc2hfbGwvRVNQTl9QUkVNX0JLUDQubXBk&key=M2I2ZmE2NTI0ZDI1NGM5NmI1YTEwMWM4MTE4ZDNhZTY=&key2=ZDVlMmE5ZDNlMmM1YWE4NTg3ZWFkYTI4MWFjZWY2YmM=&start=true" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=Rm94X1Nwb3J0c19QcmVtaXVuX0hE" target="_blank" rel="noopener noreferrer">Fox_Sports_Premium_HD</a> <a href="https://cointv.site/cvatt.html?get=Rm94X1Nwb3J0c19QcmVtaXVuX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rm94X1Nwb3J0c19QcmVtaXVuX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=Rm94U3BvcnRzMl9VWQ==" target="_blank" rel="noopener noreferrer">FoxSports2_UY</a> <a href="https://cointv.site/cvatt.html?get=Rm94U3BvcnRzMl9VWQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rm94U3BvcnRzMl9VWQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=Rm94U3BvcnRzM19VWQ==" target="_blank" rel="noopener noreferrer">FoxSports3_UY</a> <a href="https://cointv.site/cvatt.html?get=Rm94U3BvcnRzM19VWQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Rm94U3BvcnRzM19VWQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=R0VOX1RW" target="_blank" rel="noopener noreferrer">GEN_TV</a> <a href="https://cointv.site/cvatt.html?get=R0VOX1RW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=R0VOX1RW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=R2xpdHo=" target="_blank" rel="noopener noreferrer">Glitz</a> <a href="https://cointv.site/cvatt.html?get=R2xpdHo=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=R2xpdHo=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=R29sZGVu" target="_blank" rel="noopener noreferrer">Golden</a> <a href="https://cointv.site/cvatt.html?get=R29sZGVu" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=R29sZGVu" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPXzI=" target="_blank" rel="noopener noreferrer">HBO_2</a> <a href="https://cointv.site/cvatt.html?get=SEJPXzI=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPXzI=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPX0V4dHJlbWU=" target="_blank" rel="noopener noreferrer">HBO_Extreme</a> <a href="https://cointv.site/cvatt.html?get=SEJPX0V4dHJlbWU=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPX0V4dHJlbWU=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPX0ZhbWlseQ==" target="_blank" rel="noopener noreferrer">HBO_Family</a> <a href="https://cointv.site/cvatt.html?get=SEJPX0ZhbWlseQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPX0ZhbWlseQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPX011bmRp" target="_blank" rel="noopener noreferrer">HBO_Mundi</a> <a href="https://cointv.site/cvatt.html?get=SEJPX011bmRp" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPX011bmRp" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPX1BsdXM=" target="_blank" rel="noopener noreferrer">HBO_Plus</a> <a href="https://cointv.site/cvatt.html?get=SEJPX1BsdXM=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPX1BsdXM=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPX1BPUA==" target="_blank" rel="noopener noreferrer">HBO_POP</a> <a href="https://cointv.site/cvatt.html?get=SEJPX1BPUA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPX1BPUA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPX1NpZ25hdHVyZQ==" target="_blank" rel="noopener noreferrer">HBO_Signature</a> <a href="https://cointv.site/cvatt.html?get=SEJPX1NpZ25hdHVyZQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPX1NpZ25hdHVyZQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SEJPSEQ=" target="_blank" rel="noopener noreferrer">HBOHD</a> <a href="https://cointv.site/cvatt.html?get=SEJPSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SEJPSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=SGlzdG9yeV8y" target="_blank" rel="noopener noreferrer">History_2</a> <a href="https://cointv.site/cvatt.html?get=SGlzdG9yeV8y" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SGlzdG9yeV8y" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8" target="_blank" rel="noopener noreferrer">History_backup</a> <a href="https://cointv.site/cvatt.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=SGlzdG9yeUhE" target="_blank" rel="noopener noreferrer">HistoryHD</a> <a href="https://cointv.site/cvatt.html?get=SGlzdG9yeUhE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SGlzdG9yeUhE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=SG9sYV9UVg==" target="_blank" rel="noopener noreferrer">Hola_TV</a> <a href="https://cointv.site/cvatt.html?get=SG9sYV9UVg==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SG9sYV9UVg==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=SFRW" target="_blank" rel="noopener noreferrer">HTV</a> <a href="https://cointv.site/cvatt.html?get=SFRW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SFRW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=SUQ=" target="_blank" rel="noopener noreferrer">ID</a> <a href="https://cointv.site/cvatt.html?get=SUQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SUQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=SU5DQUFfVHY=" target="_blank" rel="noopener noreferrer">INCAA_Tv</a> <a href="https://cointv.site/cvatt.html?get=SU5DQUFfVHY=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SU5DQUFfVHY=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" target="_blank" rel="noopener noreferrer">Investigacion_Periodistica</a> <a href="https://cointv.site/cvatt.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=SVNBVA==" target="_blank" rel="noopener noreferrer">ISAT</a> <a href="https://cointv.site/cvatt.html?get=SVNBVA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=SVNBVA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=S1pP" target="_blank" rel="noopener noreferrer">KZO</a> <a href="https://cointv.site/cvatt.html?get=S1pP" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=S1pP" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=TGFfTmFjaW9u" target="_blank" rel="noopener noreferrer">La_Nacion</a> <a href="https://cointv.site/cvatt.html?get=TGFfTmFjaW9u" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TGFfTmFjaW9u" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=TEFfVEVMRV9DNA==" target="_blank" rel="noopener noreferrer">LA_TELE_C4</a> <a href="https://cointv.site/cvatt.html?get=TEFfVEVMRV9DNA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TEFfVEVMRV9DNA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=TGlmZXRpbWU=" target="_blank" rel="noopener noreferrer">Lifetime</a> <a href="https://cointv.site/cvatt.html?get=TGlmZXRpbWU=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TGlmZXRpbWU=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=TWV0cm8" target="_blank" rel="noopener noreferrer">Metro</a> <a href="https://cointv.site/cvatt.html?get=TWV0cm8" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TWV0cm8" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=TVRWMDA=" target="_blank" rel="noopener noreferrer">MTV00</a> <a href="https://cointv.site/cvatt.html?get=TVRWMDA=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TVRWMDA=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=TVRWX0hE" target="_blank" rel="noopener noreferrer">MTV_HD</a> <a href="https://cointv.site/cvatt.html?get=TVRWX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TVRWX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=TVRWX0hpdHM=" target="_blank" rel="noopener noreferrer">MTV_Hits</a> <a href="https://cointv.site/cvatt.html?get=TVRWX0hpdHM=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TVRWX0hpdHM=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=TmF0R2VvSEQ=" target="_blank" rel="noopener noreferrer">NatGeoHD</a> <a href="https://cointv.site/cvatt.html?get=TmF0R2VvSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TmF0R2VvSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🏀</span><a href="https://tvarg1.vercel.app/player.html?get=TkJBX1RW" target="_blank" rel="noopener noreferrer">NBA_TV</a> <a href="https://cointv.site/cvatt.html?get=TkJBX1RW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TkJBX1RW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=TmV0X1RW" target="_blank" rel="noopener noreferrer">Net_TV</a> <a href="https://cointv.site/cvatt.html?get=TmV0X1RW" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=TmV0X1RW" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=Tmlja19Kcg==" target="_blank" rel="noopener noreferrer">Nick_Jr</a> <a href="https://cointv.site/cvatt.html?get=Tmlja19Kcg==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Tmlja19Kcg==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=Tmlja2Vsb2Rlb24=" target="_blank" rel="noopener noreferrer">Nickelodeon</a> <a href="https://cointv.site/cvatt.html?get=Tmlja2Vsb2Rlb24=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Tmlja2Vsb2Rlb24=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=Tk9USUNJQVNfUFlfQzQ=" target="_blank" rel="noopener noreferrer">NOTICIAS_PY_C4</a> <a href="https://cointv.site/cvatt.html?get=Tk9USUNJQVNfUFlfQzQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Tk9USUNJQVNfUFlfQzQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🧸</span><a href="https://tvarg1.vercel.app/player.html?get=UEFLQV9QQUtB" target="_blank" rel="noopener noreferrer">PAKA_PAKA</a> <a href="https://cointv.site/cvatt.html?get=UEFLQV9QQUtB" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UEFLQV9QQUtB" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=UGFyYWd1YXlfVFY=" target="_blank" rel="noopener noreferrer">Paraguay_TV</a> <a href="https://cointv.site/cvatt.html?get=UGFyYWd1YXlfVFY=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UGFyYWd1YXlfVFY=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=UGFyYW1vdW50" target="_blank" rel="noopener noreferrer">Paramount</a> <a href="https://cointv.site/cvatt.html?get=UGFyYW1vdW50" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UGFyYW1vdW50" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=UEFSQVZJU0lPTl9DNA==" target="_blank" rel="noopener noreferrer">PARAVISION_C4</a> <a href="https://cointv.site/cvatt.html?get=UEFSQVZJU0lPTl9DNA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UEFSQVZJU0lPTl9DNA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🔞</span><a href="https://tvarg1.vercel.app/player.html?get=UGxheWJveQ" target="_blank" rel="noopener noreferrer">Playboy</a> <a href="https://cointv.site/cvatt.html?get=UGxheWJveQ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UGxheWJveQ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=UXVpZXJvX0hE" target="_blank" rel="noopener noreferrer">Quiero_HD</a> <a href="https://cointv.site/cvatt.html?get=UXVpZXJvX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UXVpZXJvX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌐</span><a href="https://tvarg1.vercel.app/player.html?get=UkFJ" target="_blank" rel="noopener noreferrer">RAI</a> <a href="https://cointv.site/cvatt.html?get=UkFJ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UkFJ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=UlBDX0M0" target="_blank" rel="noopener noreferrer">RPC_C4</a> <a href="https://cointv.site/cvatt.html?get=UlBDX0M0" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=UlBDX0M0" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=U05UX0M0" target="_blank" rel="noopener noreferrer">SNT_C4</a> <a href="https://cointv.site/cvatt.html?get=U05UX0M0" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U05UX0M0" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=U29ueUhE" target="_blank" rel="noopener noreferrer">SonyHD</a> <a href="https://cointv.site/cvatt.html?get=U29ueUhE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U29ueUhE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=U3R1ZGlvX1VuaXZlcnNhbA==" target="_blank" rel="noopener noreferrer">Studio_Universal</a> <a href="https://cointv.site/cvatt.html?get=U3R1ZGlvX1VuaXZlcnNhbA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U3R1ZGlvX1VuaXZlcnNhbA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎵</span><a href="https://tvarg1.vercel.app/player.html?get=U3VuX0NoYW5uZWw=" target="_blank" rel="noopener noreferrer">Sun_Channel</a> <a href="https://cointv.site/cvatt.html?get=U3VuX0NoYW5uZWw=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U3VuX0NoYW5uZWw=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=U1VSX1RWX0M0" target="_blank" rel="noopener noreferrer">SUR_TV_C4</a> <a href="https://cointv.site/cvatt.html?get=U1VSX1RWX0M0" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U1VSX1RWX0M0" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=U3lGeQ==" target="_blank" rel="noopener noreferrer">SyFy</a> <a href="https://cointv.site/cvatt.html?get=U3lGeQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=U3lGeQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VEJT" target="_blank" rel="noopener noreferrer">TBS</a> <a href="https://cointv.site/cvatt.html?get=VEJT" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VEJT" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VENN" target="_blank" rel="noopener noreferrer">TCM</a> <a href="https://cointv.site/cvatt.html?get=VENN" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VENN" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZWZlSEQ=" target="_blank" rel="noopener noreferrer">Telefe_HD</a> <a href="https://cointv.site/cvatt.html?get=VGVsZWZlSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZWZlSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513" target="_blank" rel="noopener noreferrer">Telefe_HD_backup</a> <a href="https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513" class="mirror">(mirror1)</a> <a href="https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZWZlX05ldXF1ZW4=" target="_blank" rel="noopener noreferrer">Telefe_Neuqen</a> <a href="https://cointv.site/cvatt.html?get=VGVsZWZlX05ldXF1ZW4=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZWZlX05ldXF1ZW4=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZWZlX1NhbHRh" target="_blank" rel="noopener noreferrer">Telefe_Salta</a> <a href="https://cointv.site/cvatt.html?get=VGVsZWZlX1NhbHRh" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZWZlX1NhbHRh" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=VEVMRUZVVFVST19DNA==" target="_blank" rel="noopener noreferrer">TELEFUTURO_C4</a> <a href="https://cointv.site/cvatt.html?get=VEVMRUZVVFVST19DNA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VEVMRUZVVFVST19DNA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZW1heA" target="_blank" rel="noopener noreferrer">Telemax</a> <a href="https://cointv.site/cvatt.html?get=VGVsZW1heA" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZW1heA" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZW11bmRvX0hE" target="_blank" rel="noopener noreferrer">Telemundo_HD</a> <a href="https://cointv.site/cvatt.html?get=VGVsZW11bmRvX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZW11bmRvX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=VGVsZXN1cg==" target="_blank" rel="noopener noreferrer">Telesur</a> <a href="https://cointv.site/cvatt.html?get=VGVsZXN1cg==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGVsZXN1cg==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VGhlYXRlcl9IRA==" target="_blank" rel="noopener noreferrer">Theater_HD</a> <a href="https://cointv.site/cvatt.html?get=VGhlYXRlcl9IRA==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VGhlYXRlcl9IRA==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=VExD" target="_blank" rel="noopener noreferrer">TLC</a> <a href="https://cointv.site/cvatt.html?get=VExD" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VExD" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=VE5UX0hEX0FyZw==" target="_blank" rel="noopener noreferrer">TNT_HD_Arg</a> <a href="https://cointv.site/cvatt.html?get=VE5UX0hEX0FyZw==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VE5UX0hEX0FyZw==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=VE5UX1Nwb3J0c19IRA" target="_blank" rel="noopener noreferrer">TNT_Sports_HD</a> <a href="https://cointv.site/cvatt.html?get=VE5UX1Nwb3J0c19IRA" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VE5UX1Nwb3J0c19IRA" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=VE5UX1Nwb3J0c19QcmVtaXVuX0hE" target="_blank" rel="noopener noreferrer">TNT_Sports_Backup</a> <a href="https://cointv.site/cvatt.html?get=VE5UX1Nwb3J0c19QcmVtaXVuX0hE" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VE5UX1Nwb3J0c19QcmVtaXVuX0hE" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VE5UU2VyaWVz" target="_blank" rel="noopener noreferrer">TNTSeries</a> <a href="https://cointv.site/cvatt.html?get=VE5UU2VyaWVz" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VE5UU2VyaWVz" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📰</span><a href="https://tvarg1.vercel.app/player.html?get=VG9kb05vdGljaWFz" target="_blank" rel="noopener noreferrer">TodoNoticias</a> <a href="https://cointv.site/cvatt.html?get=VG9kb05vdGljaWFz" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VG9kb05vdGljaWFz" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VHJ1VFY=" target="_blank" rel="noopener noreferrer">TruTV</a> <a href="https://cointv.site/cvatt.html?get=VHJ1VFY=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VHJ1VFY=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌐</span><a href="https://tvarg1.vercel.app/player.html?get=VFY1X01vbmRl" target="_blank" rel="noopener noreferrer">TV5_Monde</a> <a href="https://cointv.site/cvatt.html?get=VFY1X01vbmRl" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VFY1X01vbmRl" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌐</span><a href="https://tvarg1.vercel.app/player.html?get=VHZfQ2hpbGU=" target="_blank" rel="noopener noreferrer">TV_Chile</a> <a href="https://cointv.site/cvatt.html?get=VHZfQ2hpbGU=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VHZfQ2hpbGU=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌐</span><a href="https://tvarg1.vercel.app/player.html?get=VFZfRXNwYW5h" target="_blank" rel="noopener noreferrer">TV_Espana</a> <a href="https://cointv.site/cvatt.html?get=VFZfRXNwYW5h" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VFZfRXNwYW5h" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=VHlDX0ludGVybmFjaW9uYWw=" target="_blank" rel="noopener noreferrer">TyC_International</a> <a href="https://cointv.site/cvatt.html?get=VHlDX0ludGVybmFjaW9uYWw=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VHlDX0ludGVybmFjaW9uYWw=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">⚽</span><a href="https://tvarg1.vercel.app/player.html?get=VHlDU3BvcnQ" target="_blank" rel="noopener noreferrer">TyCSport</a> <a href="https://cointv.site/cvatt.html?get=VHlDU3BvcnQ" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VHlDU3BvcnQ" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" target="_blank" rel="noopener noreferrer">Universal_Channel_HD</a> <a href="https://cointv.site/cvatt.html?get=VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX0NpbmVtYQ==" target="_blank" rel="noopener noreferrer">Universal_Cinema</a> <a href="https://cointv.site/cvatt.html?get=VW5pdmVyc2FsX0NpbmVtYQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VW5pdmVyc2FsX0NpbmVtYQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX0NvbWVkeQ==" target="_blank" rel="noopener noreferrer">Universal_Comedy</a> <a href="https://cointv.site/cvatt.html?get=VW5pdmVyc2FsX0NvbWVkeQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VW5pdmVyc2FsX0NvbWVkeQ==" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=dW5pdmVyc2FsX0NyaW1l" target="_blank" rel="noopener noreferrer">universal_Crime</a> <a href="https://cointv.site/cvatt.html?get=dW5pdmVyc2FsX0NyaW1l" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=dW5pdmVyc2FsX0NyaW1l" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX1ByZW1pZXJl" target="_blank" rel="noopener noreferrer">Universal_Premiere</a> <a href="https://cointv.site/cvatt.html?get=VW5pdmVyc2FsX1ByZW1pZXJl" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VW5pdmVyc2FsX1ByZW1pZXJl" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX1JlYWxpdHk=" target="_blank" rel="noopener noreferrer">Universal_Reality</a> <a href="https://cointv.site/cvatt.html?get=VW5pdmVyc2FsX1JlYWxpdHk=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VW5pdmVyc2FsX1JlYWxpdHk=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=VVNBX05ldHdvcms=" target="_blank" rel="noopener noreferrer">USA_Network</a> <a href="https://cointv.site/cvatt.html?get=VVNBX05ldHdvcms=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VVNBX05ldHdvcms=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🔞</span><a href="https://tvarg1.vercel.app/player.html?get=VmVudXM=" target="_blank" rel="noopener noreferrer">Venus</a> <a href="https://cointv.site/cvatt.html?get=VmVudXM=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=VmVudXM=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">📺</span><a href="https://tvarg1.vercel.app/player.html?get=Vm9sdmVy" target="_blank" rel="noopener noreferrer">Volver</a> <a href="https://cointv.site/cvatt.html?get=Vm9sdmVy" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=Vm9sdmVy" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🎥</span><a href="https://tvarg1.vercel.app/player.html?get=V2FybmVySEQ=" target="_blank" rel="noopener noreferrer">WarnerHD</a> <a href="https://cointv.site/cvatt.html?get=V2FybmVySEQ=" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=V2FybmVySEQ=" class="mirror">(mirror2)</a></li>
+      <li><span class="emoji">🌍</span><a href="https://tvarg1.vercel.app/player.html?get=V09CSQ==" target="_blank" rel="noopener noreferrer">WOBI</a> <a href="https://cointv.site/cvatt.html?get=V09CSQ==" class="mirror">(mirror1)</a> <a href="https://cointv.site/cvatt2.html?get=V09CSQ==" class="mirror">(mirror2)</a></li>
+</ul>
+
+    <script>
+      // 1. GESTIÓN DEL TEMA (MODO OSCURO)
+      const themeToggle = document.getElementById('theme-toggle');
+      const body = document.body;
+
+      if (localStorage.getItem('theme') === 'dark') {
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.textContent = '☀️ Cambiar a Modo Claro';
+      }
+
+      themeToggle.addEventListener('click', () => {
+        if (body.getAttribute('data-theme') === 'dark') {
+          body.removeAttribute('data-theme');
+          themeToggle.textContent = '🌙 Cambiar a Modo Oscuro';
+          localStorage.setItem('theme', 'light');
+        } else {
+          body.setAttribute('data-theme', 'dark');
+          themeToggle.textContent = '☀️ Cambiar a Modo Claro';
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+
+      // 2. LÓGICA DE FILTROS Y BÚSQUEDA
+      let currentFilter = 'all';
+      let currentSearch = '';
+
+      // Event Listeners para botones de categoría
+      document.addEventListener('DOMContentLoaded', () => {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Estilo activo
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Lógica
+                currentFilter = btn.getAttribute('data-filter');
+                applyFilters();
+            });
+        });
+
+        // Asegurar que los enlaces se abran en nueva pestaña
+        document.querySelectorAll("#channel-list a").forEach(link => {
+            link.setAttribute("target", "_blank");
+            link.setAttribute("rel", "noopener noreferrer");
+        });
+        
+        // Inicializar contador
+        applyFilters(); 
+      });
+
+      // Función que actualiza la variable de búsqueda y reaplica filtros
+      function filterChannels() {
+        currentSearch = document.getElementById('search-box').value.toUpperCase();
+        applyFilters();
+      }
+
+      // Función principal (Núcleo del filtrado)
+      function applyFilters() {
+        const list = document.getElementById('channel-list');
+        const items = list.getElementsByTagName('li');
+        let visibleCount = 0;
+        
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const emojiSpan = item.querySelector('.emoji');
+            const link = item.getElementsByTagName('a')[0];
+            const text = (link.textContent || link.innerText).toUpperCase();
+            
+            // Obtener el emoji del elemento actual
+            const itemEmoji = emojiSpan ? emojiSpan.textContent.trim() : '';
+            
+            // 1. Comprobar Categoría (Emoji)
+            const matchesCategory = (currentFilter === 'all') || (itemEmoji === currentFilter);
+            
+            // 2. Comprobar Texto (Buscador)
+            const matchesSearch = (currentSearch === '') || text.includes(currentSearch);
+            
+            // Mostrar solo si CUMPLE AMBAS condiciones
+            if (matchesCategory && matchesSearch) {
+                item.style.display = '';
+                visibleCount++;
+            } else {
+                item.style.display = 'none';
+            }
+        }
+        updateResultsCount(visibleCount);
+      }
+
+      function updateResultsCount(count) {
+        const counter = document.getElementById('results-count');
+        if (counter) {
+          counter.textContent = 'Mostrando ' + count + ' canal' + (count !== 1 ? 'es' : '');
+        }
+      }
+
+      // 3. GESTIÓN DE IFRAMES (Reproductores incrustados)
+      // Función unificada para mostrar/ocultar iframes
+      function toggleIframe(wrapperId, btnId, baseText) {
+        const wrapper = document.getElementById(wrapperId);
+        const btn = document.getElementById(btnId);
+        const isHidden = wrapper.style.display === 'none' || wrapper.style.display === '';
+        
+        if (isHidden) {
+          wrapper.style.display = 'block';
+          btn.textContent = 'Ocultar ' + baseText;
+        } else {
+          wrapper.style.display = 'none';
+          btn.textContent = 'Ver ' + baseText;
+        }
+      }
+    </script>
+</body>
+</html>
