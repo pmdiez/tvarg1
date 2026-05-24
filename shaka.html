@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reproductor Shaka - MPD Widevine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        #video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .controls-panel {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #ccc;
+            word-break: break-all;
+        }
+
+        .info-panel h3 {
+            color: #4ade80;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .status {
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .status.loading {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .status.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            border-left: 4px solid #22c55e;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border-left: 4px solid #ef4444;
+        }
+
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .channel-selector {
+            margin-bottom: 15px;
+        }
+
+        .channel-selector input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .channel-selector input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .header h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Reproductor Shaka Player</h1>
+            <p>Soporte MPD / DASH / Widevine DRM (ClearKey)</p>
+        </div>
+
+        <div id="video-container">
+            <video id="video" controls playsinline></video>
+        </div>
+
+        <div class="controls-panel">
+            <div class="channel-selector">
+                <label style="color: #ccc; display: block; margin-bottom: 8px;">📺 URL del MPD (manifiesto)</label>
+                <input type="text" id="mpdUrl" placeholder="https://.../manifest.mpd" style="width: 100%;">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                <button id="loadBtn">▶️ Cargar y Reproducir</button>
+                <button id="reloadBtn" style="background: #374151;">🔄 Recargar Player</button>
+            </div>
+        </div>
+
+        <div id="status" class="status loading">⏳ Inicializando reproductor...</div>
+
+        <div class="info-panel">
+            <h3>📋 Instrucciones para extraer los datos de tu código original:</h3>
+            <ol style="margin-left: 20px; line-height: 1.6;">
+                <li>Abre la consola del navegador (F12)</li>
+                <li>Ejecuta la página original y busca <code>console.log("MPD URL:", mpdBase)</code></li>
+                <li>Copia la URL del MPD y pégala en el campo de arriba</li>
+                <li>Localiza el <code>keyId</code> y <code>key</code> de tu lista de canales</li>
+                <li>Haz clic en "Configurar DRM" abajo para introducir las claves</li>
+            </ol>
+        </div>
+
+        <div class="info-panel" style="margin-top: 10px;">
+            <h3>🔑 Configuración DRM (ClearKey)</h3>
+            <label style="display: block; margin: 10px 0 5px;">Key ID (hex):</label>
+            <input type="text" id="keyIdInput" placeholder="ej: d6ff881a6f07986a80d6ad6f041b57d4" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;">
+            <label style="display: block; margin: 10px 0 5px;">Key (hex):</label>
+            <input type="text" id="keyInput" placeholder="ej: b401c87c2ab11a1a488ee1c474b109ae" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;">
+            <button id="applyDrmBtn" style="margin-top: 15px; width: 100%; background: #10b981;">🔐 Aplicar Claves DRM</button>
+        </div>
+    </div>
+
+    <!-- Shaka Player v4.12.18 - Versión estable para Android -->
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.12.18/dist/shaka-player.compiled.js"></script>
+
+    <script>
+        // Variables globales
+        let player = null;
+        let videoElement = null;
+        let currentKeyId = null;
+        let currentKey = null;
+
+        // Referencias DOM
+        const video = document.getElementById('video');
+        const mpdUrlInput = document.getElementById('mpdUrl');
+        const loadBtn = document.getElementById('loadBtn');
+        const reloadBtn = document.getElementById('reloadBtn');
+        const statusDiv = document.getElementById('status');
+        const keyIdInput = document.getElementById('keyIdInput');
+        const keyInput = document.getElementById('keyInput');
+        const applyDrmBtn = document.getElementById('applyDrmBtn');
+
+        // Función para actualizar el estado
+        function setStatus(type, message) {
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = message;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        // Función para inicializar Shaka Player
+        function initPlayer() {
+            if (player) {
+                player.destroy();
+                player = null;
+            }
+
+            if (!video) {
+                setStatus('error', '❌ Elemento de video no encontrado');
+                return false;
+            }
+
+            player = new shaka.Player(video);
+            
+            // Configurar el reproductor con soporte para ClearKey
+            player.configure({
+                drm: {
+                    clearKeys: {},
+                    retryParameters: {
+                        maxAttempts: 3,
+                        timeout: 10000
+                    }
+                },
+                manifest: {
+                    retryParameters: {
+                        maxAttempts: 3,
+                        timeout: 10000
+                    }
+                },
+                streaming: {
+                    retryParameters: {
+                        maxAttempts: 3,
+                        timeout: 10000
+                    },
+                    bufferBehind: 30,
+                    bufferingGoal: 10
+                }
+            });
+
+            // Eventos del reproductor
+            player.addEventListener('error', onPlayerError);
+            player.addEventListener('trackschanged', () => {
+                console.log('Pistas cambiadas');
+            });
+
+            setStatus('success', '✅ Reproductor Shaka Player inicializado correctamente');
+            return true;
+        }
+
+        // Manejo de errores de Shaka
+        function onPlayerError(error) {
+            console.error('Error de Shaka:', error);
+            let errorMessage = 'Error desconocido';
+            
+            if (error.detail && error.detail.code) {
+                switch (error.detail.code) {
+                    case 6001:
+                        errorMessage = 'Error 6001: CDM no disponible. Asegúrate de usar Chrome/Edge/Brave';
+                        break;
+                    case 6002:
+                        errorMessage = 'Error 6002: Fallo al crear CDM - Problema de DRM';
+                        break;
+                    case 6012:
+                        errorMessage = 'Error 6012: Claves ClearKey inválidas o mal configuradas';
+                        break;
+                    case 3016:
+                        errorMessage = 'Error 3016: Error de decodificación de video';
+                        break;
+                    default:
+                        errorMessage = `Error ${error.detail.code}: ${error.detail.message || 'Fallo en la reproducción'}`;
+                }
+            }
+            
+            setStatus('error', `❌ ${errorMessage}`);
+        }
+
+        // Aplicar las claves ClearKey
+        function applyClearKeys(keyId, key) {
+            if (!player) {
+                setStatus('error', '❌ Reproductor no inicializado');
+                return false;
+            }
+
+            if (!keyId || !key) {
+                setStatus('error', '⚠️ Debes proporcionar tanto Key ID como Key');
+                return false;
+            }
+
+            // Limpiar keyId (eliminar espacios y asegurar formato)
+            keyId = keyId.trim().toLowerCase();
+            key = key.trim().toLowerCase();
+
+            // Validar que son hexadecimales válidos (32 caracteres para keyId, 32 para key)
+            if (!/^[a-f0-9]{32}$/.test(keyId)) {
+                setStatus('error', `❌ Key ID inválido: debe ser 32 caracteres hexadecimales. Actual: ${keyId.length} caracteres`);
+                return false;
+            }
+
+            if (!/^[a-f0-9]{32}$/.test(key)) {
+                setStatus('error', `❌ Key inválida: debe ser 32 caracteres hexadecimales. Actual: ${key.length} caracteres`);
+                return false;
+            }
+
+            currentKeyId = keyId;
+            currentKey = key;
+
+            // Configurar las claves en Shaka
+            const clearKeys = {};
+            clearKeys[keyId] = key;
+            
+            player.configure({
+                drm: {
+                    clearKeys: clearKeys
+                }
+            });
+
+            setStatus('success', `🔑 Claves DRM configuradas correctamente (Key ID: ${keyId.substring(0,8)}...)`);
+            return true;
+        }
+
+        // Cargar y reproducir el MPD
+        async function loadMpd() {
+            let mpdUrl = mpdUrlInput.value.trim();
+            
+            if (!mpdUrl) {
+                setStatus('error', '⚠️ Introduce una URL de MPD válida');
+                return;
+            }
+
+            // Validar URL
+            if (!mpdUrl.startsWith('http://') && !mpdUrl.startsWith('https://')) {
+                setStatus('error', '⚠️ La URL debe comenzar con http:// o https://');
+                return;
+            }
+
+            // Asegurar que el reproductor está inicializado
+            if (!player) {
+                if (!initPlayer()) {
+                    return;
+                }
+            }
+
+            setStatus('loading', '🔄 Cargando manifiesto MPD...');
+
+            try {
+                // Detener reproducción actual si existe
+                if (video.src) {
+                    video.pause();
+                    player.unload();
+                }
+
+                // Cargar el MPD
+                await player.load(mpdUrl);
+                
+                setStatus('success', '✅ MPD cargado correctamente. Reproduciendo...');
+                
+                // Iniciar reproducción
+                await video.play();
+                console.log('Reproducción iniciada');
+                
+            } catch (error) {
+                console.error('Error al cargar MPD:', error);
+                let errorMsg = 'Error al cargar el MPD: ';
+                
+                if (error.message) {
+                    errorMsg += error.message;
+                } else {
+                    errorMsg += 'Verifica la URL y las claves DRM';
+                }
+                
+                setStatus('error', `❌ ${errorMsg}`);
+            }
+        }
+
+        // Reiniciar el reproductor
+        function reloadPlayer() {
+            if (player) {
+                player.destroy();
+                player = null;
+            }
+            
+            video.pause();
+            video.src = '';
+            
+            if (initPlayer()) {
+                if (currentKeyId && currentKey) {
+                    applyClearKeys(currentKeyId, currentKey);
+                }
+                setStatus('success', '🔄 Reproductor reiniciado correctamente');
+            }
+        }
+
+        // Ejemplo de canal (puedes modificarlo con los datos que extraigas)
+        // Canal A3_Cine (ejemplo con keyId y key ficticios - reemplázalos con los reales)
+        function loadExampleChannel() {
+            mpdUrlInput.value = 'https://example.com/manifest.mpd'; // Reemplazar con URL real
+            // Reemplazar con los keyId y key reales de tu lista
+            keyIdInput.value = 'd6ff881a6f07986a80d6ad6f041b57d4'; // Ejemplo
+            keyInput.value = 'b401c87c2ab11a1a488ee1c474b109ae'; // Ejemplo
+        }
+
+        // Event Listeners
+        loadBtn.addEventListener('click', loadMpd);
+        reloadBtn.addEventListener('click', reloadPlayer);
+        
+        applyDrmBtn.addEventListener('click', () => {
+            const keyId = keyIdInput.value.trim();
+            const key = keyInput.value.trim();
+            applyClearKeys(keyId, key);
+        });
+
+        // Permitir Enter en los campos
+        mpdUrlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loadMpd();
+        });
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            if (initPlayer()) {
+                // Si hay claves guardadas en sessionStorage, restaurarlas
+                const savedKeyId = sessionStorage.getItem('shaka_keyId');
+                const savedKey = sessionStorage.getItem('shaka_key');
+                if (savedKeyId && savedKey) {
+                    keyIdInput.value = savedKeyId;
+                    keyInput.value = savedKey;
+                    applyClearKeys(savedKeyId, savedKey);
+                }
+            }
+            
+            // Guardar claves automáticamente cuando se aplican
+            const originalApply = applyClearKeys;
+            window.applyClearKeys = function(keyId, key) {
+                const result = originalApply(keyId, key);
+                if (result) {
+                    sessionStorage.setItem('shaka_keyId', keyId);
+                    sessionStorage.setItem('shaka_key', key);
+                }
+                return result;
+            };
+        });
+
+        // Detectar si el navegador soporta Widevine
+        function checkBrowserSupport() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isChrome = ua.includes('chrome') || ua.includes('brave') || ua.includes('edg');
+            const isFirefox = ua.includes('firefox');
+            
+            if (isFirefox) {
+                setStatus('loading', '⚠️ Firefox detectado - El soporte de Widevine puede ser limitado. Recomendado: Chrome, Edge o Brave');
+            } else if (isChrome) {
+                setStatus('success', '✅ Navegador compatible detectado (Chrome/Edge/Brave)');
+            } else {
+                setStatus('loading', 'ℹ️ Navegador no verificado - Puede funcionar, pero se recomienda Chrome/Edge/Brave');
+            }
+        }
+        
+        checkBrowserSupport();
+    </script>
+</body>
+</html>
