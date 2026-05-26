@@ -1129,6 +1129,17 @@ else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
                 var keyString = `"${keyId}":"${key}"`;
                 // Codificar en base64
                 var base64Key = btoa(keyString);
+				   
+				   function isWindowsPC1() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
+}
+
+if (!isWindowsPC1()) {
+    window.location.href = 'https://tvarg1.vercel.app/player1.html' + window.location.search;
+} else {
+    // código del player...
+}
 // URL para Chrome/Brave/Edge
 var chromeExtensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}`;
 
@@ -1168,16 +1179,7 @@ function isExtensionInstalled(installedCallback, notInstalledCallback) {
 }
               
     </script>
-function isWindowsPC1() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
-}
 
-if (!isWindowsPC1()) {
-    window.location.href = 'https://tvarg1.vercel.app/player1.html' + window.location.search;
-} else {
-    // código del player...
-}
 </body>
 </html>
 
