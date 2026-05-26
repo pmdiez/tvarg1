@@ -5,11 +5,11 @@
 #https://val01.ride.com.ar/tvmia/l24/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m1/1b305aa066a947f40f988551f67c4623.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/tv-publica-ar.png",TV Pública
+#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/TVP_-_Televisi%C3%B3n_P%C3%BAblica_%282021%29.svg/250px-TVP_-_Televisi%C3%B3n_P%C3%BAblica_%282021%29.svg.png",TV Pública
 #https://val02.ride.com.ar/tvmia/04an/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m4/e4f8d87d28edabcafc8f3ede1820e605.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/canal-9-ar.png",Canal 9
+#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/3/3a/Canal_9_2015.png",Canal 9
 #https://val02.ride.com.ar/tvmia/an05/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m5/b7a57c4782ac4f920c9867820293ddc6.sdp/playlist.m3u8
 
@@ -21,7 +21,7 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m3/7ab9e800614dfd7e37d070563636b
 #https://val02.ride.com.ar/tvmia/bn202/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m2/083c4bf2068b6900440f1a4e10a8f48c.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/todo-noticias-ar.png",TN
+#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/TN_todo_noticias_logo.svg/250px-TN_todo_noticias_logo.svg.png",TN
 #https://val03.ride.com.ar/tvmia/an65/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m7/825831ca00cf844e0e48e397574c9f6c.sdp/playlist.m3u8
 
@@ -33,12 +33,12 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m8/16c64bfd845e50bc63cb22abafd93
 #https://val02.ride.com.ar/tvmia/an06/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m6/f65d6877f46399fb7eda7a515a54b88d.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/cronica-tv-ar.png",Crónica
+#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Cr%C3%B3nica_TV_logotipo_%282016%29.png/250px-Cr%C3%B3nica_TV_logotipo_%282016%29.png",Crónica
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m10/feb4607ba618fc29ce602220b82ea34c.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/canal-26-ar.png",26
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m15/1e1102717dc1b4ad6ccb302fc470a31d.sdp/playlist.m3u8
-#EXTINF:-1 group-title="Noticias / General" , INFOBAE
+#EXTINF:-1 group-title="Noticias / General" , tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Infobae_logo.svg/330px-Infobae_logo.svg.png",INFOBAE
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m90/fc5068902c6e2da6bcff8c5a85f9fc1e.sdp/playlist.m3u8
 
 
@@ -52,7 +52,7 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m12/9147062b971a73f8c0275171ad33
 
 
 # Cultura / Cine
-#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/cinear-ar.png",CINEAR
+#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Cine.Ar_logo.svg/250px-Cine.Ar_logo.svg.png",CINEAR
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m17/341bc8bcbbdf508bc24a6eab59de4429.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/volver-ar.png",Volver
@@ -69,19 +69,19 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m18/93c779051a6a7cedc4cf08d2ace1
 #https://val04.ride.com.ar/tvmia/an03/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m11/34fb70c685b96d684f85bccda31effb6.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/arpeggio-12-ar.png",AR12
+#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/0/02/Ar12ALT_2025.svg/revision/latest/scale-to-width-down/200?cb=20251112183157&path-prefix=es",AR12
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m20/2ac0faff04fa194a25bf62c2b0d7876e.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/canal-de-la-ciudad-ar.png",Canal de la Ciudad
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m23/6f129cb869b4d670cee8bd12ad8c407e.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/somos-ar.png",Somos
+#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/a/ac/Logo_Canales_Somos_de_Cablevisi%C3%B3n.png",Somos
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m26/012ba473a07b094310426553d99a0b7d.sdp/playlist.m3u8
 
-#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/aspen-ar.png",Aspen102.3
+#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Aspen102.jpg/250px-Aspen102.jpg",Aspen102.3
 https://val04.ride.com.ar/tvmia/an67/playlist.m3u8
 
-#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/bravo-tv-ar.png",BravoTV
+#EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://www.perfil.com/img/minisitios/bravotv/logo.png",BravoTV
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m24/815fd07e53f844468bac6d1eaf63b255.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Cultura / Cine" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/metro-ar.png",Metro
@@ -89,7 +89,7 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m25/d739708518b4083c6e1b38d9588c
 
 
 # Internacional / Deportes
-#EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/france/tv5monde-fr.png",TV5Monde
+#EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Logo_TV5Monde_2025.svg/250px-Logo_TV5Monde_2025.svg.png",TV5Monde
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m84/2e161257ec0f81aac7ed241391b560ff.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/deportv-ar.png",Deportv
