@@ -1,7 +1,7 @@
 #EXTM3U
 
 # Noticias / General
-#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/america-tv-ar.png",América
+#EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Am%C3%A9rica_TV_%28Nuevo_logo_Junio_2020%29.png/250px-Am%C3%A9rica_TV_%28Nuevo_logo_Junio_2020%29.png",América
 #https://val01.ride.com.ar/tvmia/l24/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m1/1b305aa066a947f40f988551f67c4623.sdp/playlist.m3u8
 
