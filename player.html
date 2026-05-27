@@ -1,161 +1,56 @@
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Verificación de Extensión e Inclusión de Reproductor</title>
-    <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-        }
 
-        .container {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
 
-        #player {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* Aspect ratio 16:9 */
-            background: #000;
-        }
 
-        #player iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
 
-        .hidden {
-            display: none;
-        }
 
-.alert-card {
-    background-color: #333;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin: 20px auto;
+<style type="text/css">
+html, body {
+   margin: 0;
+   padding: 0;
+} .jw-progress {
+    background-color: #35afe3 !important;
+}
+</style>
+<meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+<script> jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';</script>
+<style>
+h2 {
+  color: #ff5;
+}
+</style>
+<script type="text/javascript">
+function getParameterByName(name) {
+	name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
+	var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
+	results = regex.exec(location.search);
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-.alert-card h2 {
-    margin-top: 0;
-    font-size: 24px;
-}
+var getURL = getParameterByName('get');
+var getIMG = getParameterByName('img');
+var getKEY  = getParameterByName('key');
+var getKEY2  = getParameterByName('key2');
+if (getURL == "") {alert('Vuelve a la pÃƒÆ’Ã‚Â¡gina anterior');}
 
-.alert-card .boxicon {
-    font-size: 48px;
-    color: #ff0;
-}
-
-.alert-card p {
-    margin: 10px 0;
-    color: #ebebeb;
-}
-
-@media (max-width: 480px) {
-    .alert-card {
-        max-width: 90%;
-        padding: 5px;
-        margin-right: 50px;
-    }
-
-    .alert-card h2 {
-        font-size: 20px;
-    }
-
-    .alert-card .boxicon {
-        font-size: 36px;
-    }
-
-    .alert-card p {
-        font-size: 14px;
-    }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-    .alert-card {
-        max-width: 80%;
-        padding: 25px;
-    }
-
-    .alert-card h2 {
-        font-size: 22px;
-    }
-
-    .alert-card .boxicon {
-        font-size: 42px;
-    }
-
-    .alert-card p {
-        font-size: 16px; 
-    }
-}
+</script>
 
 
+<div id="player"></div>
+<script>
 
-        a {
-            color: #0f0;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div id="player" class="hidden"></div>
-        <div id="alerta-extension" class="hidden alert">
-        <i class="bx bx-error-circle boxicon"></i>
-        <center>
-        <div id="jb" class="jumbotron">
-        <div class="image"><img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60" width="10%"></div>
-        <h1>Reproductor MPD/M3U8/M3U/EPG</h1>
-        </div>        
-            <p><i style="color:red">NOTA</i>: Para reproducir este canal necesitas instalar la extension: <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
-            <h2>Instalacion</h2>
-            <p>Para instalar la extension debes ingresar a <a target="_blank" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">Reproductor MPD/M3U8/M3U/EPG</a> o buscarla en <b>Chrome Web Store o Brave</b></p>
-            <img src="//bestleague.world/img/brave.png" width="40%">
-            <p>Una vez instalada la extension recarga la pagina y disfruta del canal.</p>
-            </center>
-    </div>
-    </div>
-    <script type="text/javascript">
-        function getParameterByName(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
+var playerInstance= jwplayer("player");
 
-        var getURL = getParameterByName('get');
-        var getIMG = getParameterByName('img');
-        var getKEY = getParameterByName('key');
-        var getKEY2 = getParameterByName('key2');
-        if (getURL == "") {alert('Vuelve a la página anterior');}
-
-        var number;
-
-if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz")
+if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz" || getURL == "VVNBX05ldHdvcms=" || getURL == "RHNwb3J0c19VWQ==" || getURL == "RHNwb3J0czJfVVk=" || getURL == "RHNwb3J0c19QbHVzX1VZ") 
 number = 7;
-else if (getURL == "RVNQTjJfQXJn" || getURL == "Q2luZW1heA==" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfOF9DQkE" || getURL == "MjZfVFZfSEQ" || getURL == "RGlwdXRhZG9zX1RW" || getURL == "QXJnZW50aW5pc2ltYQ" || getURL == "TWV0cm8" || getURL == "QkJDX1dvcmxkX05ld3M" || getURL == "VGhlYXRlcl9IRA==" || getURL == "R2xpdHo=" || getURL == "UXVpZXJvX0hE" || getURL == "RGlzY292ZXJ5X1dvcmxkX0hE" || getURL == "RXVyb2NoYW5uZWw=" || getURL == "RGlzY292ZXJ5X1NjaWVuY2U=" || getURL == "SU5DQUFfVHY=" || getURL == "VFY1X01vbmRl" || getURL == "TVRWX0hpdHM=" || getURL == "TVRWX0hE" || getURL == "Tmlja19Kcg==" || getURL == "VFZfRXNwYW5h" || getURL == "V09CSQ==" || getURL == "Vm9sdmVy" || getURL == "VGVsZXN1cg==" || getURL == "TGlmZXRpbWU=" || getURL == "QW50ZW5hXzM=" || getURL == "Rm94X05ld3M=" || getURL == "VHZfQ2hpbGU=" || getURL == "TWFzX0NoaWM=" || getURL == "U3R1ZGlvX1VuaXZlcnNhbA==" || getURL == "SVNBVA==" || getURL == "U3VuX0NoYW5uZWw=" || getURL == "UkFJ" || getURL == "VmVudXM=" || getURL == "U2V4dHJlbWU" || getURL == "UGxheWJveQ" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "VGVsZWZlSEQ=" || getURL == "Q2FuYWw3" || getURL == "RW5jdWVudHJv" || getURL == "VGVsZW1heA" || getURL == "TmV0X1RW" || getURL == "Q2FuYWxfMTJfQ0JB" || getURL == "RWxfR2FyYWdl" || getURL == "RmlsbV9BcnRz" || getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" || getURL == "RXVyb3BhX0V1cm9wYQ" || getURL == "RXVyb25ld3M=" || getURL == "Rm9vZF9OZXR3b3Jr" || getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=" || getURL == "Q00=" || getURL == "UEFLQV9QQUtB" || getURL == "SGlzdG9yeV8y" || getURL == "U3lGeQ==" || getURL == "VEJT" || getURL == "VENN"  || getURL == "SEJPXzI=" || getURL == "SEJPX1BsdXM=" || getURL == "SEJPX0ZhbWlseQ==" || getURL == "SEJPX0V4dHJlbWU=" || getURL == "SEJPX011bmRp" || getURL == "SEJPX1NpZ25hdHVyZQ==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "VExD" || getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk" || getURL == "RGlzY292ZXJ5X0tpZHM="  || getURL == "SFRW" || getURL == "TkJBX1RW"  || getURL == "VW5pdmVyc2FsX0NpbmVtYQ=="  || getURL == "VW5pdmVyc2FsX0NvbWVkeQ==" || getURL == "dW5pdmVyc2FsX0NyaW1l"  || getURL == "VW5pdmVyc2FsX1ByZW1pZXJl" || getURL == "VW5pdmVyc2FsX1JlYWxpdHk="  || getURL == "RXZlbnRvc18yX0hE"  || getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "S1pP"  || getURL == "R29sZGVu")
+else if (getURL == "RVNQTjJfQXJn" || getURL == "Q2luZW1heA==" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfOF9DQkE" || getURL == "MjZfVFZfSEQ" || getURL == "RGlwdXRhZG9zX1RW" || getURL == "QXJnZW50aW5pc2ltYQ" || getURL == "TWV0cm8" || getURL == "QkJDX1dvcmxkX05ld3M" || getURL == "VGhlYXRlcl9IRA==" || getURL == "R2xpdHo=" || getURL == "UXVpZXJvX0hE" || getURL == "RGlzY292ZXJ5X1dvcmxkX0hE" || getURL == "RXVyb2NoYW5uZWw=" || getURL == "RGlzY292ZXJ5X1NjaWVuY2U=" || getURL == "SU5DQUFfVHY=" || getURL == "VFY1X01vbmRl" || getURL == "TVRWX0hpdHM=" || getURL == "TVRWX0hE" || getURL == "Tmlja19Kcg==" || getURL == "VFZfRXNwYW5h" || getURL == "V09CSQ==" || getURL == "Vm9sdmVy" || getURL == "VGVsZXN1cg==" || getURL == "TGlmZXRpbWU=" || getURL == "QW50ZW5hXzM=" || getURL == "Rm94X05ld3M=" || getURL == "VHZfQ2hpbGU=" || getURL == "QU1DX1Nlcmllcw==" || getURL == "U3R1ZGlvX1VuaXZlcnNhbA==" || getURL == "SVNBVA==" || getURL == "U3VuX0NoYW5uZWw=" || getURL == "UkFJ" || getURL == "VmVudXM=" || getURL == "U2V4dHJlbWU" || getURL == "UGxheWJveQ" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "VGVsZWZlSEQ=" || getURL == "Q2FuYWw3" || getURL == "RW5jdWVudHJv" || getURL == "VGVsZW1heA" || getURL == "TmV0X1RW" || getURL == "Q2FuYWxfMTJfQ0JB" || getURL == "RWxfR2FyYWdl" || getURL == "RmlsbV9BcnRz" || getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" || getURL == "RXVyb3BhX0V1cm9wYQ" || getURL == "RXVyb25ld3M=" || getURL == "Rm9vZF9OZXR3b3Jr" || getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=" || getURL == "Q00=" || getURL == "UEFLQV9QQUtB" || getURL == "SGlzdG9yeV8y" || getURL == "U3lGeQ==" || getURL == "VEJT" || getURL == "VENN"  || getURL == "SEJPXzI=" || getURL == "SEJPX1BsdXM=" || getURL == "SEJPX0ZhbWlseQ==" || getURL == "SEJPX0V4dHJlbWU=" || getURL == "SEJPX011bmRp" || getURL == "SEJPX1NpZ25hdHVyZQ==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "VExD" || getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk" || getURL == "RGlzY292ZXJ5X0tpZHM="  || getURL == "SFRW" || getURL == "TkJBX1RW"  || getURL == "VW5pdmVyc2FsX0NpbmVtYQ=="  || getURL == "VW5pdmVyc2FsX0NvbWVkeQ==" || getURL == "dW5pdmVyc2FsX0NyaW1l"  || getURL == "VW5pdmVyc2FsX1ByZW1pZXJl" || getURL == "VW5pdmVyc2FsX1JlYWxpdHk="  || getURL == "RXZlbnRvc18yX0hE"  || getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "S1pP"  || getURL == "R29sZGVu")
 number = 6; 
 else if (getURL == "QzlOX0M0")
 number = 5;
@@ -166,41 +61,26 @@ number = 4;
 else
 number = 3;
 
-// Función para verificar si es Windows o Linux
-function isWindowsPC() {
-	return true; // Permite todos los dispositivos
-   //const userAgent = navigator.userAgent.toLowerCase();
-   //return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
+var mpd = null;
+var espn2 = null;
+
+async function getToken(channelName, number) {
+    const url = `https://chromecast.cvattv.com.ar/live/c${number}eds/${channelName}/SA_Live_dash_enc_thr/${channelName}.mpd`;
+
+    try {
+        const resp = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(5000) });
+
+        if (resp.redirected) {
+            const match = resp.url.match(/(https:\/\/.+?)(?=\/live)/);
+            if (match) return match[0];
+        }
+    } catch (e) {
+        console.error("Token error:", e);
+    }
+
+    return null;
 }
 
-// Función para mostrar el mensaje de dispositivo no compatible
-function showUnsupportedDeviceMessage() {
-    const unsupportedMessage = document.createElement('div');
-    unsupportedMessage.classList.add('alert-card');
-    unsupportedMessage.innerHTML = `
-        <i class='bx bx-error-circle boxicon'></i>
-        <h2>Dispositivo no compatible</h2>
-        <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
-    `;
-    document.body.appendChild(unsupportedMessage);
-}
-
-        // Verificar si es un dispositivo compatible antes de ejecutar el código principal
-        if (!isWindowsPC()) {
-            showUnsupportedDeviceMessage();
-        } else {
-            // Array de URLs disponibles
-            var mt = ["chromecast", "cdn"];
-
-            // Obtener un índice aleatorio de la lista de URLs
-            var randomIndex = Math.floor(Math.random() * mt.length);
-            console.log("Selected mt:", mt[randomIndex]);
-
-            // Construir la URL del mpd
-            var mpdBase = `https://${mt[randomIndex]}.cvattv.com.ar/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc_C/${atob(getURL)}.mpd`;
-
-            // Definir las claves
-            var keyId, key;
 
 if (getURL == "RVNQTjJIRA")
 {
@@ -526,6 +406,30 @@ else if (getURL == "QTNfU2VyaWVz") // a3serues
 {
 	keyId = "5e34e08ae5ae440f01a03e505dd24a57";
 	key = "ed30cc7f5040a75d73f619320249272b";
+}
+
+else if (getURL == "VVNBX05ldHdvcms=") // USA NETWORK
+{
+	keyId = "c754b522b3b87dc2ba2da3e35154ec14";
+	key = "141a51e9e83861ae99b4b217431710b3";
+}
+
+else if (getURL == "RHNwb3J0c19VWQ==")
+{
+	keyId = "143c71292a6dd58404efad283b220539";
+	key = "9fceff2f3d70e2f569d5565407d7f743";
+}
+
+else if (getURL == "RHNwb3J0czJfVVk=")
+{
+	keyId = "969a3f92b501140c840243fb52e2bde0";
+	key = "d9957d1813667c03e67f6b21632ea7b4";
+}
+
+else if (getURL == "RHNwb3J0c19QbHVzX1VZ")
+{
+	keyId = "517d3690fb9e64f95a9272958a84df32";
+	key = "b563bc52ea05c1e7002a996f688b08b9";
 }
 
 
@@ -1062,10 +966,10 @@ else if (getURL == "Rmxvd19NdXNpY18z")
         keyId = "e078b15ed770ec71f803c0ecc43de033";
         key = "7010bccda544f74d1b425c4cebd082d4";
 }
-else if (getURL == "TWFzX0NoaWM=")
+else if (getURL == "QU1DX1Nlcmllcw==") //AMC SERIES (EX MAS Chic)
 {
-	keyId = "dac8ff1688994efd898222acdd05cafc";
-	key = "22fdf97c7233667518258ed16ccb2545";
+	keyId = "10d3d4f33a6bad277accc2688c46b406";
+	key = "588fd56bcab1fcdb4f33b5c2f7018d29";
 }
 else if (getURL == "U3R1ZGlvX1VuaXZlcnNhbA==")
 {
@@ -1119,67 +1023,165 @@ else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
         keyId = "e54e9ea87a634658fbba0e380aa701a7";
         key = "4e486d25d7d0e7d131743b285963c643";
 }
+
+var start = getParameterByName('start');
+var autostart = start !== undefined && start === "true";
+async function buildMPD() {
+    const ch = atob(getURL);
+
+    const token = await getToken(ch, number);
+    if (!token) return;
+
+    mpd   = `${token}/live/c${number}eds/${ch}/SA_Live_dash_enc/${ch}.mpd`;
+    espn2 = mpd;
+
+    startPlayer();
+}
+
+
+buildMPD();
+
+function startPlayer() {
+
+    if (getURL == "RVNQTjJfQXJn") {
+        playerInstance.setup({
+            "type": "dash",
+            "file": espn2,
+            "drm": {
+                "clearkey": {
+                    "keyId": "65a5bfa3c7a72dde60be9b0c7406c8fc",
+                    "key":   "0b40ae9f78a7bac3b57ecbf72d3c081e"
+                }
+            },
+            width: "100%",
+            height: "100%",
+            aspectratio: "16:9",
+            autostart: false,
+            cast: {},
+            sharing: {}
+        });
+    } else {
+        
+        playerInstance.setup({
+            playlist: [{
+                "sources": [
+                    {
+                        "default": false,
+                        "type": "dash",
+                        "file": mpd,
+                        "drm": {
+                            "clearkey": { "keyId": keyId, "key": key }
+                        },
+                        "label": "0"
+                    }
+                ]
+            }],
+            width: "100%",
+            height: "100%",
+            aspectratio: "16:9",
+            autostart: autostart,
+            cast: {},
+            sharing: {}
+        });
+    }
+
+    configurarIdioma();
+}
+
+	
+
+/*if (getURL != "") {
+    playerInstance.on("error", function() {
+        var redirectUrl = '/pc.html?get=' + encodeURIComponent(getURL) + '&start=true';
+        window.location = redirectUrl;
+    });
+}*/
+
+playerInstance.on("ready", function () {
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    const buttonId = "pip-button";
+    const iconPath =
+      "pip.png";
+    const tooltipText = "Imagen dentro de imagen";
+
+    // Evita duplicados
+    if (!document.getElementById(buttonId)) {
+      playerInstance.addButton(
+        iconPath,
+        tooltipText,
+        async function () {
+          const videoEl = playerInstance.getContainer().querySelector("video");
+          if (!document.pictureInPictureElement) {
+            try {
+              await videoEl.requestPictureInPicture();
+            } catch (err) {
+              console.error("Error al activar PiP:", err);
+            }
+          } else {
+            await document.exitPictureInPicture();
+          }
+        },
+        buttonId
+      );
+    }
+  }
+});
+
+function configurarIdioma() {
+
+    var langParam = parseInt(getParameterByName('lang'), 10);
+    if (isNaN(langParam)) langParam = 1;
+
+    var selectedLanguage = langParam;
+    var languageChangedDuringPlay = false;
+
+    playerInstance.on("ready", function () {
+        try {
+            playerInstance.setCurrentAudioTrack(selectedLanguage);
+        } catch (e) {
+            console.log("No se pudo cambiar idioma:", e);
+        }
+    });
+    
+    playerInstance.on("play", function () {
+        if (!languageChangedDuringPlay) {
+            var current = playerInstance.getCurrentAudioTrack();
+
+            if (current !== selectedLanguage) {
+                try {
+                    playerInstance.setCurrentAudioTrack(selectedLanguage);
+                } catch (e) {
+                    console.log("Error cambiando idioma:", e);
+                }
+            }
+
+            languageChangedDuringPlay = true;
+        }
+    });
+    playerInstance.on("complete", function () {
+        languageChangedDuringPlay = false;
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 	
 
 
-            
+	
 
-            // Convertir keyId y key a una cadena JSON
-               if (keyId && key) {
-                var keyString = `"${keyId}":"${key}"`;
-                // Codificar en base64
-                var base64Key = btoa(keyString);
-				   
-				   function isWindowsPC1() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
-}
 
-if (!isWindowsPC1()) {
-    window.location.href = 'https://tvarg1.vercel.app/player1.html' + window.location.search;
-} else {
-    // código del player...
-}
-// URL para Chrome/Brave/Edge
-var chromeExtensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}`;
 
-// URL para Firefox
-var firefoxExtensionUrl = `moz-extension://ef325676-b0f4-4dcb-8349-d0d5215835a8/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}`;
 
-const playerDiv = document.getElementById("player");
-const alertaDiv = document.getElementById("alerta-extension");
-const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 
-if (isFirefox) {
-    playerDiv.classList.remove("hidden");
-    playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${firefoxExtensionUrl}"></iframe>`;
-} else {
-    isExtensionInstalled(
-        () => {
-            playerDiv.classList.remove("hidden");
-            playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${chromeExtensionUrl}"></iframe>`;
-        },
-        () => {
-            alertaDiv.classList.remove("hidden");
-        }
-    );
-}
 
-} else {
-    alert('KeyId o Key no definidos.');
-}
-}
-
-// Función para verificar si la extensión está instalada (solo Chrome/Brave/Edge)
-function isExtensionInstalled(installedCallback, notInstalledCallback) {
-    const img = document.createElement('img');
-    img.onload = installedCallback;
-    img.onerror = notInstalledCallback;
-    img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
-}
-              
-    </script>
-
-</body>
-</html>
-
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"c053b7564df9421fb32353d3925c8ae4","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
