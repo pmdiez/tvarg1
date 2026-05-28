@@ -1,186 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="referrer" content="no-referrer">
-    <meta http-equiv="cache-control" content="no-cache">
-    <title>Mi Reproductor Personal</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background: #000;
-        }
-        #player {
-            width: 100%;
-            height: 100%;
-        }
-        .info {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            color: white;
-            background: rgba(0,0,0,0.7);
-            padding: 5px 10px;
-            font-size: 12px;
-            font-family: monospace;
-            z-index: 100;
-            border-radius: 5px;
-        }
-    </style>
-    <script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
-    <script>jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';</script>
-</head>
-<body>
-    <div id="player"></div>
-    <div class="info" id="channelName"></div>
+var playerInstance = jwplayer("player");
 
-    <script>
-        // ============================================
-        // 1. CONFIGURACIÓN DE CANALES (FÁCIL DE EDITAR)
-        // ============================================
-        const canales = {
-            // Formato: "codigo_en_base64": { nombre: "Nombre del canal", number: 7, keyId: "...", key: "..." }
-            "QTNfQ2luZQ==": {  // A3 Cine
-                nombre: "A3 Cine",
-                number: 7,
-                keyId: "d6ff881a6f07986a80d6ad6f041b57d4",
-                key: "b401c87c2ab11a1a488ee1c474b109ae"
+// Forzar el canal manualmente para testing
+var getURL = "QTNfQ2luZQ==";
+var keyId = "d6ff881a6f07986a80d6ad6f041b57d4";
+var key = "b401c87c2ab11a1a488ee1c474b109ae";
+var number = 7;
+var mt = ["cdn", "chromecast"];
+var random = Math.floor(Math.random() * mt.length);
+var mpd = "//" + mt[random] + ".cvattv.com.ar/live/c"+number+"eds/"+atob(getURL)+"/SA_Live_dash_enc_C/" + atob(getURL) + ".mpd";
+
+playerInstance.setup({
+    playlist: [{
+        "sources": [{
+            "default": false,
+            "type": "dash",
+            "file": mpd,
+            "drm": {
+                "clearkey": { "keyId": keyId, "key": key }
             },
-            "Rmxvd19NdXNpY19YUA==": {  // Flow Music
-                nombre: "Flow Music",
-                number: 7,
-                keyId: "b2aae44a74144be8b2118e20d1412bab",
-                key: "8a7ae996d12d8d5d5637d1044f8e08b7"
-            },
-            "SEJPX1BPUA==": {  // HBO Pop
-                nombre: "HBO Pop",
-                number: 7,
-                keyId: "f4e1ce5cef7e9a110fe968f8881b21fa",
-                key: "6bbe2062b150b11496cdd5fbdd9c89d6"
-            },
-            "TkdP": {  // Nat Geo (ejemplo)
-                nombre: "National Geographic",
-                number: 6,
-                keyId: "4be0c61ceddc62294cc9e23b627af53d",
-                key: "852c1935d11c3c53d0a1ceff3bb3bf16"
-            }
-            // Podés agregar más canales aquí siguiendo el mismo formato
-        };
-
-        // ============================================
-        // 2. OBTENER PARÁMETRO DE LA URL
-        // ============================================
-        function getParameterByName(name) {
-            const regex = new RegExp("[?&]" + name + "=([^&#]*)");
-            const results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
-
-        const getURL = getParameterByName('get');
-        const autostart = getParameterByName('start') === "true";
-
-        // ============================================
-        // 3. VALIDAR Y OBTENER DATOS DEL CANAL
-        // ============================================
-        if (!getURL || getURL === "") {
-            document.body.innerHTML = '<div style="color:white; text-align:center; padding:50px;">❌ Error: Falta el parámetro "get" en la URL<br><br>Uso: ?get=QTNfQ2luZQ==</div>';
-            throw new Error("Falta parámetro get");
-        }
-
-        const canal = canales[getURL];
-        
-        if (!canal) {
-            document.body.innerHTML = `<div style="color:white; text-align:center; padding:50px;">❌ Canal no configurado: ${getURL}<br><br>Agregalo al objeto "canales" en el código</div>`;
-            throw new Error("Canal no encontrado");
-        }
-
-        // ============================================
-        // 4. CONSTRUIR URL DEL MPD
-        // ============================================
-        const cdnOptions = ["cdn", "chromecast"];
-        const randomCdn = cdnOptions[Math.floor(Math.random() * cdnOptions.length)];
-        
-        const canalNombre = atob(getURL);  // Decodifica el Base64
-        const mpdUrl = `//${randomCdn}.cvattv.com.ar/live/c${canal.number}eds/${canalNombre}/SA_Live_dash_enc_C/${canalNombre}.mpd`;
-
-        console.log("Reproduciendo:", canal.nombre);
-        console.log("URL del MPD:", mpdUrl);
-        console.log("Key ID:", canal.keyId);
-        console.log("Key:", canal.key);
-
-        // Mostrar nombre en pantalla
-        document.getElementById("channelName").innerText = `📺 ${canal.nombre} | CDN: ${randomCdn}`;
-
-        // ============================================
-        // 5. INICIALIZAR JWPLAYER
-        // ============================================
-        const playerInstance = jwplayer("player");
-        
-        playerInstance.setup({
-            playlist: [{
-                sources: [{
-                    file: mpdUrl,
-                    type: "dash",
-                    drm: {
-                        clearkey: {
-                            keyId: canal.keyId,
-                            key: canal.key
-                        }
-                    }
-                }]
-            }],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: autostart,
-            cast: {},
-            sharing: {}
-        });
-
-        // ============================================
-        // 6. MANEJO DE ERRORES (OPCIONAL)
-        // ============================================
-        playerInstance.on("error", function(e) {
-            console.error("Error del reproductor:", e);
-            document.getElementById("channelName").innerHTML = `⚠️ Error: No se pudo reproducir ${canal.nombre}<br>Verifica la conexión o las claves DRM`;
-        });
-
-        playerInstance.on("ready", function() {
-            console.log("Reproductor listo");
-        });
-
-        // ============================================
-        // 7. PICTURE-IN-PICTURE PARA MÓVILES
-        // ============================================
-        playerInstance.on("ready", function () {
-            if (/Mobi|Android/i.test(navigator.userAgent)) {
-                const buttonId = "pip-button";
-                const iconPath = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98V5c0-1.1-.9-2-2-2zm0 16.01H3V4.98h18v14.03z'/%3E%3C/svg%3E";
-                
-                if (!document.getElementById(buttonId)) {
-                    playerInstance.addButton(
-                        iconPath,
-                        "Pantalla en pantalla (PiP)",
-                        async function () {
-                            const videoEl = playerInstance.getContainer().querySelector("video");
-                            if (!document.pictureInPictureElement) {
-                                try {
-                                    await videoEl.requestPictureInPicture();
-                                } catch (err) {
-                                    console.error("Error PiP:", err);
-                                }
-                            } else {
-                                await document.exitPictureInPicture();
-                            }
-                        },
-                        buttonId
-                    );
-                }
-            }
-        });
-
-    </script>
-</body>
-</html>
+            "label": "0"
+        }]
+    }],
+    width: "100%",
+    height: "100%",
+    aspectratio: "16:9",
+    autostart: true,
+    cast: {},
+    sharing: {}
+});
