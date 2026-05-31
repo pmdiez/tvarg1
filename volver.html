@@ -2,183 +2,65 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Volver - Flow (Debug)</title>
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: monospace;
-        }
-        .container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-        }
-        video {
-            width: 100%;
-            background: #000;
-        }
-        .debug {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.8);
-            color: #0f0;
-            padding: 10px;
-            font-size: 12px;
-            border-radius: 8px;
-            z-index: 1000;
-            max-width: 90%;
-        }
-        button {
-            background: #0f0;
-            color: #000;
-            border: none;
-            padding: 5px 10px;
-            margin: 2px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Volver - Shaka Player con MPD Modificado</title>
     <script src="https://ajax.googleapis.com/ajax/libs/shaka-player/4.12.0/shaka-player.compiled.js"></script>
 </head>
 <body>
-    <div class="container">
-        <video id="video" controls autoplay></video>
-        <div class="debug" id="debug">
-            <strong>🔧 Debug:</strong> <span id="status">Inicializando...</span><br>
-            <div id="buttons"></div>
-        </div>
-    </div>
-
+    <video id="video" controls autoplay width="100%"></video>
+    
     <script>
-        const video = document.getElementById('video');
-        const statusSpan = document.getElementById('status');
-        const buttonsDiv = document.getElementById('buttons');
+        const keyId = '194e53184a424ce6989ad82c5f28fbc5';
+        const key = '65d60c5cc4de031172be0a6a51edbdfe';
         
-        let player = null;
+        const originalMpdUrl = "https://flow-cdn-gcp.app.flow.com.ar/tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgwMTQxMDEzIiwic2lwIjoiODQuMjUyLjExNC44IiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ROVF9TcG9ydHNfSEQvU0FfTGl2ZV9kYXNoX2VuY18yMi8iLCJzZXNzaW9uX2Nkbl9pZCI6IjhkNjcxMGMxZGYwMTA4YWMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzM5Iiwic291cmNlcyI6WzIwOSw4NSwxNDQsODYsODhdfQ==.S8P7hHNwTwy2zv1N8aflrtf_jJlkytqX5UBK6njp4nT6bUIkbfpZtbquqD4NLU5B_bEQYKJTUd587f5fNdTDKQ==/live/c6eds/Volver/SA_Live_dash_enc/Volver.mpd";
         
-        // Tu URL del MPD
-        const manifestUrl = 'https://flow-cdn-gcp.app.flow.com.ar/tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgwMTQxMDEzIiwic2lwIjoiODQuMjUyLjExNC44IiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ROVF9TcG9ydHNfSEQvU0FfTGl2ZV9kYXNoX2VuY18yMi8iLCJzZXNzaW9uX2Nkbl9pZCI6IjhkNjcxMGMxZGYwMTA4YWMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzM5Iiwic291cmNlcyI6WzIwOSw4NSwxNDQsODYsODhdfQ==.S8P7hHNwTwy2zv1N8aflrtf_jJlkytqX5UBK6njp4nT6bUIkbfpZtbquqD4NLU5B_bEQYKJTUd587f5fNdTDKQ==/live/c6eds/Volver/SA_Live_dash_enc/Volver.mpd';
-        
-        // Las representaciones de video disponibles
-        const videoRepresentations = [
-            { id: 'avc1_507968=20', width: 416, height: 240, name: '240p (Baja)' },
-            { id: 'avc1_809984=21', width: 568, height: 320, name: '320p' },
-            { id: 'avc1_1008000=19', width: 640, height: 360, name: '360p' },
-            { id: 'avc1_1305984=18', width: 768, height: 432, name: '432p' },
-            { id: 'avc1_1531968=17', width: 854, height: 480, name: '480p (Media)' }
-        ];
-        
-        async function initPlayer(restrictToVideoId = null) {
-            if (player) {
-                player.destroy();
-                player = null;
-            }
+        async function init() {
+            // 1. Descargar el MPD original
+            const response = await fetch(originalMpdUrl);
+            let mpdText = await response.text();
             
-            if (!shaka.Player.isBrowserSupported()) {
-                statusSpan.innerHTML = '❌ Navegador no soportado. Usa Chrome.';
-                return;
-            }
+            // 2. Modificar el MPD para añadir Clear Key
+            const clearkeyXml = `
+<ContentProtection schemeIdUri="urn:uuid:1077efec-c0b2-4d02-ace3-3c1e52e2fb4b">
+  <mspr:pro>ClearKey</mspr:pro>
+</ContentProtection>`;
             
-            player = new shaka.Player(video);
+            // Insertar la etiqueta de Clear Key después de las existentes
+            mpdText = mpdText.replace('</ContentProtection>', '</ContentProtection>' + clearkeyXml);
             
-            // Configurar para que no use DRM (video sin encriptar)
+            // 3. Crear un Blob URL con el MPD modificado
+            const modifiedMpdBlob = new Blob([mpdText], { type: 'application/dash+xml' });
+            const modifiedMpdUrl = URL.createObjectURL(modifiedMpdBlob);
+            
+            // 4. Configurar Shaka Player
+            const video = document.getElementById('video');
+            const player = new shaka.Player(video);
+            
+            const clearKeys = {};
+            clearKeys[keyId] = key;
+            
             player.configure({
-                drm: { enabled: false },
-                abr: { enabled: true }  // Adaptive Bitrate automático
+                drm: {
+                    clearKeys: clearKeys,
+                    preferredKeySystems: ['org.w3.clearkey']
+                }
             });
             
-            // Escuchar eventos
-            player.addEventListener('error', (event) => {
-                const error = event.detail;
-                statusSpan.innerHTML = `❌ Error ${error.code}: ${error.message}`;
-                console.error('Error:', error);
+            player.addEventListener('error', (e) => {
+                console.error('Error:', e.detail);
+                document.body.innerHTML += `<p style="color:red">Error: ${e.detail.message}</p>`;
             });
-            
-            player.addEventListener('loading', () => {
-                statusSpan.innerHTML = '🔄 Cargando...';
-            });
-            
-            player.addEventListener('loaded', () => {
-                statusSpan.innerHTML = '✅ Cargado. Reproduciendo...';
-            });
-            
-            player.addEventListener('buffering', (event) => {
-                statusSpan.innerHTML = `⏳ Buffering... ${event.buffering ? 'Sí' : 'No'}`;
-            });
-            
-            // Si queremos restringir a una representación específica
-            if (restrictToVideoId) {
-                player.configure({
-                    abr: { enabled: false },  // Desactivar ABR
-                    restrictions: {
-                        minBandwidth: 0,
-                        maxBandwidth: Infinity,
-                        minWidth: 0,
-                        maxWidth: 1920,
-                        minHeight: 0,
-                        maxHeight: 1080
-                    }
-                });
-                
-                // Forzar representación específica después de cargar
-                player.addEventListener('loaded', async () => {
-                    try {
-                        const tracks = player.getVariantTracks();
-                        const targetTrack = tracks.find(t => t.id === restrictToVideoId);
-                        if (targetTrack) {
-                            await player.selectVariantTrack(targetTrack);
-                            statusSpan.innerHTML += ` 🎯 Forzado: ${targetTrack.height}p`;
-                        } else {
-                            statusSpan.innerHTML += ` ⚠️ No se encontró ${restrictToVideoId}`;
-                        }
-                    } catch (e) {
-                        console.error('Error seleccionando track:', e);
-                    }
-                });
-            }
             
             try {
-                await player.load(manifestUrl);
-                statusSpan.innerHTML = '✅ Listo';
-                
-                // Mostrar tracks disponibles
-                setTimeout(() => {
-                    const tracks = player.getVariantTracks();
-                    statusSpan.innerHTML += ` | 📺 ${tracks.length} calidades`;
-                }, 1000);
-            } catch (error) {
-                statusSpan.innerHTML = `❌ Error: ${error.message}`;
-                console.error(error);
+                await player.load(modifiedMpdUrl);
+                console.log('✅ Cargado con MPD modificado');
+            } catch (e) {
+                console.error(e);
+                document.body.innerHTML += `<p style="color:red">Falló: ${e.message}</p>`;
             }
         }
         
-        // Botones para probar diferentes calidades
-        videoRepresentations.forEach(rep => {
-            const btn = document.createElement('button');
-            btn.textContent = rep.name;
-            btn.onclick = () => {
-                statusSpan.innerHTML = `🔄 Probando ${rep.name}...`;
-                initPlayer(rep.id);
-            };
-            buttonsDiv.appendChild(btn);
-        });
-        
-        // Botón para modo automático
-        const autoBtn = document.createElement('button');
-        autoBtn.textContent = '🤖 Auto (todas)';
-        autoBtn.onclick = () => {
-            statusSpan.innerHTML = `🔄 Modo automático...`;
-            initPlayer(null);
-        };
-        buttonsDiv.appendChild(autoBtn);
-        
-        // Iniciar con modo automático
-        initPlayer(null);
+        init();
     </script>
 </body>
 </html>
