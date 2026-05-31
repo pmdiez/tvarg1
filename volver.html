@@ -2,23 +2,21 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reproductor DASH - Volver</title>
+    <title>Flow - Volver (Prueba de claves)</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
+            background: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            font-family: monospace;
         }
-        .player-container {
-            background: #0f0f1a;
-            border-radius: 20px;
+        .container {
+            background: #1a1a1a;
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            max-width: 1280px;
+            max-width: 1200px;
             width: 100%;
             margin: 20px;
         }
@@ -29,213 +27,129 @@
         }
         .info {
             margin-top: 15px;
-            padding: 12px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            color: #00ff88;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            text-align: center;
-        }
-        .status {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ff4444;
-            margin-right: 8px;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            color: #0f0;
+            font-size: 12px;
         }
         .error {
-            color: #ff6666;
-            background: rgba(255,0,0,0.2);
+            color: #f00;
+            background: #300;
             padding: 10px;
             border-radius: 8px;
             margin-top: 10px;
             display: none;
-            white-space: pre-wrap;
-            font-family: monospace;
-        }
-        .success {
-            color: #00ff88;
-            background: rgba(0,255,0,0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: none;
-        }
-        .keys-info {
-            font-size: 11px;
-            color: #888;
-            word-break: break-all;
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background: #2a2a3a;
-            border: 1px solid #444;
-            color: white;
-            border-radius: 8px;
-            font-family: monospace;
         }
         button {
-            background: #00ff88;
-            color: #1a1a2e;
+            background: #0f0;
+            color: #000;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
+            margin: 5px;
         }
-        button:hover {
-            background: #00cc66;
+        .key-option {
+            background: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .key-option:hover {
+            background: #444;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/shaka-player/4.12.0/shaka-player.compiled.js"></script>
 </head>
 <body>
-    <div class="player-container">
-        <video id="videoPlayer" controls autoplay></video>
-        
-        <div class="keys-info">
-            <strong>Configuración actual:</strong><br>
-            🔑 KID: 194e53184a424ce6989ad82c5f28fbc5<br>
-            🔐 KEY: 65d60c5cc4de031172be0a6a51edbdfe<br>
-        </div>
-        
-        <div style="margin: 10px 0;">
-            <input type="text" id="mpdUrl" placeholder="URL del archivo MPD" value="/volver.mpd">
-            <button onclick="reloadPlayer()">Cargar MPD</button>
-        </div>
+    <div class="container">
+        <video id="video" controls autoplay></video>
         
         <div class="info">
-            <span class="status"></span>
-            <span id="statusText">Esperando carga...</span>
+            <strong>🎬 Volver - Flow</strong><br>
+            KID correcto del MPD: <code>194e53184a424ce6989ad82c5f28fbc5</code><br>
+            <span id="status">🔑 Probando claves...</span>
         </div>
-        <div class="error" id="errorMsg"></div>
-        <div class="success" id="successMsg"></div>
+        
+        <div class="error" id="error"></div>
+        
+        <div style="margin: 15px 0;">
+            <div class="key-option" onclick="testKey('194e53184a424ce6989ad82c5f28fbc5', '65d60c5cc4de031172be0a6a51edbdfe')">
+                🔑 Opción 1: KEY que me diste
+            </div>
+            <div class="key-option" onclick="testKey('194e53184a424ce6989ad82c5f28fbc5', '')">
+                🔓 Opción 2: Sin KEY (video sin DRM)
+            </div>
+        </div>
+        
+        <div class="info" style="font-size: 11px; color: #888;">
+            💡 Si ninguna funciona, la KEY es incorrecta.<br>
+            Necesitas obtener la KEY real del servidor de licencias de Flow.
+        </div>
     </div>
 
     <script>
         let player = null;
         
-        // Tu clave real
-        const keyId = '194e53184a424ce6989ad82c5f28fbc5';
-        const keyValue = '65d60c5cc4de031172be0a6a51edbdfe';
+        const MPD_URL = 'https://flow-cdn-gcp.app.flow.com.ar/tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgwMTQxMDEzIiwic2lwIjoiODQuMjUyLjExNC44IiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ROVF9TcG9ydHNfSEQvU0FfTGl2ZV9kYXNoX2VuY18yMi8iLCJzZXNzaW9uX2Nkbl9pZCI6IjhkNjcxMGMxZGYwMTA4YWMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzM5Iiwic291cmNlcyI6WzIwOSw4NSwxNDQsODYsODhdfQ==.S8P7hHNwTwy2zv1N8aflrtf_jJlkytqX5UBK6njp4nT6bUIkbfpZtbquqD4NLU5B_bEQYKJTUd587f5fNdTDKQ==/live/c6eds/Volver/SA_Live_dash_enc/Volver.mpd';
         
-        async function initPlayer(manifestUri) {
-            const video = document.getElementById('videoPlayer');
-            const statusSpan = document.getElementById('statusText');
-            const errorDiv = document.getElementById('errorMsg');
-            const successDiv = document.getElementById('successMsg');
+        async function testKey(keyId, keyValue) {
+            const video = document.getElementById('video');
+            const statusSpan = document.getElementById('status');
+            const errorDiv = document.getElementById('error');
             
-            // Cerrar player anterior si existe
             if (player) {
                 player.destroy();
                 player = null;
             }
             
-            // Verificar soporte del navegador
             if (!shaka.Player.isBrowserSupported()) {
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '❌ Tu navegador no soporta Shaka Player. Usa Chrome, Firefox o Edge.';
-                statusSpan.innerHTML = 'Navegador no soportado';
+                errorDiv.innerHTML = '❌ Usa Chrome';
                 return;
             }
             
-            // Crear el reproductor
             player = new shaka.Player(video);
             
-            // Configurar las claves en claro
-            const clearKeys = {};
-            clearKeys[keyId] = keyValue;
+            if (keyValue && keyValue !== '') {
+                const clearKeys = {};
+                clearKeys[keyId] = keyValue;
+                player.configure({
+                    drm: {
+                        clearKeys: clearKeys,
+                        preferredKeySystems: ['org.w3.clearkey']
+                    }
+                });
+                statusSpan.innerHTML = `🔑 Probando KEY: ${keyValue.substring(0,8)}...`;
+            } else {
+                player.configure({ drm: { enabled: false } });
+                statusSpan.innerHTML = '🔓 Probando sin DRM...';
+            }
             
-            player.configure({
-                drm: {
-                    clearKeys: clearKeys,
-                    preferredKeySystems: ['org.w3.clearkey']
-                }
-            });
-            
-            // Manejo de errores
             player.addEventListener('error', (event) => {
                 const error = event.detail;
-                console.error('Error detallado:', error);
-                
-                let errorMessage = `❌ Error código ${error.code}: ${error.message}\n`;
-                
-                if (error.code === 1001) {
-                    errorMessage += '\n📁 No se pudo encontrar el archivo MPD.\n';
-                    errorMessage += 'Verifica:\n';
-                    errorMessage += '1. Que el archivo .mpd existe en la carpeta\n';
-                    errorMessage += '2. Que el nombre está escrito correctamente (mayúsculas/minúsculas)\n';
-                    errorMessage += '3. Que el servidor está corriendo en la carpeta correcta\n';
-                    errorMessage += `4. URL intentada: ${manifestUri}`;
-                } else if (error.code === 6005) {
-                    errorMessage += '\n🔐 La clave puede ser incorrecta o el KID no coincide.';
-                } else if (error.code === 1003) {
-                    errorMessage += '\n🌐 Error de red. ¿Estás sirviendo los archivos con un servidor local?';
-                }
-                
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = errorMessage;
-                statusSpan.innerHTML = 'Error';
-                successDiv.style.display = 'none';
-            });
-            
-            // Eventos de estado
-            player.addEventListener('loading', () => {
-                statusSpan.innerHTML = 'Cargando...';
-                errorDiv.style.display = 'none';
-                successDiv.style.display = 'none';
+                errorDiv.innerHTML = `❌ ${error.message}`;
+                statusSpan.innerHTML = '❌ Clave incorrecta o video protegido';
             });
             
             player.addEventListener('loaded', () => {
-                statusSpan.innerHTML = '✅ Listo para reproducir';
-                successDiv.style.display = 'block';
-                successDiv.innerHTML = '✅ Video cargado correctamente. ¡Disfruta!';
-                setTimeout(() => {
-                    successDiv.style.display = 'none';
-                }, 3000);
+                statusSpan.innerHTML = '✅ ¡Funciona!';
+                errorDiv.style.display = 'none';
             });
             
-            // Cargar el manifiesto
             try {
-                statusSpan.innerHTML = 'Cargando manifiesto...';
-                await player.load(manifestUri);
-                console.log('✅ Contenido cargado exitosamente');
+                await player.load(MPD_URL);
             } catch (error) {
-                console.error('❌ Error al cargar:', error);
-                errorDiv.style.display = 'block';
-                errorDiv.innerHTML = `❌ No se pudo cargar el video: ${error.message}\n\nURL intentada: ${manifestUri}`;
-                statusSpan.innerHTML = 'Error de carga';
+                // Error ya manejado
             }
         }
         
-        function reloadPlayer() {
-            const mpdUrl = document.getElementById('mpdUrl').value;
-            // Si la URL no empieza con http, añadir tvarg1.vercel.app
-            let fullUrl = mpdUrl;
-            if (!mpdUrl.startsWith('https')) {
-                fullUrl = 'https://tvarg1.vercel.app' + (mpdUrl.startsWith('/') ? '' : '/') + mpdUrl;
-            }
-            initPlayer(fullUrl);
-        }
-        
-        // Inicializar cuando la página esté lista
         document.addEventListener('DOMContentLoaded', () => {
-            // Intentar con la URL por defecto
-            reloadPlayer();
+            document.getElementById('status').innerHTML = 'Selecciona una opción';
         });
     </script>
 </body>
