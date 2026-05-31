@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reproductor DASH - Volver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .player-container {
+            background: #0f0f1a;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            max-width: 1280px;
+            width: 100%;
+            margin: 20px;
+        }
+        video {
+            width: 100%;
+            border-radius: 12px;
+            background: #000;
+        }
+        .info {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            text-align: center;
+        }
+        .status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4444;
+            margin-right: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        .error {
+            color: #ff6666;
+            background: rgba(255,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        .keys-info {
+            font-size: 11px;
+            color: #888;
+            word-break: break-all;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/shaka-player/4.12.0/shaka-player.compiled.js"></script>
+</head>
+<body>
+    <div class="player-container">
+        <video id="videoPlayer" controls autoplay></video>
+        <div class="info">
+            <span class="status"></span>
+            <span id="statusText">Inicializando reproductor...</span>
+        </div>
+        <div class="keys-info" id="keysInfo"></div>
+        <div class="error" id="errorMsg"></div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURACIÓN - REEMPLAZA CON TUS DATOS REALES
+        // ============================================
+        
+        // La URL de tu MPD (ajústala según tu servidor local)
+        const manifestUri = 'http://localhost:8000/manifest.mpd';
+        
+        // Tu KID (sin guiones) - extraído del MPD
+        const keyId = '194e53184a424ce6989ad82c5f28fbc5';
+        
+        // ⚠️ REEMPLAZA ESTO con tu clave en formato hexadecimal ⚠️
+        // Debe ser EXACTAMENTE 32 caracteres hexadecimales (0-9, a-f)
+        const keyValue = 'AQUÍ_VA_TU_CLAVE_EN_HEX';
+        
+        // ============================================
+        
+        // Mostrar información de las claves (sin mostrar el valor real)
+        document.getElementById('keysInfo').innerHTML = `
+            🔑 KID: ${keyId}<br>
+            🔐 Clave: ${keyValue.substring(0, 4)}...${keyValue.substring(keyValue.length-4)} (${keyValue.length} caracteres)
+        `;
+        
+        async function init() {
+            const video = document.getElementById('videoPlayer');
+            const statusSpan = document.getElementById('statusText');
+            const errorDiv = document.getElementById('errorMsg');
+            
+            // Verificar soporte del navegador
+            if (!shaka.Player.isBrowserSupported()) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = '❌ Tu navegador no soporta Shaka Player. Usa Chrome, Firefox o Edge.';
+                statusSpan.innerHTML = 'Navegador no soportado';
+                return;
+            }
+            
+            // Verificar que la clave tenga el formato correcto
+            if (keyValue === 'AQUÍ_VA_TU_CLAVE_EN_HEX' || keyValue.length !== 32) {
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = '⚠️ La clave no está configurada correctamente. Debe ser hexadecimal de 32 caracteres.';
+                statusSpan.innerHTML = 'Clave no configurada';
+                return;
+            }
+            
+            // Crear el reproductor
+            const player = new shaka.Player(video);
+            
+            // Configurar las claves en claro
+            const clearKeys = {};
+            clearKeys[keyId] = keyValue;
+            
+            player.configure({
+                drm: {
+                    clearKeys: clearKeys,
+                    // Forzar Clear Key como sistema prioritario
+                    preferredKeySystems: ['org.w3.clearkey']
+                }
+            });
+            
+            // Manejo de errores
+            player.addEventListener('error', (event) => {
+                const error = event.detail;
+                console.error('Error detallado:', error);
+                
+                let errorMessage = `Error: ${error.message}`;
+                if (error.code === 6005) { // DRM error
+                    errorMessage += '\nPosiblemente la clave sea incorrecta o el formato no es válido.';
+                }
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = `❌ ${errorMessage}`;
+                statusSpan.innerHTML = 'Error de reproducción';
+            });
+            
+            // Eventos de estado
+            player.addEventListener('loading', () => {
+                statusSpan.innerHTML = 'Cargando...';
+                errorDiv.style.display = 'none';
+            });
+            
+            player.addEventListener('loaded', () => {
+                statusSpan.innerHTML = '✅ Listo para reproducir';
+            });
+            
+            player.addEventListener('buffering', () => {
+                statusSpan.innerHTML = 'Buffering...';
+            });
+            
+            // Cargar el manifiesto
+            try {
+                statusSpan.innerHTML = 'Cargando manifiesto...';
+                await player.load(manifestUri);
+                console.log('✅ Contenido cargado exitosamente');
+                console.log('🎯 KID:', keyId);
+            } catch (error) {
+                console.error('❌ Error al cargar:', error);
+                errorDiv.style.display = 'block';
+                errorDiv.innerHTML = `❌ No se pudo cargar el video: ${error.message}`;
+                statusSpan.innerHTML = 'Error de carga';
+            }
+        }
+        
+        // Inicializar cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
