@@ -224,10 +224,10 @@
         
         function reloadPlayer() {
             const mpdUrl = document.getElementById('mpdUrl').value;
-            // Si la URL no empieza con http, añadir localhost:8000
+            // Si la URL no empieza con http, añadir tvarg1.vercel.app
             let fullUrl = mpdUrl;
-            if (!mpdUrl.startsWith('http')) {
-                fullUrl = 'http://localhost:8000' + (mpdUrl.startsWith('/') ? '' : '/') + mpdUrl;
+            if (!mpdUrl.startsWith('https')) {
+                fullUrl = 'https://tvarg1.vercel.app' + (mpdUrl.startsWith('/') ? '' : '/') + mpdUrl;
             }
             initPlayer(fullUrl);
         }
