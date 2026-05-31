@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <title>Reproductor DASH - Volver</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
@@ -62,6 +58,8 @@
             border-radius: 8px;
             margin-top: 10px;
             display: none;
+            white-space: pre-wrap;
+            font-family: monospace;
         }
         .success {
             color: #00ff88;
@@ -80,49 +78,72 @@
             background: rgba(0,0,0,0.3);
             border-radius: 8px;
         }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #2a2a3a;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+        button {
+            background: #00ff88;
+            color: #1a1a2e;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00cc66;
+        }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/shaka-player/4.12.0/shaka-player.compiled.js"></script>
 </head>
 <body>
     <div class="player-container">
         <video id="videoPlayer" controls autoplay></video>
+        
+        <div class="keys-info">
+            <strong>Configuración actual:</strong><br>
+            🔑 KID: 194e53184a424ce6989ad82c5f28fbc5<br>
+            🔐 KEY: 65d60c5cc4de031172be0a6a51edbdfe<br>
+        </div>
+        
+        <div style="margin: 10px 0;">
+            <input type="text" id="mpdUrl" placeholder="URL del archivo MPD" value="/Volver.mpd">
+            <button onclick="reloadPlayer()">Cargar MPD</button>
+        </div>
+        
         <div class="info">
             <span class="status"></span>
-            <span id="statusText">Inicializando reproductor...</span>
+            <span id="statusText">Esperando carga...</span>
         </div>
-        <div class="keys-info" id="keysInfo"></div>
         <div class="error" id="errorMsg"></div>
         <div class="success" id="successMsg"></div>
     </div>
 
     <script>
-        // ============================================
-        // CONFIGURACIÓN CON TUS CLAVES REALES
-        // ============================================
+        let player = null;
         
-        // URL de tu MPD (ajústala según tu servidor local)
-        const manifestUri = 'volver.mpd';
-        
-        // Tu KID (sin guiones)
+        // Tu clave real
         const keyId = '194e53184a424ce6989ad82c5f28fbc5';
-        
-        // Tu KEY en hexadecimal
         const keyValue = '65d60c5cc4de031172be0a6a51edbdfe';
         
-        // ============================================
-        
-        // Mostrar información de las claves
-        document.getElementById('keysInfo').innerHTML = `
-            🔑 KID: ${keyId}<br>
-            🔐 KEY: ${keyValue.substring(0, 8)}...${keyValue.substring(keyValue.length-8)} (${keyValue.length} caracteres hex)<br>
-            📁 MPD: ${manifestUri}
-        `;
-        
-        async function init() {
+        async function initPlayer(manifestUri) {
             const video = document.getElementById('videoPlayer');
             const statusSpan = document.getElementById('statusText');
             const errorDiv = document.getElementById('errorMsg');
             const successDiv = document.getElementById('successMsg');
+            
+            // Cerrar player anterior si existe
+            if (player) {
+                player.destroy();
+                player = null;
+            }
             
             // Verificar soporte del navegador
             if (!shaka.Player.isBrowserSupported()) {
@@ -132,22 +153,12 @@
                 return;
             }
             
-            // Verificar formato de la clave
-            if (keyValue.length !== 32 || !/^[0-9a-f]+$/i.test(keyValue)) {
-                errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '⚠️ La clave no tiene formato hexadecimal válido (debe ser 32 caracteres 0-9a-f)';
-                statusSpan.innerHTML = 'Clave inválida';
-                return;
-            }
-            
             // Crear el reproductor
-            const player = new shaka.Player(video);
+            player = new shaka.Player(video);
             
             // Configurar las claves en claro
             const clearKeys = {};
             clearKeys[keyId] = keyValue;
-            
-            console.log('Configurando claves:', clearKeys);
             
             player.configure({
                 drm: {
@@ -161,16 +172,23 @@
                 const error = event.detail;
                 console.error('Error detallado:', error);
                 
-                let errorMessage = `Error código ${error.code}: ${error.message}`;
-                if (error.code === 6005) {
-                    errorMessage += '\n🔐 Posiblemente la clave sea incorrecta o el KID no coincide.';
-                } else if (error.code === 1002) {
-                    errorMessage += '\n📁 No se pudo encontrar el archivo MPD o los segmentos. Verifica las rutas.';
+                let errorMessage = `❌ Error código ${error.code}: ${error.message}\n`;
+                
+                if (error.code === 1001) {
+                    errorMessage += '\n📁 No se pudo encontrar el archivo MPD.\n';
+                    errorMessage += 'Verifica:\n';
+                    errorMessage += '1. Que el archivo .mpd existe en la carpeta\n';
+                    errorMessage += '2. Que el nombre está escrito correctamente (mayúsculas/minúsculas)\n';
+                    errorMessage += '3. Que el servidor está corriendo en la carpeta correcta\n';
+                    errorMessage += `4. URL intentada: ${manifestUri}`;
+                } else if (error.code === 6005) {
+                    errorMessage += '\n🔐 La clave puede ser incorrecta o el KID no coincide.';
                 } else if (error.code === 1003) {
                     errorMessage += '\n🌐 Error de red. ¿Estás sirviendo los archivos con un servidor local?';
                 }
+                
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = `❌ ${errorMessage}`;
+                errorDiv.innerHTML = errorMessage;
                 statusSpan.innerHTML = 'Error';
                 successDiv.style.display = 'none';
             });
@@ -191,27 +209,34 @@
                 }, 3000);
             });
             
-            player.addEventListener('buffering', () => {
-                statusSpan.innerHTML = 'Buffering...';
-            });
-            
             // Cargar el manifiesto
             try {
                 statusSpan.innerHTML = 'Cargando manifiesto...';
                 await player.load(manifestUri);
                 console.log('✅ Contenido cargado exitosamente');
-                console.log('🎯 KID:', keyId);
-                console.log('🔐 KEY:', keyValue);
             } catch (error) {
                 console.error('❌ Error al cargar:', error);
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = `❌ No se pudo cargar el video: ${error.message}`;
+                errorDiv.innerHTML = `❌ No se pudo cargar el video: ${error.message}\n\nURL intentada: ${manifestUri}`;
                 statusSpan.innerHTML = 'Error de carga';
             }
         }
         
+        function reloadPlayer() {
+            const mpdUrl = document.getElementById('mpdUrl').value;
+            // Si la URL no empieza con http, añadir localhost:8000
+            let fullUrl = mpdUrl;
+            if (!mpdUrl.startsWith('http')) {
+                fullUrl = 'http://localhost:8000' + (mpdUrl.startsWith('/') ? '' : '/') + mpdUrl;
+            }
+            initPlayer(fullUrl);
+        }
+        
         // Inicializar cuando la página esté lista
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intentar con la URL por defecto
+            reloadPlayer();
+        });
     </script>
 </body>
 </html>
