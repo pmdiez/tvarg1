@@ -1,52 +1,157 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificación de Extensión e Inclusión de Reproductor</title>
+    <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
 
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
+        #player {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Aspect ratio 16:9 */
+            background: #000;
+        }
 
+        #player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
+        .hidden {
+            display: none;
+        }
 
-<style type="text/css">
-html, body {
-   margin: 0;
-   padding: 0;
-} .jw-progress {
-    background-color: #35afe3 !important;
+.alert-card {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
 }
-</style>
-<meta charset="utf-8">
-<meta name="referrer" content="no-referrer">
-<meta http-equiv="cache-control" content="max-age=0" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="0" />
-<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-<meta http-equiv="pragma" content="no-cache" />
-<script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
-<script> jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';</script>
-<style>
-h2 {
-  color: #ff5;
-}
-</style>
-<script type="text/javascript">
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
-	var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
-	results = regex.exec(location.search);
-	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+
+.alert-card h2 {
+    margin-top: 0;
+    font-size: 24px;
 }
 
-var getURL = getParameterByName('get');
-var getIMG = getParameterByName('img');
-var getKEY  = getParameterByName('key');
-var getKEY2  = getParameterByName('key2');
-if (getURL == "") {alert('Vuelve a la pÃƒÆ’Ã‚Â¡gina anterior');}
+.alert-card .boxicon {
+    font-size: 48px;
+    color: #ff0;
+}
 
-</script>
+.alert-card p {
+    margin: 10px 0;
+    color: #ebebeb;
+}
+
+@media (max-width: 480px) {
+    .alert-card {
+        max-width: 90%;
+        padding: 5px;
+        margin-right: 50px;
+    }
+
+    .alert-card h2 {
+        font-size: 20px;
+    }
+
+    .alert-card .boxicon {
+        font-size: 36px;
+    }
+
+    .alert-card p {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .alert-card {
+        max-width: 80%;
+        padding: 25px;
+    }
+
+    .alert-card h2 {
+        font-size: 22px;
+    }
+
+    .alert-card .boxicon {
+        font-size: 42px;
+    }
+
+    .alert-card p {
+        font-size: 16px; 
+    }
+}
 
 
-<div id="player"></div>
-<script>
 
-var playerInstance= jwplayer("player");
+        a {
+            color: #0f0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="player" class="hidden"></div>
+        <div id="alerta-extension" class="hidden alert">
+        <i class="bx bx-error-circle boxicon"></i>
+        <center>
+        <div id="jb" class="jumbotron">
+        <div class="image"><img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60" width="10%"></div>
+        <h1>Reproductor MPD/M3U8/M3U/EPG</h1>
+        </div>        
+            <p><i style="color:red">NOTA</i>: Para reproducir este canal necesitas instalar la extension: <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
+            <h2>Instalacion</h2>
+            <p>Para instalar la extension debes ingresar a <a target="_blank" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">Reproductor MPD/M3U8/M3U/EPG</a> o buscarla en <b>Chrome Web Store o Brave</b></p>
+            <img src="//bestleague.world/img/brave.png" width="40%">
+            <p>Una vez instalada la extension recarga la pagina y disfruta del canal.</p>
+            </center>
+    </div>
+    </div>
+    <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var getURL = getParameterByName('get');
+        var getIMG = getParameterByName('img');
+        var getKEY = getParameterByName('key');
+        var getKEY2 = getParameterByName('key2');
+        if (getURL == "") {alert('Vuelve a la página anterior');}
+
+        var number;
 
 if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz" || getURL == "VVNBX05ldHdvcms=" || getURL == "RHNwb3J0c19VWQ==" || getURL == "RHNwb3J0czJfVVk=" || getURL == "RHNwb3J0c19QbHVzX1VZ") 
 number = 7;
@@ -61,25 +166,51 @@ number = 4;
 else
 number = 3;
 
-var mpd = null;
-var espn2 = null;
-
-async function getToken(channelName, number) {
-    const url = `https://chromecast.cvattv.com.ar/live/c${number}eds/${channelName}/SA_Live_dash_enc_thr/${channelName}.mpd`;
-
-    try {
-        const resp = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(5000) });
-
-        if (resp.redirected) {
-            const match = resp.url.match(/(https:\/\/.+?)(?=\/live)/);
-            if (match) return match[0];
-        }
-    } catch (e) {
-        console.error("Token error:", e);
-    }
-
-    return null;
+// Función para verificar si es Windows o Linux
+function isWindowsPC() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
 }
+
+// Función para mostrar el mensaje de dispositivo no compatible
+function showUnsupportedDeviceMessage() {
+    const unsupportedMessage = document.createElement('div');
+    unsupportedMessage.classList.add('alert-card');
+    unsupportedMessage.innerHTML = `
+        <i class='bx bx-error-circle boxicon'></i>
+        <h2>Dispositivo no compatible</h2>
+        <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
+    `;
+    document.body.appendChild(unsupportedMessage);
+}
+
+        // Verificar si es un dispositivo compatible antes de ejecutar el código principal
+        if (!isWindowsPC()) {
+            showUnsupportedDeviceMessage();
+        } else {
+var mt = [
+        {
+    cdn: "flow-cdn-gcp.app",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgwMTQxMDEzIiwic2lwIjoiODQuMjUyLjExNC44IiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ROVF9TcG9ydHNfSEQvU0FfTGl2ZV9kYXNoX2VuY18yMi8iLCJzZXNzaW9uX2Nkbl9pZCI6IjhkNjcxMGMxZGYwMTA4YWMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzM5Iiwic291cmNlcyI6WzIwOSw4NSwxNDQsODYsODhdfQ==.S8P7hHNwTwy2zv1N8aflrtf_jJlkytqX5UBK6njp4nT6bUIkbfpZtbquqD4NLU5B_bEQYKJTUd587f5fNdTDKQ=="
+  }
+
+
+
+];
+
+
+var randomIndex = Math.floor(Math.random() * mt.length);
+var selected = mt[randomIndex];
+
+console.log("CDN seleccionado:", selected.cdn);
+
+var mpdBase = `https://${selected.cdn}.flow.com.ar/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
+
+console.log("MPD URL:", mpdBase);
+
+
+            // Definir las claves
+            var keyId, key;
 
 
 if (getURL == "RVNQTjJIRA")
@@ -414,6 +545,7 @@ else if (getURL == "VVNBX05ldHdvcms=") // USA NETWORK
 	key = "141a51e9e83861ae99b4b217431710b3";
 }
 
+
 else if (getURL == "RHNwb3J0c19VWQ==")
 {
 	keyId = "143c71292a6dd58404efad283b220539";
@@ -431,7 +563,6 @@ else if (getURL == "RHNwb3J0c19QbHVzX1VZ")
 	keyId = "517d3690fb9e64f95a9272958a84df32";
 	key = "b563bc52ea05c1e7002a996f688b08b9";
 }
-
 
 else if (getURL == "VGVsZW11bmRvX0hE")
 {
@@ -1023,143 +1154,46 @@ else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
         keyId = "e54e9ea87a634658fbba0e380aa701a7";
         key = "4e486d25d7d0e7d131743b285963c643";
 }
-
-var start = getParameterByName('start');
-var autostart = start !== undefined && start === "true";
-async function buildMPD() {
-    const ch = atob(getURL);
-
-    const token = await getToken(ch, number);
-    if (!token) return;
-
-    mpd   = `${token}/live/c${number}eds/${ch}/SA_Live_dash_enc/${ch}.mpd`;
-    espn2 = mpd;
-
-    startPlayer();
-}
-
-
-buildMPD();
-
-function startPlayer() {
-
-    if (getURL == "RVNQTjJfQXJn") {
-        playerInstance.setup({
-            "type": "dash",
-            "file": espn2,
-            "drm": {
-                "clearkey": {
-                    "keyId": "65a5bfa3c7a72dde60be9b0c7406c8fc",
-                    "key":   "0b40ae9f78a7bac3b57ecbf72d3c081e"
-                }
-            },
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: false,
-            cast: {},
-            sharing: {}
-        });
-    } else {
-        
-        playerInstance.setup({
-            playlist: [{
-                "sources": [
-                    {
-                        "default": false,
-                        "type": "dash",
-                        "file": mpd,
-                        "drm": {
-                            "clearkey": { "keyId": keyId, "key": key }
-                        },
-                        "label": "0"
-                    }
-                ]
-            }],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: autostart,
-            cast: {},
-            sharing: {}
-        });
-    }
-
-    configurarIdioma();
-}
-
 	
 
-/*if (getURL != "") {
-    playerInstance.on("error", function() {
-        var redirectUrl = '/pc.html?get=' + encodeURIComponent(getURL) + '&start=true';
-        window.location = redirectUrl;
-    });
-}*/
 
-playerInstance.on("ready", function () {
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    const buttonId = "pip-button";
-    const iconPath =
-      "pip.png";
-    const tooltipText = "Imagen dentro de imagen";
+            
 
-    // Evita duplicados
-    if (!document.getElementById(buttonId)) {
-      playerInstance.addButton(
-        iconPath,
-        tooltipText,
-        async function () {
-          const videoEl = playerInstance.getContainer().querySelector("video");
-          if (!document.pictureInPictureElement) {
-            try {
-              await videoEl.requestPictureInPicture();
-            } catch (err) {
-              console.error("Error al activar PiP:", err);
+            // Convertir keyId y key a una cadena JSON
+               if (keyId && key) {
+                var keyString = `"${keyId}":"${key}"`;
+                // Codificar en base64
+                var base64Key = btoa(keyString);
+
+              var extensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
+
+
+                // Mostrar el reproductor o el mensaje de extensión según corresponda
+                const playerDiv = document.getElementById("player");
+                const alertaDiv = document.getElementById("alerta-extension");
+
+                isExtensionInstalled(
+                    () => {
+                        playerDiv.classList.remove("hidden");
+                        playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${extensionUrl}"></iframe>`;
+                    },
+                    () => {
+                        alertaDiv.classList.remove("hidden");
+                    }
+                );
+            } else {
+                alert('KeyId o Key no definidos.');
             }
-          } else {
-            await document.exitPictureInPicture();
-          }
-        },
-        buttonId
-      );
-    }
-  }
-});
-
-function configurarIdioma() {
-
-    var langParam = parseInt(getParameterByName('lang'), 10);
-    if (isNaN(langParam)) langParam = 1;
-
-    var selectedLanguage = langParam;
-    var languageChangedDuringPlay = false;
-
-    playerInstance.on("ready", function () {
-        try {
-            playerInstance.setCurrentAudioTrack(selectedLanguage);
-        } catch (e) {
-            console.log("No se pudo cambiar idioma:", e);
         }
-    });
-    
-    playerInstance.on("play", function () {
-        if (!languageChangedDuringPlay) {
-            var current = playerInstance.getCurrentAudioTrack();
 
-            if (current !== selectedLanguage) {
-                try {
-                    playerInstance.setCurrentAudioTrack(selectedLanguage);
-                } catch (e) {
-                    console.log("Error cambiando idioma:", e);
-                }
-            }
-
-            languageChangedDuringPlay = true;
+        // Función para verificar si la extensión está instalada
+        function isExtensionInstalled(installedCallback, notInstalledCallback) {
+            const img = document.createElement('img');
+            img.onload = installedCallback;
+            img.onerror = notInstalledCallback;
+            img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
         }
-    });
-    playerInstance.on("complete", function () {
-        languageChangedDuringPlay = false;
-    });
-}
-</script>
+    </script>
+
+</body>
+</html>
