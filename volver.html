@@ -63,10 +63,22 @@
             margin-top: 10px;
             display: none;
         }
+        .success {
+            color: #00ff88;
+            background: rgba(0,255,0,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
         .keys-info {
             font-size: 11px;
             color: #888;
             word-break: break-all;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/shaka-player/4.12.0/shaka-player.compiled.js"></script>
@@ -80,35 +92,37 @@
         </div>
         <div class="keys-info" id="keysInfo"></div>
         <div class="error" id="errorMsg"></div>
+        <div class="success" id="successMsg"></div>
     </div>
 
     <script>
         // ============================================
-        // CONFIGURACIÓN - REEMPLAZA CON TUS DATOS REALES
+        // CONFIGURACIÓN CON TUS CLAVES REALES
         // ============================================
         
-        // La URL de tu MPD (ajústala según tu servidor local)
+        // URL de tu MPD (ajústala según tu servidor local)
         const manifestUri = 'http://localhost:8000/manifest.mpd';
         
-        // Tu KID (sin guiones) - extraído del MPD
+        // Tu KID (sin guiones)
         const keyId = '194e53184a424ce6989ad82c5f28fbc5';
         
-        // ⚠️ REEMPLAZA ESTO con tu clave en formato hexadecimal ⚠️
-        // Debe ser EXACTAMENTE 32 caracteres hexadecimales (0-9, a-f)
-        const keyValue = 'AQUÍ_VA_TU_CLAVE_EN_HEX';
+        // Tu KEY en hexadecimal
+        const keyValue = '65d60c5cc4de031172be0a6a51edbdfe';
         
         // ============================================
         
-        // Mostrar información de las claves (sin mostrar el valor real)
+        // Mostrar información de las claves
         document.getElementById('keysInfo').innerHTML = `
             🔑 KID: ${keyId}<br>
-            🔐 Clave: ${keyValue.substring(0, 4)}...${keyValue.substring(keyValue.length-4)} (${keyValue.length} caracteres)
+            🔐 KEY: ${keyValue.substring(0, 8)}...${keyValue.substring(keyValue.length-8)} (${keyValue.length} caracteres hex)<br>
+            📁 MPD: ${manifestUri}
         `;
         
         async function init() {
             const video = document.getElementById('videoPlayer');
             const statusSpan = document.getElementById('statusText');
             const errorDiv = document.getElementById('errorMsg');
+            const successDiv = document.getElementById('successMsg');
             
             // Verificar soporte del navegador
             if (!shaka.Player.isBrowserSupported()) {
@@ -118,11 +132,11 @@
                 return;
             }
             
-            // Verificar que la clave tenga el formato correcto
-            if (keyValue === 'AQUÍ_VA_TU_CLAVE_EN_HEX' || keyValue.length !== 32) {
+            // Verificar formato de la clave
+            if (keyValue.length !== 32 || !/^[0-9a-f]+$/i.test(keyValue)) {
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '⚠️ La clave no está configurada correctamente. Debe ser hexadecimal de 32 caracteres.';
-                statusSpan.innerHTML = 'Clave no configurada';
+                errorDiv.innerHTML = '⚠️ La clave no tiene formato hexadecimal válido (debe ser 32 caracteres 0-9a-f)';
+                statusSpan.innerHTML = 'Clave inválida';
                 return;
             }
             
@@ -133,10 +147,11 @@
             const clearKeys = {};
             clearKeys[keyId] = keyValue;
             
+            console.log('Configurando claves:', clearKeys);
+            
             player.configure({
                 drm: {
                     clearKeys: clearKeys,
-                    // Forzar Clear Key como sistema prioritario
                     preferredKeySystems: ['org.w3.clearkey']
                 }
             });
@@ -146,23 +161,34 @@
                 const error = event.detail;
                 console.error('Error detallado:', error);
                 
-                let errorMessage = `Error: ${error.message}`;
-                if (error.code === 6005) { // DRM error
-                    errorMessage += '\nPosiblemente la clave sea incorrecta o el formato no es válido.';
+                let errorMessage = `Error código ${error.code}: ${error.message}`;
+                if (error.code === 6005) {
+                    errorMessage += '\n🔐 Posiblemente la clave sea incorrecta o el KID no coincide.';
+                } else if (error.code === 1002) {
+                    errorMessage += '\n📁 No se pudo encontrar el archivo MPD o los segmentos. Verifica las rutas.';
+                } else if (error.code === 1003) {
+                    errorMessage += '\n🌐 Error de red. ¿Estás sirviendo los archivos con un servidor local?';
                 }
                 errorDiv.style.display = 'block';
                 errorDiv.innerHTML = `❌ ${errorMessage}`;
-                statusSpan.innerHTML = 'Error de reproducción';
+                statusSpan.innerHTML = 'Error';
+                successDiv.style.display = 'none';
             });
             
             // Eventos de estado
             player.addEventListener('loading', () => {
                 statusSpan.innerHTML = 'Cargando...';
                 errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
             });
             
             player.addEventListener('loaded', () => {
                 statusSpan.innerHTML = '✅ Listo para reproducir';
+                successDiv.style.display = 'block';
+                successDiv.innerHTML = '✅ Video cargado correctamente. ¡Disfruta!';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 3000);
             });
             
             player.addEventListener('buffering', () => {
@@ -175,6 +201,7 @@
                 await player.load(manifestUri);
                 console.log('✅ Contenido cargado exitosamente');
                 console.log('🎯 KID:', keyId);
+                console.log('🔐 KEY:', keyValue);
             } catch (error) {
                 console.error('❌ Error al cargar:', error);
                 errorDiv.style.display = 'block';
