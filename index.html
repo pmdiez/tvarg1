@@ -200,11 +200,14 @@
         <button class="filter-btn" data-filter="🌐">🌐 Internacional</button>
     </div>
     <div id="results-count"></div>
+
 <a href="/iptv.m3u" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="IPTV-List" class="iframe-toggle-btn">
     Lista ARG y Deportes ↗
   </button>
-	<button
+</a>
+
+<button
   id="btn-FutbolAndres"
   class="iframe-toggle-btn"
   onclick="window.open('https://iptvnator.vercel.app/', '_blank')">
@@ -219,31 +222,54 @@
     sandbox="allow-scripts"
     referrerpolicy="no-referrer">
   </iframe>
-  <button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://pelotalibretv.su/', '_blank')">
-  Ver LibreFutbol ↗
-</button>
+
+  <button
+    id="btn-librefutbol"
+    class="iframe-toggle-btn"
+    onclick="window.open('https://pelotalibretv.su/', '_blank')">
+    Ver LibreFutbol ↗
+  </button>
 </div>
-	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://futbollibretv.su/', '_blank')">
+
+<button
+  id="btn-librefutbol1"
+  class="iframe-toggle-btn"
+  onclick="window.open('https://futbollibretv.su/', '_blank')">
   Ver LibreFutbol1 ↗
 </button>
-	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://la14hd.com/', '_blank')">
+
+<button
+  id="btn-la14hd"
+  class="iframe-toggle-btn"
+  onclick="window.open('https://la14hd.com/', '_blank')">
   Ver La14HD ↗
 </button>
-	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://tvtvhd.com/', '_blank')">
+
+<button
+  id="btn-tvtvhd"
+  class="iframe-toggle-btn"
+  onclick="window.open('https://tvtvhd.com/', '_blank')">
   Ver TVTVHD ↗
 </button>
-	<button id="btn-agenda" class="iframe-toggle-btn" onclick="window.open('https://megadeportes.net/', '_blank')">
+
+<button
+  id="btn-megadeportes"
+  class="iframe-toggle-btn"
+  onclick="window.open('https://megadeportes.net/', '_blank')">
   Ver MegaDeportes ↗
 </button>
-	<a href="https://xuperlive.com/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
+
+<a href="https://xuperlive.com/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-xuperlive" class="iframe-toggle-btn">
     Ver XUPERLIVE ↗
   </button>
 </a>
 
-<button id="btn-agenda2" class="iframe-toggle-btn" onclick="toggleIframe('wrapper2','btn-agenda2','TVLibre')">
+<button id="btn-agenda2" class="iframe-toggle-btn"
+        onclick="toggleIframe('wrapper2','btn-agenda2','TVLibre')">
   Ver cablevisionhd.com
 </button>
+
 <div id="wrapper2" class="iframe-wrapper" style="display:none;">
   <iframe
     id="agenda2"
@@ -254,9 +280,11 @@
   </iframe>
 </div>
 
-<button id="btn-tvarg" class="iframe-toggle-btn" onclick="toggleIframe('wrapper3','btn-tvarg','TVArg')">
+<button id="btn-tvarg" class="iframe-toggle-btn"
+        onclick="toggleIframe('wrapper3','btn-tvarg','TVArg')">
   Ver TVArg
 </button>
+
 <div id="wrapper3" class="iframe-wrapper" style="display:none;">
   <iframe
     id="tvarg-iframe"
@@ -266,10 +294,12 @@
     referrerpolicy="no-referrer">
   </iframe>
 </div>
-	
-<button id="btn-telefull" class="iframe-toggle-btn" onclick="toggleIframe('wrapper4','btn-telefull','TelefullHD')">
+
+<button id="btn-telefull" class="iframe-toggle-btn"
+        onclick="toggleIframe('wrapper4','btn-telefull','TelefullHD')">
   Ver TelefullHD
 </button>
+
 <div id="wrapper4" class="iframe-wrapper" style="display:none;">
   <iframe
     id="telefull-iframe"
@@ -280,9 +310,11 @@
   </iframe>
 </div>
 
-<button id="btn-tele-libre" class="iframe-toggle-btn" onclick="toggleIframe('wrapper5','btn-tele-libre','Tele-Libre')">
+<button id="btn-tele-libre" class="iframe-toggle-btn"
+        onclick="toggleIframe('wrapper5','btn-tele-libre','Tele-Libre')">
   Ver Tele-Libre
 </button>
+
 <div id="wrapper5" class="iframe-wrapper" style="display:none;">
   <iframe
     id="tele-libre-iframe"
@@ -291,82 +323,94 @@
     sandbox="allow-scripts"
     referrerpolicy="no-referrer">
   </iframe>
-    </div>
+</div>
+
 <a href="http://rojadirecta.eu/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="btn-rojadirecta" class="iframe-toggle-btn">
     Ver Rojadirecta ↗
   </button>
 </a>
 
-  </div>
-	<a href="https://geo.dailymotion.com/player.html?video=x82ug5r" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+<a href="https://geo.dailymotion.com/player.html?video=x82ug5r" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="btn-telesur" class="iframe-toggle-btn">
     Ver TeleSur ↗
   </button>
 </a>
-	<a href="https://odysee.com/@hispantv:d/live:400" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+
+<a href="https://odysee.com/@hispantv:d/live:400" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="btn-hispantv" class="iframe-toggle-btn">
     Ver HispanTV ↗
   </button>
 </a>
-	<a href="https://odysee.com/@ActualidadRT:9/envivo_transmision_rt:6" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-RT" class="iframe-toggle-btn">
+
+<a href="https://odysee.com/@ActualidadRT:9/envivo_transmision_rt:6" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-rt" class="iframe-toggle-btn">
     Ver RT ↗
   </button>
 </a>
-	<a href="https://espanol.cgtn.com/en-directo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-RT" class="iframe-toggle-btn">
+
+<a href="https://espanol.cgtn.com/en-directo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cgtn" class="iframe-toggle-btn">
     Ver CGTN en Español ↗
   </button>
 </a>
-	<a href="https://flixtor.to/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+
+<a href="https://flixtor.to/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="btn-flixtor" class="iframe-toggle-btn">
-    Ir a flixtor ↗
+    Ir a Flixtor ↗
   </button>
 </a>
-	<a href="https://sflix.ps/home" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+
+<a href="https://sflix.ps/home" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="btn-sflix" class="iframe-toggle-btn">
-    Ir a sflix ↗
+    Ir a Sflix ↗
   </button>
 </a>
-	<a href="https://dominioscuevana.com/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+
+<a href="https://dominioscuevana.com/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
   <button id="btn-cuevana" class="iframe-toggle-btn">
     Ir a Cuevana ↗
   </button>
 </a>
-	<a href="https://www.youtube.com/watch?v=Qr61waJ6AZg" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
-    Ir a CNN en Español ↗
+
+<a href="https://www.youtube.com/watch?v=Qr61waJ6AZg" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-cnn-es" class="iframe-toggle-btn">
+    CNN en Español ↗
   </button>
 </a>
-	<a href="https://www.youtube.com/watch?v=iEpJwprxDdk" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
-    Bloomberg news ↗
+
+<a href="https://www.youtube.com/watch?v=iEpJwprxDdk" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-bloomberg" class="iframe-toggle-btn">
+    Bloomberg News ↗
   </button>
 </a>
-	<a href="https://mi8.com.ar/en-vivo/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
-    Ver Canal-8-Mar del Plata ↗
+
+<a href="https://mi8.com.ar/en-vivo/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-canal8" class="iframe-toggle-btn">
+    Canal 8 Mar del Plata ↗
   </button>
 </a>
-	
-	<a href="https://www.canal10mardelplata.tv/#EnVivo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
-    Ver Canal-10-Mar del Plata ↗
+
+<a href="https://www.canal10mardelplata.tv/#EnVivo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-canal10" class="iframe-toggle-btn">
+    Canal 10 Mar del Plata ↗
   </button>
 </a>
-	<a href="https://www.youtube.com/watch?v=gCNeDWCI0vo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
+
+<a href="https://www.youtube.com/watch?v=gCNeDWCI0vo" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-aljazeera" class="iframe-toggle-btn">
     Al Jazeera ↗
   </button>
 </a>
-	<a href="https://teleonline.org/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
-    Ir a Canales España ↗
+
+<a href="https://teleonline.org/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-canales-espana" class="iframe-toggle-btn">
+    Canales España ↗
   </button>
 </a>
-	<a href="https://www.freeshot.live/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
-  <button id="btn-cnn" class="iframe-toggle-btn">
+
+<a href="https://www.freeshot.live/" target="_blank" rel="noreferrer noopener" style="text-decoration: none;">
+  <button id="btn-freeshot" class="iframe-toggle-btn">
     FreeShot Live ↗
   </button>
 </a>
