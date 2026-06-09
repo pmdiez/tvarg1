@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Lista de Canales</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.8/index.css" rel="stylesheet">
@@ -36,7 +39,8 @@
             scrollbar-width: none;
         }
         .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            opacity: 0;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -63,7 +67,7 @@
                 </h1>
                 <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base">Tu portal de streaming en vivo</p>
             </div>
-            <button id="themeToggle" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 shadow-md group">
+            <button id="themeToggle" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 shadow-md group cursor-pointer">
                 <span id="themeIcon" class="text-xl">🌙</span>
                 <span id="themeText" class="font-medium text-sm">Modo Oscuro</span>
             </button>
@@ -95,7 +99,7 @@
         <!-- External Links Section -->
         <section id="externalSection" class="mb-10">
             <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <span class="text-2xl"></span> Enlaces Útiles
+                <span class="text-2xl">🔗</span> Enlaces Útiles
             </h2>
             <div id="externalGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 <!-- External links injected by JS -->
@@ -107,14 +111,14 @@
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold flex items-center gap-2">
                     <span class="text-2xl">📺</span> Canales
-                    <span id="channelCount" class="text-sm font-normal text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded-full"></span>
+                    <span id="channelCount" class="text-sm font-normal text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-2 py-0.5 rounded-full">0</span>
                 </h2>
             </div>
             <div id="channelGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 <!-- Channels injected by JS -->
             </div>
             <div id="emptyState" class="hidden text-center py-16">
-                <div class="text-6xl mb-4"></div>
+                <div class="text-6xl mb-4">🔍</div>
                 <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300">No se encontraron canales</h3>
                 <p class="text-gray-500 dark:text-gray-400 mt-2">Intenta con otra búsqueda o categoría.</p>
             </div>
@@ -130,11 +134,10 @@
     </footer>
 
     <script>
-        // Raw data from the provided file
         const rawData = `Lista de Canales
 🌙 Cambiar a Modo Oscuro
 Lista de Canales
-📋 Todos TV🎥 Cine⚽ Deportes Basket📰 Noticias🌍 Docu/Cultura🧸 Infantil🎵 Música Adultos🌐 Internacional
+📋 Todos📺 TV🎥 Cine⚽ Deportes🏀 Basket📰 Noticias🌍 Docu/Cultura🧸 Infantil🎵 Música🔞 Adultos🌐 Internacional
 [
     Lista ARG y Deportes ↗
   ](/iptv.m3u)
@@ -192,7 +195,7 @@ Lista de Canales
     Canal 10 Mar del Plata ↗
   ](https://www.canal10mardelplata.tv/#EnVivo)
 [
-    Al Jazeera 
+    Al Jazeera ↗
   ](https://www.youtube.com/watch?v=gCNeDWCI0vo)
 [
     Canales España ↗
@@ -211,13 +214,13 @@ Lista de Canales
 🎥[Cinecanal](https://tvarg1.vercel.app/player.html?get=Q2luZWNhbmFsSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2luZWNhbmFsSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2luZWNhbmFsSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=Q2luZWNhbmFsSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2luZWNhbmFsSEQ=)
 🎥[Space](https://tvarg1.vercel.app/player.html?get=U3BhY2U=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U3BhY2U=)[(mirror2)](https://bestleague.top/cvattc.html?get=U3BhY2U=)[(mirror3)](https://bestleague.top/wa.html?get=U3BhY2U=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U3BhY2U=)
 📺[Star+](https://tvarg1.vercel.app/player.html?get=Rk9YSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rk9YSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=Rk9YSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=Rk9YSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rk9YSEQ=)
-[A3_Cine](https://tvarg1.vercel.app/player.html?get=QTNfQ2luZQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QTNfQ2luZQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=QTNfQ2luZQ==)[(mirror3)](https://bestleague.top/wa.html?get=QTNfQ2luZQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QTNfQ2luZQ==)
+🎥[A3_Cine](https://tvarg1.vercel.app/player.html?get=QTNfQ2luZQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QTNfQ2luZQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=QTNfQ2luZQ==)[(mirror3)](https://bestleague.top/wa.html?get=QTNfQ2luZQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QTNfQ2luZQ==)
 🎥[A3_Series](https://tvarg1.vercel.app/player.html?get=QTNfU2VyaWVz)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QTNfU2VyaWVz)[(mirror2)](https://bestleague.top/cvattc.html?get=QTNfU2VyaWVz)[(mirror3)](https://bestleague.top/wa.html?get=QTNfU2VyaWVz&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QTNfU2VyaWVz)
 📺[Adult_Swim](https://tvarg1.vercel.app/player.html?get=QWR1bHRfU3dpbQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QWR1bHRfU3dpbQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=QWR1bHRfU3dpbQ==)[(mirror3)](https://bestleague.top/wa.html?get=QWR1bHRfU3dpbQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QWR1bHRfU3dpbQ==)
 🎥[AEHD](https://tvarg1.vercel.app/player.html?get=QUVIRA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QUVIRA==)[(mirror2)](https://bestleague.top/cvattc.html?get=QUVIRA==)[(mirror3)](https://bestleague.top/wa.html?get=QUVIRA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QUVIRA==)
-[AMC_Series](https://tvarg1.vercel.app/player.html?get=QU1DX1Nlcmllcw==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QU1DX1Nlcmllcw==)[(mirror2)](https://bestleague.top/cvattc.html?get=QU1DX1Nlcmllcw==)[(mirror3)](https://bestleague.top/wa.html?get=QU1DX1Nlcmllcw==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QU1DX1Nlcmllcw==)
+🎥[AMC_Series](https://tvarg1.vercel.app/player.html?get=QU1DX1Nlcmllcw==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QU1DX1Nlcmllcw==)[(mirror2)](https://bestleague.top/cvattc.html?get=QU1DX1Nlcmllcw==)[(mirror3)](https://bestleague.top/wa.html?get=QU1DX1Nlcmllcw==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QU1DX1Nlcmllcw==)
 📰[America24](https://tvarg1.vercel.app/player.html?get=QW1lcmljYTI0)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QW1lcmljYTI0)[(mirror2)](https://bestleague.top/cvattc.html?get=QW1lcmljYTI0)[(mirror3)](https://bestleague.top/wa.html?get=QW1lcmljYTI0&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QW1lcmljYTI0)
-[AnimalPlanet](https://tvarg1.vercel.app/player.html?get=QW5pbWFsUGxhbmV0)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QW5pbWFsUGxhbmV0)[(mirror2)](https://bestleague.top/cvattc.html?get=QW5pbWFsUGxhbmV0)[(mirror3)](https://bestleague.top/wa.html?get=QW5pbWFsUGxhbmV0&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QW5pbWFsUGxhbmV0)
+🌍[AnimalPlanet](https://tvarg1.vercel.app/player.html?get=QW5pbWFsUGxhbmV0)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QW5pbWFsUGxhbmV0)[(mirror2)](https://bestleague.top/cvattc.html?get=QW5pbWFsUGxhbmV0)[(mirror3)](https://bestleague.top/wa.html?get=QW5pbWFsUGxhbmV0&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QW5pbWFsUGxhbmV0)
 📺[Antena_3](https://tvarg1.vercel.app/player.html?get=QW50ZW5hXzM=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QW50ZW5hXzM=)[(mirror2)](https://bestleague.top/cvattc.html?get=QW50ZW5hXzM=)[(mirror3)](https://bestleague.top/wa.html?get=QW50ZW5hXzM=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QW50ZW5hXzM=)
 📺[Argentinisima](https://tvarg1.vercel.app/player.html?get=QXJnZW50aW5pc2ltYQ)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QXJnZW50aW5pc2ltYQ)[(mirror2)](https://bestleague.top/cvattc.html?get=QXJnZW50aW5pc2ltYQ)[(mirror3)](https://bestleague.top/wa.html?get=QXJnZW50aW5pc2ltYQ&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QXJnZW50aW5pc2ltYQ)
 🎥[AXAHD](https://tvarg1.vercel.app/player.html?get=QVhOSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=QVhOSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=QVhOSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=QVhOSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=QVhOSEQ=)
@@ -232,7 +235,7 @@ Lista de Canales
 📺[Canal7](https://tvarg1.vercel.app/player.html?get=Q2FuYWw3)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWw3)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWw3)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWw3&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWw3)
 📺[Canal_12_CBA](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfMTJfQ0JB)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfMTJfQ0JB)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfMTJfQ0JB)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfMTJfQ0JB&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfMTJfQ0JB)
 📺[Canal_5_Rosario](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfNV9Sb3Nhcmlv)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfNV9Sb3Nhcmlv)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfNV9Sb3Nhcmlv)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfNV9Sb3Nhcmlv&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfNV9Sb3Nhcmlv)
-[Canal_8_CBA](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfOF9DQkE=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfOF9DQkE=)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfOF9DQkE=)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfOF9DQkE=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfOF9DQkE=)
+📺[Canal_8_CBA](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfOF9DQkE=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfOF9DQkE=)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfOF9DQkE=)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfOF9DQkE=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfOF9DQkE=)
 📺[Canal_8_Tucuman](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfOF9UdWN1bWFu)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfOF9UdWN1bWFu)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfOF9UdWN1bWFu)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfOF9UdWN1bWFu&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfOF9UdWN1bWFu)
 📰[Canal_de_la_ciudad](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfZGVfbGFfY2l1ZGFk)
 🎥[Canal_de_las_estrellas](https://tvarg1.vercel.app/player.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==)[(mirror2)](https://bestleague.top/cvattc.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==)[(mirror3)](https://bestleague.top/wa.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==)
@@ -247,17 +250,17 @@ Lista de Canales
 🌍[DiscoveryHD](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5SEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5SEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5SEQ=)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5SEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5SEQ=)
 🌍[Discovery_Science](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5X1NjaWVuY2U=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5X1NjaWVuY2U=)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5X1NjaWVuY2U=)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5X1NjaWVuY2U=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5X1NjaWVuY2U=)
 🌍[Discovery_World_HD](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5X1dvcmxkX0hE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5X1dvcmxkX0hE)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5X1dvcmxkX0hE)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5X1dvcmxkX0hE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5X1dvcmxkX0hE)
-[DiscoveryHomeHealthHD](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)
-[DiscoveryTurbo](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5VHVyYm8=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5VHVyYm8=)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5VHVyYm8=)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5VHVyYm8=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5VHVyYm8=)
+🌍[DiscoveryHomeHealthHD](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5SG9tZUhlYWx0aEhE)
+🌍[DiscoveryTurbo](https://tvarg1.vercel.app/player.html?get=RGlzY292ZXJ5VHVyYm8=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzY292ZXJ5VHVyYm8=)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzY292ZXJ5VHVyYm8=)[(mirror3)](https://bestleague.top/wa.html?get=RGlzY292ZXJ5VHVyYm8=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzY292ZXJ5VHVyYm8=)
 🧸[DisneyJr](https://tvarg1.vercel.app/player.html?get=RGlzbmV5SnI=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RGlzbmV5SnI=)[(mirror2)](https://bestleague.top/cvattc.html?get=RGlzbmV5SnI=)[(mirror3)](https://bestleague.top/wa.html?get=RGlzbmV5SnI=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RGlzbmV5SnI=)
 🧸[Dreamworks](https://tvarg1.vercel.app/player.html?get=RHJlYW13b3Jrcw==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RHJlYW13b3Jrcw==)[(mirror2)](https://bestleague.top/cvattc.html?get=RHJlYW13b3Jrcw==)[(mirror3)](https://bestleague.top/wa.html?get=RHJlYW13b3Jrcw==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RHJlYW13b3Jrcw==)
 🎥[E_Entertainment_Television](https://tvarg1.vercel.app/player.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=)[(mirror2)](https://bestleague.top/cvattc.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=)[(mirror3)](https://bestleague.top/wa.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RV9FbnRlcnRhaW50X1RlbGV2aXNpb24=)
 📺[El_Garage](https://tvarg1.vercel.app/player.html?get=RWxfR2FyYWdl)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RWxfR2FyYWdl)[(mirror2)](https://bestleague.top/cvattc.html?get=RWxfR2FyYWdl)[(mirror3)](https://bestleague.top/wa.html?get=RWxfR2FyYWdl&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RWxfR2FyYWdl)
 📺[Encuentro](https://tvarg1.vercel.app/player.html?get=RW5jdWVudHJv)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RW5jdWVudHJv)[(mirror2)](https://bestleague.top/cvattc.html?get=RW5jdWVudHJv)[(mirror3)](https://bestleague.top/wa.html?get=RW5jdWVudHJv&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RW5jdWVudHJv)
 ⚽[ESPN2_Arg](https://tvarg1.vercel.app/player.html?get=RVNQTjJfQXJn)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTjJfQXJn)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTjJfQXJn)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTjJfQXJn&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTjJfQXJn)
-[ESPN2_UY](https://tvarg1.vercel.app/player.html?get=RVNQTjJfVVk=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTjJfVVk=)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTjJfVVk=)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTjJfVVk=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTjJfVVk=)
+⚽[ESPN2_UY](https://tvarg1.vercel.app/player.html?get=RVNQTjJfVVk=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTjJfVVk=)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTjJfVVk=)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTjJfVVk=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTjJfVVk=)
 ⚽[ESPN3_Uy-Py](https://tvarg1.vercel.app/player.html?get=RVNQTjNfVXktUHk=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTjNfVXktUHk=)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTjNfVXktUHk=)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTjNfVXktUHk=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTjNfVXktUHk=)
-[ESPN4](https://tvarg1.vercel.app/player.html?get=RVNQTjQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTjQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTjQ=)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTjQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTjQ=)
+⚽[ESPN4](https://tvarg1.vercel.app/player.html?get=RVNQTjQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTjQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTjQ=)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTjQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTjQ=)
 ⚽[ESPN_UY](https://tvarg1.vercel.app/player.html?get=RVNQTl9VWQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RVNQTl9VWQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=RVNQTl9VWQ==)[(mirror3)](https://bestleague.top/wa.html?get=RVNQTl9VWQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RVNQTl9VWQ==)
 📺[Eurochannel](https://tvarg1.vercel.app/player.html?get=RXVyb2NoYW5uZWw=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RXVyb2NoYW5uZWw=)[(mirror2)](https://bestleague.top/cvattc.html?get=RXVyb2NoYW5uZWw=)[(mirror3)](https://bestleague.top/wa.html?get=RXVyb2NoYW5uZWw=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RXVyb2NoYW5uZWw=)
 📰[Euronews](https://tvarg1.vercel.app/player.html?get=RXVyb25ld3M=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RXVyb25ld3M=)[(mirror2)](https://bestleague.top/cvattc.html?get=RXVyb25ld3M=)[(mirror3)](https://bestleague.top/wa.html?get=RXVyb25ld3M=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RXVyb25ld3M=)
@@ -265,10 +268,10 @@ Lista de Canales
 ⚽[Eventos1HD](https://tvarg1.vercel.app/player.html?get=RXZlbnRvczFIRA)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RXZlbnRvczFIRA)[(mirror2)](https://bestleague.top/cvattc.html?get=RXZlbnRvczFIRA)[(mirror3)](https://bestleague.top/wa.html?get=RXZlbnRvczFIRA&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RXZlbnRvczFIRA)
 ⚽[Eventos_2_HD](https://tvarg1.vercel.app/player.html?get=RXZlbnRvc18yX0hE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RXZlbnRvc18yX0hE)[(mirror2)](https://bestleague.top/cvattc.html?get=RXZlbnRvc18yX0hE)[(mirror3)](https://bestleague.top/wa.html?get=RXZlbnRvc18yX0hE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RXZlbnRvc18yX0hE)
 ⚽[Eventos_HD_UY](https://tvarg1.vercel.app/player.html?get=RXZlbnRvc19IRF9VeQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RXZlbnRvc19IRF9VeQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=RXZlbnRvc19IRF9VeQ==)[(mirror3)](https://bestleague.top/wa.html?get=RXZlbnRvc19IRF9VeQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RXZlbnRvc19IRF9VeQ==)
-[Extreme](https://tvarg1.vercel.app/player.html?get=U2V4dHJlbWU)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U2V4dHJlbWU)[(mirror2)](https://bestleague.top/cvattc.html?get=U2V4dHJlbWU)[(mirror3)](https://bestleague.top/wa.html?get=U2V4dHJlbWU&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U2V4dHJlbWU)
+🔞[Extreme](https://tvarg1.vercel.app/player.html?get=U2V4dHJlbWU)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U2V4dHJlbWU)[(mirror2)](https://bestleague.top/cvattc.html?get=U2V4dHJlbWU)[(mirror3)](https://bestleague.top/wa.html?get=U2V4dHJlbWU&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U2V4dHJlbWU)
 🎥[Film_Arts](https://tvarg1.vercel.app/player.html?get=RmlsbV9BcnRz)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=RmlsbV9BcnRz)[(mirror2)](https://bestleague.top/cvattc.html?get=RmlsbV9BcnRz)[(mirror3)](https://bestleague.top/wa.html?get=RmlsbV9BcnRz&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=RmlsbV9BcnRz)
 🎵[Flow_Music_1](https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18x)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rmxvd19NdXNpY18x)[(mirror2)](https://bestleague.top/cvattc.html?get=Rmxvd19NdXNpY18x)[(mirror3)](https://bestleague.top/wa.html?get=Rmxvd19NdXNpY18x&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rmxvd19NdXNpY18x)
-[Flow_Music_2](https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18y)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rmxvd19NdXNpY18y)[(mirror2)](https://bestleague.top/cvattc.html?get=Rmxvd19NdXNpY18y)[(mirror3)](https://bestleague.top/wa.html?get=Rmxvd19NdXNpY18y&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rmxvd19NdXNpY18y)
+🎵[Flow_Music_2](https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18y)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rmxvd19NdXNpY18y)[(mirror2)](https://bestleague.top/cvattc.html?get=Rmxvd19NdXNpY18y)[(mirror3)](https://bestleague.top/wa.html?get=Rmxvd19NdXNpY18y&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rmxvd19NdXNpY18y)
 🎵[Flow_Music_3](https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNpY18z)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rmxvd19NdXNpY18z)[(mirror2)](https://bestleague.top/cvattc.html?get=Rmxvd19NdXNpY18z)[(mirror3)](https://bestleague.top/wa.html?get=Rmxvd19NdXNpY18z&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rmxvd19NdXNpY18z)
 🎵[Flow_Music_XP](https://tvarg1.vercel.app/player.html?get=Rmxvd19NdXNp19YUA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rmxvd19NdXNp19YUA==)[(mirror2)](https://bestleague.top/cvattc.html?get=Rmxvd19NdXNp19YUA==)[(mirror3)](https://bestleague.top/wa.html?get=Rmxvd19NdXNp19YUA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rmxvd19NdXNp19YUA==)
 🌍[Food_Network](https://tvarg1.vercel.app/player.html?get=Rm9vZF9OZXR3b3Jr)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Rm9vZF9OZXR3b3Jr)[(mirror2)](https://bestleague.top/cvattc.html?get=Rm9vZF9OZXR3b3Jr)[(mirror3)](https://bestleague.top/wa.html?get=Rm9vZF9OZXR3b3Jr&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Rm9vZF9OZXR3b3Jr)
@@ -287,12 +290,12 @@ Lista de Canales
 🎥[HBO_Plus](https://tvarg1.vercel.app/player.html?get=SEJPX1BsdXM=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SEJPX1BsdXM=)[(mirror2)](https://bestleague.top/cvattc.html?get=SEJPX1BsdXM=)[(mirror3)](https://bestleague.top/wa.html?get=SEJPX1BsdXM=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SEJPX1BsdXM=)
 🎥[HBO_POP](https://tvarg1.vercel.app/player.html?get=SEJPX1BPUA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SEJPX1BPUA==)[(mirror2)](https://bestleague.top/cvattc.html?get=SEJPX1BPUA==)[(mirror3)](https://bestleague.top/wa.html?get=SEJPX1BPUA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SEJPX1BPUA==)
 🎥[HBO_Signature](https://tvarg1.vercel.app/player.html?get=SEJPX1NpZ25hdHVyZQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SEJPX1NpZ25hdHVyZQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=SEJPX1NpZ25hdHVyZQ==)[(mirror3)](https://bestleague.top/wa.html?get=SEJPX1NpZ25hdHVyZQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SEJPX1NpZ25hdHVyZQ==)
-[HBOHD](https://tvarg1.vercel.app/player.html?get=SEJPSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SEJPSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=SEJPSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=SEJPSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SEJPSEQ=)
+🎥[HBOHD](https://tvarg1.vercel.app/player.html?get=SEJPSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SEJPSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=SEJPSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=SEJPSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SEJPSEQ=)
 🌍[History_2](https://tvarg1.vercel.app/player.html?get=SGlzdG9yeV8y)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SGlzdG9yeV8y)[(mirror2)](https://bestleague.top/cvattc.html?get=SGlzdG9yeV8y)[(mirror3)](https://bestleague.top/wa.html?get=SGlzdG9yeV8y&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SGlzdG9yeV8y)
 🌍[History_backup](https://tvarg1.vercel.app/player.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8)[(mirror2)](https://bestleague.top/cvattc.html?get=https://cors-proxy.cooks.fyi/https://streamer1.nexgen.bz/HISTORY/index.m3u8)[(mirror3)](https://bestleague.top/wa.html?get=SGlzdG9yeV8y&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=aHR0cHM6Ly9jb3JzLXByb3h5LmNvb2tzLmZ5aS9odHRwczovL3N0cmVhbWVyMS5uZXhnZW4uYnovSElTVE9SWS9pbmRleC5tM3U4)
-[HistoryHD](https://tvarg1.vercel.app/player.html?get=SGlzdG9yeUhE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SGlzdG9yeUhE)[(mirror2)](https://bestleague.top/cvattc.html?get=SGlzdG9yeUhE)[(mirror3)](https://bestleague.top/wa.html?get=SGlzdG9yeUhE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SGlzdG9yeUhE)
+🌍[HistoryHD](https://tvarg1.vercel.app/player.html?get=SGlzdG9yeUhE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SGlzdG9yeUhE)[(mirror2)](https://bestleague.top/cvattc.html?get=SGlzdG9yeUhE)[(mirror3)](https://bestleague.top/wa.html?get=SGlzdG9yeUhE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SGlzdG9yeUhE)
 📺[Hola_TV](https://tvarg1.vercel.app/player.html?get=SG9sYV9UVg==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SG9sYV9UVg==)[(mirror2)](https://bestleague.top/cvattc.html?get=SG9sYV9UVg==)[(mirror3)](https://bestleague.top/wa.html?get=SG9sYV9UVg==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SG9sYV9UVg==)
-[HTV](https://tvarg1.vercel.app/player.html?get=SFRW)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SFRW)[(mirror2)](https://bestleague.top/cvattc.html?get=SFRW)[(mirror3)](https://bestleague.top/wa.html?get=SFRW&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SFRW)
+🎵[HTV](https://tvarg1.vercel.app/player.html?get=SFRW)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SFRW)[(mirror2)](https://bestleague.top/cvattc.html?get=SFRW)[(mirror3)](https://bestleague.top/wa.html?get=SFRW&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SFRW)
 🌍[ID](https://tvarg1.vercel.app/player.html?get=SUQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SUQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=SUQ=)[(mirror3)](https://bestleague.top/wa.html?get=SUQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SUQ=)
 📺[INCAA_Tv](https://tvarg1.vercel.app/player.html?get=SU5DQUFfVHY=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SU5DQUFfVHY=)[(mirror2)](https://bestleague.top/cvattc.html?get=SU5DQUFfVHY=)[(mirror3)](https://bestleague.top/wa.html?get=SU5DQUFfVHY=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SU5DQUFfVHY=)
 📰[Investigacion_Periodistica](https://tvarg1.vercel.app/player.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=)[(mirror2)](https://bestleague.top/cvattc.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=)[(mirror3)](https://bestleague.top/wa.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=)
@@ -305,13 +308,13 @@ Lista de Canales
 🎵[MTV00](https://tvarg1.vercel.app/player.html?get=TVRWMDA=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TVRWMDA=)[(mirror2)](https://bestleague.top/cvattc.html?get=TVRWMDA=)[(mirror3)](https://bestleague.top/wa.html?get=TVRWMDA=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TVRWMDA=)
 🎵[MTV_HD](https://tvarg1.vercel.app/player.html?get=TVRWX0hE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TVRWX0hE)[(mirror2)](https://bestleague.top/cvattc.html?get=TVRWX0hE)[(mirror3)](https://bestleague.top/wa.html?get=TVRWX0hE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TVRWX0hE)
 🎵[MTV_Hits](https://tvarg1.vercel.app/player.html?get=TVRWX0hpdHM=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TVRWX0hpdHM=)[(mirror2)](https://bestleague.top/cvattc.html?get=TVRWX0hpdHM=)[(mirror3)](https://bestleague.top/wa.html?get=TVRWX0hpdHM=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TVRWX0hpdHM=)
-[NatGeoHD](https://tvarg1.vercel.app/player.html?get=TmF0R2VvSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TmF0R2VvSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=TmF0R2VvSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=TmF0R2VvSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TmF0R2VvSEQ=)
+🌍[NatGeoHD](https://tvarg1.vercel.app/player.html?get=TmF0R2VvSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TmF0R2VvSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=TmF0R2VvSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=TmF0R2VvSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TmF0R2VvSEQ=)
 🏀[NBA_TV](https://tvarg1.vercel.app/player.html?get=TkJBX1RW)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TkJBX1RW)[(mirror2)](https://bestleague.top/cvattc.html?get=TkJBX1RW)[(mirror3)](https://bestleague.top/wa.html?get=TkJBX1RW&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TkJBX1RW)
 📺[Net_TV](https://tvarg1.vercel.app/player.html?get=TmV0X1RW)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=TmV0X1RW)[(mirror2)](https://bestleague.top/cvattc.html?get=TmV0X1RW)[(mirror3)](https://bestleague.top/wa.html?get=TmV0X1RW&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=TmV0X1RW)
 🧸[Nick_Jr](https://tvarg1.vercel.app/player.html?get=Tmlja19Kcg==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Tmlja19Kcg==)[(mirror2)](https://bestleague.top/cvattc.html?get=Tmlja19Kcg==)[(mirror3)](https://bestleague.top/wa.html?get=Tmlja19Kcg==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Tmlja19Kcg==)
 🧸[Nickelodeon](https://tvarg1.vercel.app/player.html?get=Tmlja2Vsb2Rlb24=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Tmlja2Vsb2Rlb24=)[(mirror2)](https://bestleague.top/cvattc.html?get=Tmlja2Vsb2Rlb24=)[(mirror3)](https://bestleague.top/wa.html?get=Tmlja2Vsb2Rlb24=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Tmlja2Vsb2Rlb24=)
 📰[NOTICIAS_PY_C4](https://tvarg1.vercel.app/player.html?get=Tk9USUNJQVNfUFlfQzQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Tk9USUNJQVNfUFlfQzQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=Tk9USUNJQVNfUFlfQzQ=)[(mirror3)](https://bestleague.top/wa.html?get=Tk9USUNJQVNfUFlfQzQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Tk9USUNJQVNfUFlfQzQ=)
-[PAKA_PAKA](https://tvarg1.vercel.app/player.html?get=UEFLQV9QQUtB)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=UEFLQV9QQUtB)[(mirror2)](https://bestleague.top/cvattc.html?get=UEFLQV9QQUtB)[(mirror3)](https://bestleague.top/wa.html?get=UEFLQV9QQUtB&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=UEFLQV9QQUtB)
+🧸[PAKA_PAKA](https://tvarg1.vercel.app/player.html?get=UEFLQV9QQUtB)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=UEFLQV9QQUtB)[(mirror2)](https://bestleague.top/cvattc.html?get=UEFLQV9QQUtB)[(mirror3)](https://bestleague.top/wa.html?get=UEFLQV9QQUtB&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=UEFLQV9QQUtB)
 📺[Paraguay_TV](https://tvarg1.vercel.app/player.html?get=UGFyYWd1YXlfVFY=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=UGFyYWd1YXlfVFY=)[(mirror2)](https://bestleague.top/cvattc.html?get=UGFyYWd1YXlfVFY=)[(mirror3)](https://bestleague.top/wa.html?get=UGFyYWd1YXlfVFY=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=UGFyYWd1YXlfVFY=)
 🎥[Paramount](https://tvarg1.vercel.app/player.html?get=UGFyYW1vdW50)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=UGFyYW1vdW50)[(mirror2)](https://bestleague.top/cvattc.html?get=UGFyYW1vdW50)[(mirror3)](https://bestleague.top/wa.html?get=UGFyYW1vdW50&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=UGFyYW1vdW50)
 📺[PARAVISION_C4](https://tvarg1.vercel.app/player.html?get=UEFSQVZJU0lPTl9DNA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=UEFSQVZJU0lPTl9DNA==)[(mirror2)](https://bestleague.top/cvattc.html?get=UEFSQVZJU0lPTl9DNA==)[(mirror3)](https://bestleague.top/wa.html?get=UEFSQVZJU0lPTl9DNA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=UEFSQVZJU0lPTl9DNA==)
@@ -323,17 +326,17 @@ Lista de Canales
 🎥[SonyHD](https://tvarg1.vercel.app/player.html?get=U29ueUhE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U29ueUhE)[(mirror2)](https://bestleague.top/cvattc.html?get=U29ueUhE)[(mirror3)](https://bestleague.top/wa.html?get=U29ueUhE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U29ueUhE)
 🎥[Studio_Universal](https://tvarg1.vercel.app/player.html?get=U3R1ZGlvX1VuaXZlcnNhbA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U3R1ZGlvX1VuaXZlcnNhbA==)[(mirror2)](https://bestleague.top/cvattc.html?get=U3R1ZGlvX1VuaXZlcnNhbA==)[(mirror3)](https://bestleague.top/wa.html?get=U3R1ZGlvX1VuaXZlcnNhbA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U3R1ZGlvX1VuaXZlcnNhbA==)
 🎵[Sun_Channel](https://tvarg1.vercel.app/player.html?get=U3VuX0NoYW5uZWw=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U3VuX0NoYW5uZWw=)[(mirror2)](https://bestleague.top/cvattc.html?get=U3VuX0NoYW5uZWw=)[(mirror3)](https://bestleague.top/wa.html?get=U3VuX0NoYW5uZWw=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U3VuX0NoYW5uZWw=)
-[SUR_TV_C4](https://tvarg1.vercel.app/player.html?get=U1VSX1RWX0M0)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U1VSX1RWX0M0)[(mirror2)](https://bestleague.top/cvattc.html?get=U1VSX1RWX0M0)[(mirror3)](https://bestleague.top/wa.html?get=U1VSX1RWX0M0&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U1VSX1RWX0M0)
-[SyFy](https://tvarg1.vercel.app/player.html?get=U3lGeQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U3lGeQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=U3lGeQ==)[(mirror3)](https://bestleague.top/wa.html?get=U3lGeQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U3lGeQ==)
-[TBS](https://tvarg1.vercel.app/player.html?get=VEJT)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VEJT)[(mirror2)](https://bestleague.top/cvattc.html?get=VEJT)[(mirror3)](https://bestleague.top/wa.html?get=VEJT&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VEJT)
+📺[SUR_TV_C4](https://tvarg1.vercel.app/player.html?get=U1VSX1RWX0M0)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U1VSX1RWX0M0)[(mirror2)](https://bestleague.top/cvattc.html?get=U1VSX1RWX0M0)[(mirror3)](https://bestleague.top/wa.html?get=U1VSX1RWX0M0&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U1VSX1RWX0M0)
+🎥[SyFy](https://tvarg1.vercel.app/player.html?get=U3lGeQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=U3lGeQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=U3lGeQ==)[(mirror3)](https://bestleague.top/wa.html?get=U3lGeQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=U3lGeQ==)
+🎥[TBS](https://tvarg1.vercel.app/player.html?get=VEJT)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VEJT)[(mirror2)](https://bestleague.top/cvattc.html?get=VEJT)[(mirror3)](https://bestleague.top/wa.html?get=VEJT&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VEJT)
 🎥[TCM](https://tvarg1.vercel.app/player.html?get=VENN)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VENN)[(mirror2)](https://bestleague.top/cvattc.html?get=VENN)[(mirror3)](https://bestleague.top/wa.html?get=VENN&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VENN)
 📺[Telefe_HD](https://tvarg1.vercel.app/player.html?get=VGVsZWZlSEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZWZlSEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZWZlSEQ=)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZWZlSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZWZlSEQ=)
 📺[Telefe_HD_backup](https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513)[(mirror1)](https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513)[(mirror2)](https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1764515409~exp=1764522609~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=babfc45f1cd1b1575c5130083dc0e643bfce2cc607bf98dde0e3bbd60a56b513)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZWZlSEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=aHR0cHM6Ly90ZWxlZmVhcHBtaXRlbGVmZTEuYWthbWFpemVkLm5ldC9obHMvbGl2ZS8yMDM3OTg1L2FwcG1pdGVsZWZlL1RPSy9tYXN0ZXIubTN1OD9oZG5lYT1zdD0xNzY0NTE1NDA5fmV4cD0xNzY0NTIyNjA5fmFjbD0vaGxzL2xpdmUvMjAzNzk4NS9hcHBtaXRlbGVmZS9UT0svKn5obWFjPWJhYmZjNDVmMWNkMWIxNTc1YzUxMzAwODNkYzBlNjQzYmZjZTJjYzYwN2JmOThkZGUwZTNiYmQ2MGE1NmI1MTM=)
-[Telefe_Neuqen](https://tvarg1.vercel.app/player.html?get=VGVsZWZlX05ldXF1ZW4=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZWZlX05ldXF1ZW4=)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZWZlX05ldXF1ZW4=)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZWZlX05ldXF1ZW4=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZWZlX05ldXF1ZW4=)
+📺[Telefe_Neuqen](https://tvarg1.vercel.app/player.html?get=VGVsZWZlX05ldXF1ZW4=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZWZlX05ldXF1ZW4=)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZWZlX05ldXF1ZW4=)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZWZlX05ldXF1ZW4=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZWZlX05ldXF1ZW4=)
 📺[Telefe_Salta](https://tvarg1.vercel.app/player.html?get=VGVsZWZlX1NhbHRh)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZWZlX1NhbHRh)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZWZlX1NhbHRh)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZWZlX1NhbHRh&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZWZlX1NhbHRh)
-[TELEFUTURO_C4](https://tvarg1.vercel.app/player.html?get=VEVMRUZVVFVST19DNA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VEVMRUZVVFVST19DNA==)[(mirror2)](https://bestleague.top/cvattc.html?get=VEVMRUZVVFVST19DNA==)[(mirror3)](https://bestleague.top/wa.html?get=VEVMRUZVVFVST19DNA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VEVMRUZVVFVST19DNA==)
+📺[TELEFUTURO_C4](https://tvarg1.vercel.app/player.html?get=VEVMRUZVVFVST19DNA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VEVMRUZVVFVST19DNA==)[(mirror2)](https://bestleague.top/cvattc.html?get=VEVMRUZVVFVST19DNA==)[(mirror3)](https://bestleague.top/wa.html?get=VEVMRUZVVFVST19DNA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VEVMRUZVVFVST19DNA==)
 📺[Telemax](https://tvarg1.vercel.app/player.html?get=VGVsZW1heA)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZW1heA)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZW1heA)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZW1heA&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZW1heA)
-[Telemundo_HD](https://tvarg1.vercel.app/player.html?get=VGVsZW11bmRvX0hE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZW11bmRvX0hE)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZW11bmRvX0hE)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZW11bmRvX0hE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZW11bmRvX0hE)
+🎥[Telemundo_HD](https://tvarg1.vercel.app/player.html?get=VGVsZW11bmRvX0hE)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZW11bmRvX0hE)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZW11bmRvX0hE)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZW11bmRvX0hE&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZW11bmRvX0hE)
 📰[Telesur](https://tvarg1.vercel.app/player.html?get=VGVsZXN1cg==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGVsZXN1cg==)[(mirror2)](https://bestleague.top/cvattc.html?get=VGVsZXN1cg==)[(mirror3)](https://bestleague.top/wa.html?get=VGVsZXN1cg==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGVsZXN1cg==)
 🎥[Theater_HD](https://tvarg1.vercel.app/player.html?get=VGhlYXRlcl9IRA==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VGhlYXRlcl9IRA==)[(mirror2)](https://bestleague.top/cvattc.html?get=VGhlYXRlcl9IRA==)[(mirror3)](https://bestleague.top/wa.html?get=VGhlYXRlcl9IRA==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VGhlYXRlcl9IRA==)
 🌍[TLC](https://tvarg1.vercel.app/player.html?get=VExD)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VExD)[(mirror2)](https://bestleague.top/cvattc.html?get=VExD)[(mirror3)](https://bestleague.top/wa.html?get=VExD&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VExD)
@@ -346,8 +349,8 @@ Lista de Canales
 🎥[TNTSeries](https://tvarg1.vercel.app/player.html?get=VE5UU2VyaWVz)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VE5UU2VyaWVz)[(mirror2)](https://bestleague.top/cvattc.html?get=VE5UU2VyaWVz)[(mirror3)](https://bestleague.top/wa.html?get=VE5UU2VyaWVz&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VE5UU2VyaWVz)
 📰[TodoNoticias](https://tvarg1.vercel.app/player.html?get=VG9kb05vdGljaWFz)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VG9kb05vdGljaWFz)[(mirror2)](https://bestleague.top/cvattc.html?get=VG9kb05vdGljaWFz)[(mirror3)](https://bestleague.top/wa.html?get=VG9kb05vdGljaWFz&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VG9kb05vdGljaWFz)
 🎥[TruTV](https://tvarg1.vercel.app/player.html?get=VHJ1VFY=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VHJ1VFY=)[(mirror2)](https://bestleague.top/cvattc.html?get=VHJ1VFY=)[(mirror3)](https://bestleague.top/wa.html?get=VHJ1VFY=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VHJ1VFY=)
-[TV5_Monde](https://tvarg1.vercel.app/player.html?get=VFY1X01vbmRl)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VFY1X01vbmRl)[(mirror2)](https://bestleague.top/cvattc.html?get=VFY1X01vbmRl)[(mirror3)](https://bestleague.top/wa.html?get=VFY1X01vbmRl&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VFY1X01vbmRl)
-[TV_Chile](https://tvarg1.vercel.app/player.html?get=VHZfQ2hpbGU=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VHZfQ2hpbGU=)[(mirror2)](https://bestleague.top/cvattc.html?get=VHZfQ2hpbGU=)[(mirror3)](https://bestleague.top/wa.html?get=VHZfQ2hpbGU=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VHZfQ2hpbGU=)
+🌐[TV5_Monde](https://tvarg1.vercel.app/player.html?get=VFY1X01vbmRl)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VFY1X01vbmRl)[(mirror2)](https://bestleague.top/cvattc.html?get=VFY1X01vbmRl)[(mirror3)](https://bestleague.top/wa.html?get=VFY1X01vbmRl&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VFY1X01vbmRl)
+🌐[TV_Chile](https://tvarg1.vercel.app/player.html?get=VHZfQ2hpbGU=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VHZfQ2hpbGU=)[(mirror2)](https://bestleague.top/cvattc.html?get=VHZfQ2hpbGU=)[(mirror3)](https://bestleague.top/wa.html?get=VHZfQ2hpbGU=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VHZfQ2hpbGU=)
 🌐[TV_Espana](https://tvarg1.vercel.app/player.html?get=VFZfRXNwYW5h)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VFZfRXNwYW5h)[(mirror2)](https://bestleague.top/cvattc.html?get=VFZfRXNwYW5h)[(mirror3)](https://bestleague.top/wa.html?get=VFZfRXNwYW5h&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VFZfRXNwYW5h)
 ⚽[TyC_International](https://tvarg1.vercel.app/player.html?get=VHlDX0ludGVybmFjaW9uYWw=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VHlDX0ludGVybmFjaW9uYWw=)[(mirror2)](https://bestleague.top/cvattc.html?get=VHlDX0ludGVybmFjaW9uYWw=)[(mirror3)](https://bestleague.top/wa.html?get=VHlDX0ludGVybmFjaW9uYWw=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VHlDX0ludGVybmFjaW9uYWw=)
 ⚽[TyCSport](https://tvarg1.vercel.app/player.html?get=VHlDU3BvcnQ)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VHlDU3BvcnQ)[(mirror2)](https://bestleague.top/cvattc.html?get=VHlDU3BvcnQ)[(mirror3)](https://bestleague.top/wa.html?get=VHlDU3BvcnQ&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VHlDU3BvcnQ)
@@ -357,42 +360,36 @@ Lista de Canales
 🎥[universal_Crime](https://tvarg1.vercel.app/player.html?get=dW5pdmVyc2FsX0NyaW1l)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=dW5pdmVyc2FsX0NyaW1l)[(mirror2)](https://bestleague.top/cvattc.html?get=dW5pdmVyc2FsX0NyaW1l)[(mirror3)](https://bestleague.top/wa.html?get=dW5pdmVyc2FsX0NyaW1l&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=dW5pdmVyc2FsX0NyaW1l)
 🎥[Universal_Premiere](https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX1ByZW1pZXJl)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VW5pdmVyc2FsX1ByZW1pZXJl)[(mirror2)](https://bestleague.top/cvattc.html?get=VW5pdmVyc2FsX1ByZW1pZXJl)[(mirror3)](https://bestleague.top/wa.html?get=VW5pdmVyc2FsX1ByZW1pZXJl&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VW5pdmVyc2FsX1ByZW1pZXJl)
 🎥[Universal_Reality](https://tvarg1.vercel.app/player.html?get=VW5pdmVyc2FsX1JlYWxpdHk=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VW5pdmVyc2FsX1JlYWxpdHk=)[(mirror2)](https://bestleague.top/cvattc.html?get=VW5pdmVyc2FsX1JlYWxpdHk=)[(mirror3)](https://bestleague.top/wa.html?get=VW5pdmVyc2FsX1JlYWxpdHk=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VW5pdmVyc2FsX1JlYWxpdHk=)
-[USA_Network](https://tvarg1.vercel.app/player.html?get=VVNBX05ldHdvcms=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VVNBX05ldHdvcms=)[(mirror2)](https://bestleague.top/cvattc.html?get=VVNBX05ldHdvcms=)[(mirror3)](https://bestleague.top/wa.html?get=VVNBX05ldHdvcms=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VVNBX05ldHdvcms=)
+🎥[USA_Network](https://tvarg1.vercel.app/player.html?get=VVNBX05ldHdvcms=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VVNBX05ldHdvcms=)[(mirror2)](https://bestleague.top/cvattc.html?get=VVNBX05ldHdvcms=)[(mirror3)](https://bestleague.top/wa.html?get=VVNBX05ldHdvcms=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VVNBX05ldHdvcms=)
 🔞[Venus](https://tvarg1.vercel.app/player.html?get=VmVudXM=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=VmVudXM=)[(mirror2)](https://bestleague.top/cvattc.html?get=VmVudXM=)[(mirror3)](https://bestleague.top/wa.html?get=VmVudXM=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=VmVudXM=)
 📺[Volver](https://tvarg1.vercel.app/player.html?get=Vm9sdmVy)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=Vm9sdmVy)[(mirror2)](https://bestleague.top/cvattc.html?get=Vm9sdmVy)[(mirror3)](https://bestleague.top/wa.html?get=Vm9sdmVy&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=Vm9sdmVy)
 🎥[WarnerHD](https://tvarg1.vercel.app/player.html?get=V2FybmVySEQ=)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=V2FybmVySEQ=)[(mirror2)](https://bestleague.top/cvattc.html?get=V2FybmVySEQ=)[(mirror3)](https://bestleague.top/wa.html?get=V2FybmVySEQ=&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=V2FybmVySEQ=)
 🌍[WOBI](https://tvarg1.vercel.app/player.html?get=V09CSQ==)[(mirror1)](https://tvarg1.vercel.app/player1.html?get=V09CSQ==)[(mirror2)](https://bestleague.top/cvattc.html?get=V09CSQ==)[(mirror3)](https://bestleague.top/wa.html?get=V09CSQ==&start=true)[(mirror4)](https://tvarg1.vercel.app/player4.html?get=V09CSQ==)`;
 
-        // Application State
         const state = {
             searchQuery: '',
             activeCategory: 'Todos',
-            isDarkMode: localStorage.getItem('darkMode') === 'true'
+            isDarkMode: false
         };
 
-        // Categories mapping
+        try {
+            state.isDarkMode = localStorage.getItem('darkMode') === 'true';
+        } catch (e) {}
+
         const categories = [
-            { name: 'Todos', icon: '' },
+            { name: 'Todos', icon: '📋' },
             { name: 'TV', icon: '📺' },
             { name: 'Cine', icon: '🎥' },
             { name: 'Deportes', icon: '⚽' },
             { name: 'Basket', icon: '🏀' },
-            { name: 'Noticias', icon: '' },
+            { name: 'Noticias', icon: '📰' },
             { name: 'Docu/Cultura', icon: '🌍' },
-            { name: 'Infantil', icon: '' },
+            { name: 'Infantil', icon: '🧸' },
             { name: 'Música', icon: '🎵' },
             { name: 'Adultos', icon: '🔞' },
             { name: 'Internacional', icon: '🌐' }
         ];
 
-        // Emoji to Category mapping
-        const emojiToCategory = {
-            '': 'TV', '🎥': 'Cine', '⚽': 'Deportes', '🏀': 'Basket',
-            '📰': 'Noticias', '': 'Docu/Cultura', '': 'Infantil',
-            '🎵': 'Música', '🔞': 'Adultos', '🌐': 'Internacional'
-        };
-
-        // External Links (Hardcoded for reliability)
         const externalLinks = [
             { name: "Lista ARG y Deportes", url: "/iptv.m3u", icon: "📋" },
             { name: "Ver LibreFutbol", url: "#", icon: "⚽" },
@@ -416,26 +413,28 @@ Lista de Canales
             { name: "CNN en Español", url: "https://www.youtube.com/watch?v=Qr61waJ6AZg", icon: "📰" },
             { name: "Bloomberg News", url: "https://www.youtube.com/watch?v=iEpJwprxDdk", icon: "📰" },
             { name: "Canal 8 Mar del Plata", url: "https://mi8.com.ar/en-vivo/", icon: "📺" },
-            { name: "Canal 10 Mar del Plata", url: "https://www.canal10mardelplata.tv/#EnVivo", icon: "" },
-            { name: "Al Jazeera", url: "https://www.youtube.com/watch?v=gCNeDWCI0vo", icon: "" },
+            { name: "Canal 10 Mar del Plata", url: "https://www.canal10mardelplata.tv/#EnVivo", icon: "📺" },
+            { name: "Al Jazeera", url: "https://www.youtube.com/watch?v=gCNeDWCI0vo", icon: "📰" },
             { name: "Canales España", url: "https://teleonline.org/", icon: "🌐" },
             { name: "FreeShot Live", url: "https://www.freeshot.live/", icon: "📺" }
         ];
 
-        // Parse Channels
         function parseChannels() {
             const parsedChannels = [];
-            const parts = rawData.split(/(?=\[|🎥\[|\[|🏀\[|📰\[|🌍\[|🧸\[|\[|🔞\[|🌐\[)/;
-            const channelParts = parts.slice(1);
+            const lines = rawData.split('\n');
             
-            for (const part of channelParts) {
-                const cleanPart = part.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
-                const chMatch = cleanPart.match(/^(\S+)\[([^\]]+)\]\(([^)]+)\)(.*)$/);
-                if (chMatch) {
-                    const icon = chMatch[1];
-                    const name = chMatch[2].replace(/_/g, ' ');
-                    const url = chMatch[3];
-                    const rest = chMatch[4];
+            for (const line of lines) {
+                const cleanLine = line.trim();
+                if (!cleanLine) continue;
+                
+                const match = cleanLine.match(/^([^\[\]]*?)\[([^\]]+)\]\(([^)]+)\)(.*)$/);
+                if (match) {
+                    let icon = match[1].trim();
+                    if (!icon) icon = '📺';
+                    
+                    const name = match[2].replace(/_/g, ' ');
+                    const url = match[3];
+                    const rest = match[4];
                     
                     const mirrors = [];
                     const mirrorRegex = /\[\(([^)]+)\)\]\(([^)]+)\)/g;
@@ -444,21 +443,26 @@ Lista de Canales
                         mirrors.push({ name: m[1], url: m[2] });
                     }
                     
-                    parsedChannels.push({ 
-                        icon, 
-                        name, 
-                        url, 
-                        mirrors,
-                        category: emojiToCategory[icon] || 'TV'
-                    });
+                    let category = 'TV';
+                    if (icon.includes('🎥')) category = 'Cine';
+                    else if (icon.includes('⚽')) category = 'Deportes';
+                    else if (icon.includes('🏀')) category = 'Basket';
+                    else if (icon.includes('📰')) category = 'Noticias';
+                    else if (icon.includes('🌍')) category = 'Docu/Cultura';
+                    else if (icon.includes('🧸')) category = 'Infantil';
+                    else if (icon.includes('🎵')) category = 'Música';
+                    else if (icon.includes('🔞')) category = 'Adultos';
+                    else if (icon.includes('🌐')) category = 'Internacional';
+
+                    parsedChannels.push({ icon, name, url, mirrors, category });
                 }
             }
             return parsedChannels;
         }
 
         const channelsData = parseChannels();
+        console.log("Parsed channels:", channelsData.length);
 
-        // DOM Elements
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const themeText = document.getElementById('themeText');
@@ -468,9 +472,7 @@ Lista de Canales
         const channelGrid = document.getElementById('channelGrid');
         const channelCount = document.getElementById('channelCount');
         const emptyState = document.getElementById('emptyState');
-        const externalSection = document.getElementById('externalSection');
 
-        // Theme Management
         function applyTheme() {
             if (state.isDarkMode) {
                 document.documentElement.classList.add('dark');
@@ -481,20 +483,22 @@ Lista de Canales
                 themeIcon.textContent = '🌙';
                 themeText.textContent = 'Modo Oscuro';
             }
-            localStorage.setItem('darkMode', state.isDarkMode);
+            try { localStorage.setItem('darkMode', state.isDarkMode); } catch(e) {}
         }
 
-        themeToggleBtn.addEventListener('click', () => {
-            state.isDarkMode = !state.isDarkMode;
-            applyTheme();
-        });
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                state.isDarkMode = !state.isDarkMode;
+                applyTheme();
+            });
+        }
 
-        // Render Categories
         function renderCategories() {
+            if (!categoryContainer) return;
             categoryContainer.innerHTML = categories.map(cat => `
                 <button 
-                    onclick="setCategory('${cat.name}')"
-                    class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+                    onclick="window.setCategory('${cat.name}')"
+                    class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 cursor-pointer ${
                         state.activeCategory === cat.name 
                             ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30 scale-105' 
                             : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
@@ -512,8 +516,8 @@ Lista de Canales
             renderChannels();
         };
 
-        // Render External Links
         function renderExternalLinks() {
+            if (!externalGrid) return;
             externalGrid.innerHTML = externalLinks.map(link => `
                 <a href="${link.url}" target="_blank" rel="noopener noreferrer"
                     class="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-500 hover:shadow-md transition-all duration-300 group">
@@ -523,8 +527,9 @@ Lista de Canales
             `).join('');
         }
 
-        // Render Channels
         function renderChannels() {
+            if (!channelGrid || !emptyState || !channelCount) return;
+            
             const filteredChannels = channelsData.filter(ch => {
                 const matchesSearch = ch.name.toLowerCase().includes(state.searchQuery.toLowerCase());
                 const matchesCategory = state.activeCategory === 'Todos' || ch.category === state.activeCategory;
@@ -579,18 +584,32 @@ Lista de Canales
             `).join('');
         }
 
-        // Search Handler
-        searchInput.addEventListener('input', (e) => {
-            state.searchQuery = e.target.value;
-            renderChannels();
-        });
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                state.searchQuery = e.target.value;
+                renderChannels();
+            });
+        }
 
-        // Initialize
-        applyTheme();
-        renderCategories();
-        renderExternalLinks();
-        renderChannels();
+        function init() {
+            try {
+                applyTheme();
+                renderCategories();
+                renderExternalLinks();
+                renderChannels();
+            } catch (e) {
+                console.error("Init error:", e);
+                if (channelGrid) {
+                    channelGrid.innerHTML = `<div class="col-span-full p-4 bg-red-100 text-red-700 rounded border border-red-200">Error al cargar: ${e.message}<br><small>Revisa la consola del navegador (F12) para más detalles.</small></div>`;
+                }
+            }
+        }
 
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
 </body>
 </html>
