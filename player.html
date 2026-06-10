@@ -169,8 +169,9 @@ number = 3;
 
 // Función para verificar si es Windows o Linux
 function isWindowsPC() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
+	return true;
+    // const userAgent = navigator.userAgent.toLowerCase();
+    // return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
 }
 
 // Función para mostrar el mensaje de dispositivo no compatible
