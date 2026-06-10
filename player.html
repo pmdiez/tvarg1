@@ -1,47 +1,165 @@
-<style type="text/css">
-html, body {
-   margin: 0;
-   padding: 0;
-}.jw-progress {
-    background-color: #ffff00 !important;
-}
-</style>
-<meta charset="utf-8">
-<title>TV Sudamerica</title>
-<style>body {margin:0;padding:0;}</style>
-<meta content="noindex, nofollow, noarchive" name="googlebot"/>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="cache-control" content="max-age=0" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0"/>
-
-
-<script src="//ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
-<script> jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';</script>
-
-<script type="text/javascript">
-function getParameterByName(name) {
-	name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
-	var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
-	results = regex.exec(location.search);
-	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-var getURL = getParameterByName('get');
-var getIMG = getParameterByName('img');
-var getKEY  = getParameterByName('key');
-var getKEY2  = getParameterByName('key2');
-if (getURL == "") {alert('Vuelve a la pÃƒÆ’Ã‚Â¡gina anterior');}
-
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TV Deportes en VIVO</title>
+<script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var g=window,s="c074f34066b398099d78d35ad512cf21",z=[["siteId",240*271+181-141*129+5248825],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],o=["d3d3LmJsb2NrYWRzbm90LmNvbS9WL2J2YWxpZGF0ZS5qcw==","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9xdi9OL3NPdmVybGF5U2Nyb2xsYmFycy5taW4uY3Nz","d3d3Lmp3cW50ZndjZXQuY29tL1F4SkYveHZhbGlkYXRlLmpz","d3d3LmR6Z3JsemdxYXdqLmNvbS9lTGMvZEJGeHYvZU92ZXJsYXlTY3JvbGxiYXJzLm1pbi5jc3M="],y=-1,n,j,d=function(){clearTimeout(j);y++;if(o[y]&&!(1806688686000<(new Date).getTime()&&1<y)){n=g.document.createElement("script");n.type="text/javascript";n.async=!0;var c=g.document.getElementsByTagName("script")[0];n.src="https://"+atob(o[y]);n.crossOrigin="anonymous";n.onerror=d;n.onload=function(){clearTimeout(j);g[s.slice(0,16)+s.slice(0,16)]||d()};j=setTimeout(d,5E3);c.parentNode.insertBefore(n,c)}};if(!g[s]){try{Object.freeze(g[s]=z)}catch(e){}d()}})();
+/*]]>/* */
 </script>
 
+<script src="https://convertedarchitecturepsychopath.com/6c/0d/91/6c0d91cf14aeb954fa7b2143a6c9e5fc.js"></script>
 
-<div id="player"></div>
-<script>
+    <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
 
-var playerInstance= jwplayer("player");
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #player {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Aspect ratio 16:9 */
+            background: #000;
+        }
+
+        #player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+.alert-card {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+}
+
+.alert-card h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.alert-card .boxicon {
+    font-size: 48px;
+    color: #ff0;
+}
+
+.alert-card p {
+    margin: 10px 0;
+    color: #ebebeb;
+}
+
+@media (max-width: 480px) {
+    .alert-card {
+        max-width: 90%;
+        padding: 5px;
+        margin-right: 50px;
+    }
+
+    .alert-card h2 {
+        font-size: 20px;
+    }
+
+    .alert-card .boxicon {
+        font-size: 36px;
+    }
+
+    .alert-card p {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .alert-card {
+        max-width: 80%;
+        padding: 25px;
+    }
+
+    .alert-card h2 {
+        font-size: 22px;
+    }
+
+    .alert-card .boxicon {
+        font-size: 42px;
+    }
+
+    .alert-card p {
+        font-size: 16px; 
+    }
+}
+
+
+
+        a {
+            color: #0f0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="player" class="hidden"></div>
+        <div id="alerta-extension" class="hidden alert">
+        <i class="bx bx-error-circle boxicon"></i>
+        <center>
+        <div id="jb" class="jumbotron">
+        <div class="image"><img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60" width="10%"></div>
+        <h1>Reproductor MPD/M3U8/M3U/EPG</h1>
+        </div>        
+            <p><i style="color:red">IMPORTANTE</i>: Para reproducir el canal necesitas instalar la extension en tu Navegador Google Chrome: <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
+            <h2>Instalacion</h2>
+            <p>Para instalar la extension Tienes que ingresar a <a target="_blank" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">Reproductor MPD/M3U8/M3U/EPG</a> o buscar en <b>Chrome Web Store o Brave</b></p>
+            <img src="/img/brave.png" width="40%">
+            <p>Una vez instalada la extension recarga la pagina y visualizaras el canal.</p>
+            </center>
+    </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var getURL = getParameterByName('get');
+        var getIMG = getParameterByName('img');
+        var getKEY = getParameterByName('key');
+        var getKEY2 = getParameterByName('key2');
+        if (getURL == "") {alert('Vuelve a la página anterior');}
+
+        var number;
 
 if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz" || getURL == "VVNBX05ldHdvcms=" || getURL == "RHNwb3J0c19VWQ==" || getURL == "RHNwb3J0czJfVVk=" || getURL == "RHNwb3J0c19QbHVzX1VZ") 
 number = 7;
@@ -56,14 +174,128 @@ number = 4;
 else
 number = 3;
 
-	var mt = [  "cdn", "chromecast"];
-	
-var random = Math.floor(Math.random() * mt.length)	
-console.log("Selected mt:", mt[random]);
+// Función para verificar si es Windows o Linux
+function isWindowsPC() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
+}
 
-var mpd = "//" + mt[random] +".cvattv.com.ar/live/c"+number+"eds/"+atob(getURL)+"/SA_Live_dash_enc_C/" + atob(getURL) + ".mpd";
+// Función para mostrar el mensaje de dispositivo no compatible
+function showUnsupportedDeviceMessage() {
+    const unsupportedMessage = document.createElement('div');
+    unsupportedMessage.classList.add('alert-card');
+    unsupportedMessage.innerHTML = `
+        <i class='bx bx-error-circle boxicon'></i>
+        <h2>Dispositivo no compatible</h2>
+        <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
+    `;
+    document.body.appendChild(unsupportedMessage);
+}
 
-var espn2 = "//" + mt[random] +".cvattv.com.ar/live/c"+number+"eds/"+atob(getURL)+"/SA_Live_dash_enc_C/" + atob(getURL) + ".mpd";
+        // Verificar si es un dispositivo compatible antes de ejecutar el código principal
+        if (!isWindowsPC()) {
+            showUnsupportedDeviceMessage();
+        } else {
+var mt = [
+        {
+    cdn: "edge-live14-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEyMjAxIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1RlbGVmZUhEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiN2NjYzI1ZDhjYTI2NGE2YyIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMjIiLCJhdWQiOiIxOTYiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.McpBXxhc9CAQL6qslW6xlfOvYs04mcTctA01bYmPjFxY1GWAVZqNWGFcP-2z3nYNjGxXPBWkYSgprK8mSthHpw=="
+  },
+        {
+    cdn: "edge-live03-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEyNTE0Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0FydGVhckhEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiZjUxNTEzOTFiNmUwMDRmYyIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTQiLCJhdWQiOiIzNjIiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.IrAQbZ-iYDQoOhmpmd12y8-iob-paZWTY1C-ImAuEHjzINUFR6Efvm3pe--xoRcjsFM-cVNs93w2xqZ6miQrbA=="
+  },
+        {
+    cdn: "edge-live23-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEyNTc2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0NhbmFsOS9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjlkMjdjZGUzYzY5ZmMzNTQiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE0IiwiYXVkIjoiMzUzIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.FJqUtBgmjR9xOGzBgQJAbdcwsM1NaLulQ6maw7gHxTZI9wW2kcQsZTgtok5KTbJN7pT1ica0-N-QZslkZFEYxQ=="
+  },
+        {
+    cdn: "edge-live18-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEyNjk2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0FtZXJpY2FUVi9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjAwZTRjMjg4ZmJiNDVjMTMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE0IiwiYXVkIjoiMzQ0Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.QiaV4by4-1ssfyvfTnkFSfaZaIy8zksaRSfwQlPVFS1lbzTj-V9L-PyLYExLteNUdKXfn2L4Ih41GNhtZlt82g=="
+  },
+        {
+    cdn: "edge-live04-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEyODIyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0M1Ti9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImRmMmIxOWY0YTg2ODRmYjQiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiMzEwIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.BqdZiAtBLGEaGvDddHBtaHEgR9yU6A3QIy-C8JKz6tXsm6JcCaGA-Rf_dAIr30TKw7p1_t0eVntDo8QFHUfRXA=="
+  },
+        {
+    cdn: "edge-live17-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzMDQwIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL1RvZG9Ob3RpY2lhcy9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImQyYmRhNDM0MTJmZWJiN2IiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiNzIiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.BZqFR_1X5MPd-eJ_BwwJLomSPiabVcksVQ9r2HzPZdnYmv7VwJsx2mU6CAC3-h7zAAYoLyFZCdex6QdVNLpkhg=="
+  },
+        {
+    cdn: "edge-live03-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzMjEzIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0FtZXJpY2EyNC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjEwOWE1ZDM1ODBkN2I2MTQiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzQyIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.ncr9kMRXBjvY5gL1NFiYNAMmVdlB7zMjK8Zz283ZMLzLCFKHZhp010_YbdzWCqh0miErsLjITCReaE8KEhqoSg=="
+  },
+        {
+    cdn: "edge-live34-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzMjkxIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzLzI2X1RWX0hEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiMzY5OGQ4NTg4M2E2YmQ2MiIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMjIiLCJhdWQiOiI3OSIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.fFiky_wfLZaowlERn1pSFWV5nTHRTgzd8uZrrzVuE2I91PiBlfqIIxaDyQepFBlxpw3aXeBq8dwrs5wOjt-r4w=="
+  },
+        {
+    cdn: "edge-live16-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzNTUzIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0xhX05hY2lvbi9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImY0OGFmZWE4ODY1ZDgzYWQiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiNzciLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.EcRVODTFHk9hYjSzAy7FsMy5I0MQmPKxjzqP_bzXEzmg9dGxLONTaOeenlkf57q2-Yo3dHehnakD-hVcg4x4FQ=="
+  },
+        {
+    cdn: "edge-live13-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzNzYzIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0RpcHV0YWRvc19UVi9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjlmOGM5ZTg2OWJiYmMyNWYiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiNjYiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.QTDJiN-0grl-eHHik3MDZOtZMNMNJNgVEEQSSG1EI_RcfSQYcOJ-CBIBVGiWU3uA7-gOMLsdYEjhqk4gzF4T3A=="
+  },
+        {
+    cdn: "edge-live18-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzODg5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ZvbHZlci9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImNjYmUxN2YwMTcwMDEyZmYiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMjMxIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.GKpB3vFnJzu1tbm4XbUBhwIdyYeBkQuPukJI7D69G3_d9EuCHBHDABI8wwQmBXiag715x14TsT-_pifW2nNpxw=="
+  },
+        {
+    cdn: "edge-vod06-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzOTMzIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL01hZ2F6aW5lL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiZWI2NjhiNmM5ODQ3NGJkOSIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMjIiLCJhdWQiOiIxMzkiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.VZHeFx0ma8rfuFChzgMKDvnauDf5_iuvptrVYgdNnaar3dGFcmYl9_rDjAiI_gr61AMwOJhi3LzOSU_wId9g5w=="
+  },
+        {
+    cdn: "edge-live22-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjEzOTY4Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0JyYXZvVFYvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiJkNGExZWE1NjkxNmUyMjczIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjEyMiIsImF1ZCI6IjM1MiIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.Yx4Fp-r28xoKF4KeVXCMuUZoBxuAdmZVP19N0xvwvCqyEclGvtA5A7UQMHQHu8QFE5vNb3egvt4peOaHOEJ7gQ=="
+  },
+        {
+    cdn: "edge-live08-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0MDQ1Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL05ldF9UVi9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImZmZGZlMzAyNjU2M2M5N2UiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzE2Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.K-GVCuUJGmACuQ4ORGtkDvgwPtjR11Up-o2AtJrn-n3R89bT0mVBaN_9ERdn-HwU54b2Svby9PLmutSx-kLI5g=="
+  },
+        {
+    cdn: "edge-live08-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0MTI0Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0ludmVzdGlnYWNpb25fUGVyaW9kaXN0aWNhL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiOWIyMzYxNDFiYTNkYWI5ZCIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMjMiLCJhdWQiOiIzMTIiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.RLoWxF7P_ZkGo21zn2_QzqlJwuT8vekQ_QpVFgmxCIx7WTTKMCoZInK0yn4lmnEHBOCtV6WRab88RGvl7wqdww=="
+  },
+        {
+    cdn: "edge-live09-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0MTYzIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0VuY3VlbnRyby9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjgwOGFhOTJhM2FhZDU2OTMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiMzE0Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.M45yHaqBuG9aUbFb5r57R0NhtATThHFYCG1GrK_9CeqXKVbFYIEFNga22JZGwor-E0CcAZOX5On-3Ab9WODkGg=="
+  },
+        {
+    cdn: "edge-live15-hr",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0MjM2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ROVF9TcG9ydHNfSEQvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiJmNWZiNWY5ODcwZmU1MDVjIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjEyMyIsImF1ZCI6IjU4Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.DXEUeipXX183kyK82iOlZSTD2BC0j8AUSGIdfVdnl_U2KBVsj3jn0pExGffeJETzIqP7iqTOLrqMnVrS8F9e4Q=="
+  },
+        {
+    cdn: "edge-live21-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0MzA5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0NhbmFsXzEyX0NCQS9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImQyNmNmN2JkYjFiYWQ2NmUiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiMzUxIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.QFg2i9q-5Stkp0-obS5_9qVm4wzqbhs_ki9nAtGFnsdOpS_6_3VWWvxoQTG4l-DFukTOIZTK1IyuVka4Imx2Og=="
+  },
+        {
+    cdn: "edge-live16-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0MzU2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0FyZ2VudGluaXNpbWEvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiJhNmY3MmY4MzJmYjM5ZDBmIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjEyMyIsImF1ZCI6IjEwNSIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.Xm3Hvf1bYblR5ZWFTvv1dwrEwbf_NuAD_noy7MK-hQjXnO9vxdWokXfNC61LeWSayN63jXy84i0_ll7nFmu4qw=="
+  },
+        {
+    cdn: "edge-live15-sl",
+    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxMjE0NDYwIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M0ZWRzL0hCT0hEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiZjYzYjE2ZDExYTEyNmJjMCIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMjMiLCJhdWQiOiIxMDgiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.wkgEF5v8zn1D9TSUrSQYtY3o10d78Ic5rwjBwTuy5d4gXsCZ9acpkKyWKiq6rBuYNOqswnT2AIok3nF2Q9PLTw=="
+  }
+
+
+
+];
+
+
+var randomIndex = Math.floor(Math.random() * mt.length);
+var selected = mt[randomIndex];
+
+console.log("CDN seleccionado:", selected.cdn);
+
+var mpdBase = `https://${selected.cdn}.cvattv.com.ar/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
+
+console.log("MPD URL:", mpdBase);
+
+
+            // Definir las claves
+            var keyId, key;
+
 
 if (getURL == "RVNQTjJIRA")
 {
@@ -398,19 +630,19 @@ else if (getURL == "VVNBX05ldHdvcms=") // USA NETWORK
 }
 
 
-else if (getURL == "RHNwb3J0c19VWQ==") // DSports UY
+else if (getURL == "RHNwb3J0c19VWQ==")
 {
 	keyId = "143c71292a6dd58404efad283b220539";
 	key = "9fceff2f3d70e2f569d5565407d7f743";
 }
 
-else if (getURL == "RHNwb3J0czJfVVk=") // DSports 2 UY
+else if (getURL == "RHNwb3J0czJfVVk=")
 {
 	keyId = "969a3f92b501140c840243fb52e2bde0";
 	key = "d9957d1813667c03e67f6b21632ea7b4";
 }
 
-else if (getURL == "RHNwb3J0c19QbHVzX1VZ") // DSports + UY
+else if (getURL == "RHNwb3J0c19QbHVzX1VZ")
 {
 	keyId = "517d3690fb9e64f95a9272958a84df32";
 	key = "b563bc52ea05c1e7002a996f688b08b9";
@@ -1006,115 +1238,64 @@ else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
         keyId = "e54e9ea87a634658fbba0e380aa701a7";
         key = "4e486d25d7d0e7d131743b285963c643";
 }
-
-var start = getParameterByName('start');
-var autostart = start !== undefined && start === "true";
-
-
-if (getURL == "RVNQTjJfQXJn")
-{
-	playerInstance.setup({
-		"type": "dash",
-		"file": espn2,
-		"drm": {
-                            "clearkey": {
-                                "keyId": "65a5bfa3c7a72dde60be9b0c7406c8fc",
-                                "key": "0b40ae9f78a7bac3b57ecbf72d3c081e"
-                            }
-                        },
-		width: "100%",
-		height: "100%",
-		autostart: false,
-		cast: {},
-		sharing: {}
-	});
-}
-	
-else
-{
-
-playerInstance.setup({
-    playlist: [{
-        "sources": [
-            {
-                "default": false,
-                "type": "dash",
-                "file": mpd,
-                "drm": {
-                    "clearkey": { "keyId": keyId, "key": key }
-                },
-                "label": "0"
-            }
-        ]
-    }],
-    width: "100%",
-    height: "100%",
-    autostart: autostart,
-    cast: {},
-    sharing: {}
-});
-
-
-}
 	
 
- if (getURL != "") {
-    playerInstance.on("error", function() {
-        var redirectUrl = 'https://zonatv.store/cvatt55.html?get=' + encodeURIComponent(getURL) + '&start=true';
-        window.location = redirectUrl;
-    });
-}
 
-playerInstance.on("ready", function () {
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    const buttonId = "pip-button";
-    const iconPath =
-      "pip.png";
-    const tooltipText = "Imagen dentro de imagen";
+            
 
-    // Evita duplicados
-    if (!document.getElementById(buttonId)) {
-      playerInstance.addButton(
-        iconPath,
-        tooltipText,
-        async function () {
-          const videoEl = playerInstance.getContainer().querySelector("video");
-          if (!document.pictureInPictureElement) {
-            try {
-              await videoEl.requestPictureInPicture();
-            } catch (err) {
-              console.error("Error al activar PiP:", err);
+            // Convertir keyId y key a una cadena JSON
+               if (keyId && key) {
+                var keyString = `"${keyId}":"${key}"`;
+                // Codificar en base64
+                var base64Key = btoa(keyString);
+
+              var extensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
+
+
+                // Mostrar el reproductor o el mensaje de extensión según corresponda
+                const playerDiv = document.getElementById("player");
+                const alertaDiv = document.getElementById("alerta-extension");
+
+                isExtensionInstalled(
+                    () => {
+                        playerDiv.classList.remove("hidden");
+                        playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${extensionUrl}"></iframe>`;
+                    },
+                    () => {
+                        alertaDiv.classList.remove("hidden");
+                    }
+                );
+            } else {
+                alert('KeyId o Key no definidos.');
             }
-          } else {
-            await document.exitPictureInPicture();
-          }
-        },
-        buttonId
-      );
-    }
-  }
-});
+        }
 
-var getLang = getParameterByName('lang');
-var selectedLanguage = getLang;
-var selectedLanguage2 = 1;  
-var languageChangedDuringPlay = false;
+        // Función para verificar si la extensión está instalada
+        function isExtensionInstalled(installedCallback, notInstalledCallback) {
+            const img = document.createElement('img');
+            img.onload = installedCallback;
+            img.onerror = notInstalledCallback;
+            img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
+        }
+    </script>
+    
+    
+    
+    
 
-jwplayer().on('play', function(e) {
-  if (!languageChangedDuringPlay) {
-    var currentLanguage = jwplayer().getCurrentAudioTrack();
+   <!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4833742,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4833742&101" alt="estadisticas gratis" border="0"></a></noscript>
+<!-- Histats.com  END  -->
 
-    if (currentLanguage !== selectedLanguage && currentLanguage !== selectedLanguage2) {
-      jwplayer().setCurrentAudioTrack(selectedLanguage);
-      languageChangedDuringPlay = true;
-    }
-  }
-});
-
-jwplayer().on('complete', function(e) {
-  languageChangedDuringPlay = false;
-});
-
-
-
-</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4e4a5c8b320d4254a0609f040ec1cf72","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
