@@ -18,8 +18,8 @@ https://val03.ride.com.ar/tvmia/1an11/playlist.m3u8
 #https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m3/7ab9e800614dfd7e37d070563636bc40.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/eltrece-ar.png",Canal Trece
-https://val02.ride.com.ar/tvmia/bn202/playlist.m3u8
-#https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m2/083c4bf2068b6900440f1a4e10a8f48c.sdp/playlist.m3u8
+#https://val02.ride.com.ar/tvmia/bn202/playlist.m3u8
+https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m2/083c4bf2068b6900440f1a4e10a8f48c.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/TN_todo_noticias_logo.svg/250px-TN_todo_noticias_logo.svg.png",TN
 https://val03.ride.com.ar/tvmia/an65/playlist.m3u8
