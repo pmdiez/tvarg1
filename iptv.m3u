@@ -17,6 +17,7 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m5/b7a57c4782ac4f920c9867820293d
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/telefe-ar.png",Telefe
 #https://val03.ride.com.ar/tvmia/1an11/playlist.m3u8
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m3/7ab9e800614dfd7e37d070563636bc40.sdp/playlist.m3u8
+#https://telefeappmitelefe1.akamaized.net/hls/live/2037985/appmitelefe/TOK/master.m3u8?hdnea=st=1781665705~exp=1781672905~acl=/hls/live/2037985/appmitelefe/TOK/*~hmac=16673fa3085dbee1b5f60cb9c2085eac7363ada112f202422d27ca9fbaffcfdf
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/eltrece-ar.png",Canal Trece
 #https://val02.ride.com.ar/tvmia/bn202/playlist.m3u8
