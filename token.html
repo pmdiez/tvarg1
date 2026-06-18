@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extractor de Token</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #1a1a1a;
+            border: 2px solid #00ff00;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff00;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+        
+        .status {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-wrap: break-word;
+            word-break: break-all;
+        }
+        
+        .status.success {
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+        
+        .status.error {
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+        
+        .status.loading {
+            border-color: #ffff00;
+            color: #ffff00;
+        }
+        
+        .token-box {
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 12px;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .token-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .token-box::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        .token-box::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        button {
+            background: #0a0a0a;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        button:hover {
+            background: #00ff00;
+            color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+        
+        button.danger {
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+        
+        button.danger:hover {
+            background: #ff0000;
+            color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        .info {
+            color: #888;
+            font-size: 12px;
+            margin-top: 15px;
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+        
+        .copy-success {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00ff00;
+            color: #0a0a0a;
+            padding: 10px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #00ff00;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #00ff00;
+            color: #0a0a0a;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 EXTRACTOR DE TOKEN</h1>
+        
+        <div id="status" class="status loading">
+            <span class="spinner"></span> Conectando a zonatv.store...
+        </div>
+        
+        <div id="tokenContainer" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                <span style="font-size:12px; color:#888;">TOKEN EXTRAÍDO:</span>
+                <span class="badge" id="tokenLength">0</span>
+            </div>
+            <div class="token-box" id="tokenDisplay">Esperando token...</div>
+        </div>
+        
+        <div class="button-group">
+            <button id="extractBtn">🔄 Extraer Token</button>
+            <button id="copyBtn">📋 Copiar</button>
+            <button id="openPage">🌐 Abrir Página</button>
+            <button id="clearBtn" class="danger">🗑️ Limpiar</button>
+        </div>
+        
+        <div class="info">
+            <span id="lastUpdate">Última actualización: ---</span>
+        </div>
+    </div>
+    
+    <div id="copyNotification" class="copy-success">✅ ¡Token copiado al portapapeles!</div>
+
+    <script>
+        // ============================================
+        // EXTRACTOR DE TOKEN - zonatv.store
+        // ============================================
+        
+        const STATUS = document.getElementById('status');
+        const TOKEN_DISPLAY = document.getElementById('tokenDisplay');
+        const TOKEN_CONTAINER = document.getElementById('tokenContainer');
+        const TOKEN_LENGTH = document.getElementById('tokenLength');
+        const LAST_UPDATE = document.getElementById('lastUpdate');
+        const COPY_NOTIFICATION = document.getElementById('copyNotification');
+        
+        let currentToken = '';
+        
+        function setStatus(message, type = 'loading') {
+            STATUS.className = `status ${type}`;
+            STATUS.innerHTML = message;
+        }
+        
+        function showCopyNotification() {
+            COPY_NOTIFICATION.style.display = 'block';
+            setTimeout(() => {
+                COPY_NOTIFICATION.style.display = 'none';
+            }, 3000);
+        }
+        
+        async function extractToken() {
+            setStatus('<span class="spinner"></span> Conectando a zonatv.store...', 'loading');
+            TOKEN_CONTAINER.style.display = 'none';
+            
+            try {
+                // Usamos un proxy CORS para evitar bloqueos
+                const url = 'https://api.allorigins.win/get?url=' + 
+                    encodeURIComponent('https://zonatv.store/cvatt55.html?get=QXJ0ZWFySEQ&start=true');
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                const html = data.contents;
+                
+                setStatus('🔍 Buscando token en el código...', 'loading');
+                
+                // Buscar el token con expresión regular
+                const regex = /tok_[a-zA-Z0-9\-_=]+\.[a-zA-Z0-9\-_=]+\.[a-zA-Z0-9\-_=]+/g;
+                const matches = html.match(regex);
+                
+                let token = null;
+                if (matches) {
+                    // Buscar el token más largo (el completo)
+                    for (const match of matches) {
+                        if (match.length > 100) {
+                            token = match;
+                            break;
+                        }
+                    }
+                }
+                
+                if (token) {
+                    currentToken = token;
+                    TOKEN_DISPLAY.textContent = token;
+                    TOKEN_LENGTH.textContent = `${token.length} caracteres`;
+                    TOKEN_CONTAINER.style.display = 'block';
+                    
+                    // Guardar en localStorage
+                    localStorage.setItem('savedToken', token);
+                    
+                    const fecha = new Date().toLocaleString();
+                    LAST_UPDATE.textContent = `Última actualización: ${fecha}`;
+                    
+                    setStatus(`✅ Token extraído correctamente (${token.length} caracteres)`, 'success');
+                    
+                    // Copiar automáticamente
+                    await copyToClipboard(token);
+                    showCopyNotification();
+                    
+                    return token;
+                } else {
+                    setStatus('❌ No se encontró el token en la página', 'error');
+                    return null;
+                }
+            } catch (error) {
+                setStatus(`❌ Error: ${error.message}`, 'error');
+                console.error('Error:', error);
+                return null;
+            }
+        }
+        
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (err) {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                return true;
+            }
+        }
+        
+        // Event Listeners
+        document.getElementById('extractBtn').addEventListener('click', extractToken);
+        
+        document.getElementById('copyBtn').addEventListener('click', async () => {
+            if (currentToken) {
+                await copyToClipboard(currentToken);
+                showCopyNotification();
+            } else {
+                alert('No hay token para copiar. Primero extrae uno.');
+            }
+        });
+        
+        document.getElementById('openPage').addEventListener('click', () => {
+            window.open('https://zonatv.store/cvatt55.html?get=QXJ0ZWFySEQ&start=true', '_blank');
+        });
+        
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            currentToken = '';
+            TOKEN_DISPLAY.textContent = 'Esperando token...';
+            TOKEN_LENGTH.textContent = '0';
+            TOKEN_CONTAINER.style.display = 'none';
+            localStorage.removeItem('savedToken');
+            setStatus('🧹 Token limpiado', 'loading');
+            LAST_UPDATE.textContent = 'Última actualización: ---';
+        });
+        
+        // Cargar token guardado al iniciar
+        const savedToken = localStorage.getItem('savedToken');
+        if (savedToken) {
+            currentToken = savedToken;
+            TOKEN_DISPLAY.textContent = savedToken;
+            TOKEN_LENGTH.textContent = `${savedToken.length} caracteres`;
+            TOKEN_CONTAINER.style.display = 'block';
+            setStatus('💾 Token cargado desde localStorage', 'success');
+            LAST_UPDATE.textContent = `Última actualización: ${new Date().toLocaleString()}`;
+        }
+        
+        // Auto-extraer al cargar
+        setTimeout(extractToken, 1000);
+    </script>
+</body>
+</html>
