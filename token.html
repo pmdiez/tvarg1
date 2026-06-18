@@ -68,6 +68,11 @@
             color: #ffff00;
         }
         
+        .status.info {
+            border-color: #0088ff;
+            color: #0088ff;
+        }
+        
         .token-box {
             background: #0a0a0a;
             border: 1px solid #00ff00;
@@ -190,6 +195,37 @@
             font-size: 11px;
             font-weight: bold;
         }
+        
+        .manual-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .manual-input input {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        
+        .manual-input input:focus {
+            border-color: #00ff00;
+            outline: none;
+        }
+        
+        .method-tag {
+            display: inline-block;
+            background: #333;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -197,7 +233,7 @@
         <h1>🔐 EXTRACTOR DE TOKEN</h1>
         
         <div id="status" class="status loading">
-            <span class="spinner"></span> Conectando a zonatv.store...
+            <span class="spinner"></span> Inicializando...
         </div>
         
         <div id="tokenContainer" style="display:none;">
@@ -206,6 +242,11 @@
                 <span class="badge" id="tokenLength">0</span>
             </div>
             <div class="token-box" id="tokenDisplay">Esperando token...</div>
+        </div>
+        
+        <div class="manual-input">
+            <input type="text" id="manualToken" placeholder="O pega el token manualmente aquí...">
+            <button id="manualBtn" style="flex:0.3;">📥 Usar</button>
         </div>
         
         <div class="button-group">
@@ -217,6 +258,8 @@
         
         <div class="info">
             <span id="lastUpdate">Última actualización: ---</span>
+            <br>
+            <span id="methodInfo" style="color:#555;"></span>
         </div>
     </div>
     
@@ -224,7 +267,7 @@
 
     <script>
         // ============================================
-        // EXTRACTOR DE TOKEN - zonatv.store
+        // EXTRACTOR DE TOKEN - Múltiples métodos
         // ============================================
         
         const STATUS = document.getElementById('status');
@@ -232,9 +275,12 @@
         const TOKEN_CONTAINER = document.getElementById('tokenContainer');
         const TOKEN_LENGTH = document.getElementById('tokenLength');
         const LAST_UPDATE = document.getElementById('lastUpdate');
+        const METHOD_INFO = document.getElementById('methodInfo');
         const COPY_NOTIFICATION = document.getElementById('copyNotification');
+        const MANUAL_INPUT = document.getElementById('manualToken');
         
         let currentToken = '';
+        let extractionMethod = '';
         
         function setStatus(message, type = 'loading') {
             STATUS.className = `status ${type}`;
@@ -248,63 +294,18 @@
             }, 3000);
         }
         
-        async function extractToken() {
-            setStatus('<span class="spinner"></span> Conectando a zonatv.store...', 'loading');
-            TOKEN_CONTAINER.style.display = 'none';
+        function displayToken(token, method = '') {
+            currentToken = token;
+            TOKEN_DISPLAY.textContent = token;
+            TOKEN_LENGTH.textContent = `${token.length} caracteres`;
+            TOKEN_CONTAINER.style.display = 'block';
+            localStorage.setItem('savedToken', token);
             
-            try {
-                // Usamos un proxy CORS para evitar bloqueos
-                const url = 'https://api.allorigins.win/get?url=' + 
-                    encodeURIComponent('https://zonatv.store/cvatt55.html?get=QXJ0ZWFySEQ&start=true');
-                
-                const response = await fetch(url);
-                const data = await response.json();
-                const html = data.contents;
-                
-                setStatus('🔍 Buscando token en el código...', 'loading');
-                
-                // Buscar el token con expresión regular
-                const regex = /tok_[a-zA-Z0-9\-_=]+\.[a-zA-Z0-9\-_=]+\.[a-zA-Z0-9\-_=]+/g;
-                const matches = html.match(regex);
-                
-                let token = null;
-                if (matches) {
-                    // Buscar el token más largo (el completo)
-                    for (const match of matches) {
-                        if (match.length > 100) {
-                            token = match;
-                            break;
-                        }
-                    }
-                }
-                
-                if (token) {
-                    currentToken = token;
-                    TOKEN_DISPLAY.textContent = token;
-                    TOKEN_LENGTH.textContent = `${token.length} caracteres`;
-                    TOKEN_CONTAINER.style.display = 'block';
-                    
-                    // Guardar en localStorage
-                    localStorage.setItem('savedToken', token);
-                    
-                    const fecha = new Date().toLocaleString();
-                    LAST_UPDATE.textContent = `Última actualización: ${fecha}`;
-                    
-                    setStatus(`✅ Token extraído correctamente (${token.length} caracteres)`, 'success');
-                    
-                    // Copiar automáticamente
-                    await copyToClipboard(token);
-                    showCopyNotification();
-                    
-                    return token;
-                } else {
-                    setStatus('❌ No se encontró el token en la página', 'error');
-                    return null;
-                }
-            } catch (error) {
-                setStatus(`❌ Error: ${error.message}`, 'error');
-                console.error('Error:', error);
-                return null;
+            const fecha = new Date().toLocaleString();
+            LAST_UPDATE.textContent = `Última actualización: ${fecha}`;
+            
+            if (method) {
+                METHOD_INFO.textContent = `Método: ${method}`;
             }
         }
         
@@ -313,18 +314,168 @@
                 await navigator.clipboard.writeText(text);
                 return true;
             } catch (err) {
-                // Fallback
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                return true;
+                try {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
             }
         }
         
-        // Event Listeners
+        // ============================================
+        // MÉTODO 1: Usar un proxy CORS gratuito
+        // ============================================
+        async function extractWithProxy() {
+            setStatus('🔄 Intentando con proxy CORS...', 'loading');
+            
+            const proxies = [
+                'https://api.allorigins.win/raw?url=',
+                'https://corsproxy.io/?',
+                'https://api.codetabs.com/v1/proxy?quest='
+            ];
+            
+            const targetUrl = 'https://zonatv.store/cvatt55.html?get=QXJ0ZWFySEQ&start=true';
+            
+            for (const proxy of proxies) {
+                try {
+                    setStatus(`🔄 Probando proxy: ${proxy}...`, 'loading');
+                    const response = await fetch(proxy + encodeURIComponent(targetUrl));
+                    const html = await response.text();
+                    
+                    if (html && html.length > 100) {
+                        const token = findToken(html);
+                        if (token) {
+                            displayToken(token, 'Proxy CORS');
+                            setStatus(`✅ Token extraído con proxy: ${proxy.split('/')[2]}`, 'success');
+                            return token;
+                        }
+                    }
+                } catch (e) {
+                    console.log(`Proxy ${proxy} falló:`, e.message);
+                }
+            }
+            return null;
+        }
+        
+        // ============================================
+        // MÉTODO 2: Usar JSONP (alternativa)
+        // ============================================
+        function findToken(html) {
+            const regex = /tok_[a-zA-Z0-9\-_=]+\.[a-zA-Z0-9\-_=]+\.[a-zA-Z0-9\-_=]+/g;
+            const matches = html.match(regex);
+            
+            if (matches) {
+                // Buscar el token más largo (el completo)
+                let longest = '';
+                for (const match of matches) {
+                    if (match.length > 100 && match.length > longest.length) {
+                        longest = match;
+                    }
+                }
+                return longest || null;
+            }
+            return null;
+        }
+        
+        // ============================================
+        // MÉTODO 3: Cargar en un iframe (alternativa)
+        // ============================================
+        function extractWithIframe() {
+            return new Promise((resolve) => {
+                setStatus('🔄 Cargando página en iframe...', 'loading');
+                
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = 'https://zonatv.store/cvatt55.html?get=QXJ0ZWFySEQ&start=true';
+                document.body.appendChild(iframe);
+                
+                let attempts = 0;
+                const maxAttempts = 20;
+                
+                const checkIframe = setInterval(() => {
+                    attempts++;
+                    try {
+                        const html = iframe.contentDocument?.documentElement?.innerHTML || '';
+                        if (html && html.length > 100) {
+                            const token = findToken(html);
+                            if (token) {
+                                clearInterval(checkIframe);
+                                document.body.removeChild(iframe);
+                                displayToken(token, 'iframe');
+                                setStatus('✅ Token extraído del iframe', 'success');
+                                resolve(token);
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                        // Error de cross-origin, esperamos
+                    }
+                    
+                    if (attempts >= maxAttempts) {
+                        clearInterval(checkIframe);
+                        document.body.removeChild(iframe);
+                        resolve(null);
+                    }
+                }, 500);
+            });
+        }
+        
+        // ============================================
+        // MÉTODO PRINCIPAL
+        // ============================================
+        async function extractToken() {
+            setStatus('🔍 Buscando token...', 'loading');
+            TOKEN_CONTAINER.style.display = 'none';
+            
+            // Probar métodos en secuencia
+            let token = null;
+            
+            // Método 1: Proxy
+            token = await extractWithProxy();
+            if (token) {
+                await copyToClipboard(token);
+                showCopyNotification();
+                return token;
+            }
+            
+            // Método 2: iframe
+            token = await extractWithIframe();
+            if (token) {
+                await copyToClipboard(token);
+                showCopyNotification();
+                return token;
+            }
+            
+            // Si todo falla
+            setStatus('❌ No se pudo extraer el token automáticamente. Pega el token manualmente.', 'error');
+            return null;
+        }
+        
+        // ============================================
+        // MANEJO MANUAL
+        // ============================================
+        document.getElementById('manualBtn').addEventListener('click', () => {
+            const token = MANUAL_INPUT.value.trim();
+            if (token && token.startsWith('tok_') && token.length > 50) {
+                displayToken(token, 'Manual');
+                setStatus('✅ Token cargado manualmente', 'success');
+                copyToClipboard(token);
+                showCopyNotification();
+                MANUAL_INPUT.value = '';
+            } else {
+                setStatus('❌ Token inválido. Debe empezar con "tok_" y tener más de 50 caracteres.', 'error');
+            }
+        });
+        
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
         document.getElementById('extractBtn').addEventListener('click', extractToken);
         
         document.getElementById('copyBtn').addEventListener('click', async () => {
@@ -348,21 +499,20 @@
             localStorage.removeItem('savedToken');
             setStatus('🧹 Token limpiado', 'loading');
             LAST_UPDATE.textContent = 'Última actualización: ---';
+            METHOD_INFO.textContent = '';
         });
         
-        // Cargar token guardado al iniciar
+        // ============================================
+        // INICIO
+        // ============================================
         const savedToken = localStorage.getItem('savedToken');
-        if (savedToken) {
-            currentToken = savedToken;
-            TOKEN_DISPLAY.textContent = savedToken;
-            TOKEN_LENGTH.textContent = `${savedToken.length} caracteres`;
-            TOKEN_CONTAINER.style.display = 'block';
+        if (savedToken && savedToken.length > 100) {
+            displayToken(savedToken, 'Guardado');
             setStatus('💾 Token cargado desde localStorage', 'success');
-            LAST_UPDATE.textContent = `Última actualización: ${new Date().toLocaleString()}`;
+        } else {
+            // Auto-extraer al cargar
+            setTimeout(extractToken, 1000);
         }
-        
-        // Auto-extraer al cargar
-        setTimeout(extractToken, 1000);
     </script>
 </body>
 </html>
