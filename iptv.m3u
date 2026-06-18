@@ -115,10 +115,12 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m32/b7efa7c7310fdb1da1f291130ce2
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m33/90cc6d714a15b1b37a61fae9bc1981ba.sdp/playlist.m3u8
 
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/tnt-sports-ar.png",TNTSports
-https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m30/25f6a1fae81ddc7a5c8a0487501da41e.sdp/playlist.m3u8
+#https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m30/25f6a1fae81ddc7a5c8a0487501da41e.sdp/playlist.m3u8
+https://hcroq.vivolatamz.org/lb02/tntsports/index.m3u8?token=f7ff879202e2095daf4b83e4cfcad37574da3ea2-3c-1781815068-1781761068&ip=104.28.163.69
 
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/espn-premium-ar.png",ESPN Premium
-https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m36/f5fc3d0a47c13e494d2f1f46b7c61ce5.sdp/playlist.m3u8
+#https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m36/f5fc3d0a47c13e494d2f1f46b7c61ce5.sdp/playlist.m3u8
+https://walhe.vivolatamz.org/lb06/espnpremium/index.m3u8?token=1c19d57233837045592fbd4ca3b3322298e51bd9-6d-1781814843-1781760843&ip=104.28.163.69
 
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/fox-sports-ar.png",Fox Sports
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m34/57965ce67cfba6f4aa768d2d1d6bb928.sdp/playlist.m3u8
