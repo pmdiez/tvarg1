@@ -1,0 +1,10 @@
+<video id="videoPlayer" controls></video>
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<script>
+  const player = dashjs.MediaPlayer().create();
+  player.initialize(
+    document.querySelector("#videoPlayer"),
+    "https://otte.live.fly.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/qubxnja5rl/out/v1/4ef0db80aa3341e2babb58314541f1e0/cenc.mpd",
+    true
+  );
+</script>
