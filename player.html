@@ -192,7 +192,7 @@ function showUnsupportedDeviceMessage() {
         } else {
 
 // ============================================================
-// 🔥 CAMBIO 1: Token dinámico desde Cloudflare Worker
+// 🔥 CÓDIGO MODIFICADO PARA TOKEN DINÁMICO
 // ============================================================
 
 // Variable que se llenará automáticamente
@@ -227,54 +227,41 @@ async function obtenerToken() {
 }
 
 // ============================================================
-// FIN CAMBIO 1
-// ============================================================
-
-// ============================================================
-// 🔥 CAMBIO 2: Función principal async
+// FUNCIÓN PRINCIPAL - Todo el código original va aquí dentro
 // ============================================================
 
 async function iniciarReproductor() {
+    console.log('🚀 Iniciando reproductor...');
+    
+    // 1. OBTENER TOKEN (esperar a que termine)
+    await obtenerToken();
+    
+    // 2. Si no se obtuvo, usar respaldo
+    if (mt.length === 0 || !mt[0].token) {
+        console.log('📌 Usando token de respaldo');
+        mt = [{
+            cdn: cdnFijo,
+            token: tokenRespaldo
+        }];
+    }
+    
+    console.log('🔑 Token:', mt[0].token.substring(0, 50) + '...');
 
-// ============================================================
-// FIN CAMBIO 2
-// ============================================================
+    // ============================================================
+    // 3. TODO EL CÓDIGO ORIGINAL (sin modificar nada)
+    // ============================================================
 
-// ============================================================
-// 🔥 CAMBIO 3: Obtener token y usar respaldo si falla
-// ============================================================
+    var randomIndex = Math.floor(Math.random() * mt.length);
+    var selected = mt[randomIndex];
 
-// Intentar obtener token del Worker
-await obtenerToken();
+    console.log("CDN seleccionado:", selected.cdn);
 
-// Si no se obtuvo, usar respaldo
-if (mt.length === 0 || !mt[0].token) {
-    console.log('📌 Usando token de respaldo');
-    mt = [{
-        cdn: cdnFijo,
-        token: tokenRespaldo
-    }];
-}
+    var mpdBase = `https://${selected.cdn}.http.global.dns.qwilted-cds.cqloud.com/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
 
-// ============================================================
-// FIN CAMBIO 3 - TODO EL CÓDIGO ORIGINAL SIGUE IGUAL
-// ============================================================
+    console.log("MPD URL:", mpdBase);
 
-// TODO EL CÓDIGO ORIGINAL VA AQUÍ (sin modificar nada más)
-
-var randomIndex = Math.floor(Math.random() * mt.length);
-var selected = mt[randomIndex];
-
-console.log("CDN seleccionado:", selected.cdn);
-
-var mpdBase = `https://${selected.cdn}.http.global.dns.qwilted-cds.cqloud.com/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
-
-console.log("MPD URL:", mpdBase);
-
-
-            // Definir las claves
-            var keyId, key;
-
+    // Definir las claves
+    var keyId, key;
 
 if (getURL == "RVNQTjJIRA")
 {
@@ -1250,17 +1237,12 @@ else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
         }
 
         // ============================================================
-        // 🔥 CIERRE DE LA FUNCIÓN iniciarReproductor()
-        // ============================================================
-        // Esta llave cierra la función async iniciarReproductor
-
-        // ============================================================
-        // 🔥 Ejecutar la función principal
+        // 🔥 EJECUTAR LA FUNCIÓN PRINCIPAL
         // ============================================================
         iniciarReproductor();
 
         // ============================================================
-        // FIN - TODO EL RESTO DEL CÓDIGO SIGUE IGUAL
+        // FIN - Función para verificar la extensión
         // ============================================================
 
         // Función para verificar si la extensión está instalada
