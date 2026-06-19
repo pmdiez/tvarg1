@@ -227,7 +227,7 @@ async function obtenerToken() {
 }
 
 // ============================================================
-// FUNCIÓN PRINCIPAL - Todo el código original va aquí dentro
+// FUNCIÓN PRINCIPAL - TODO EL CÓDIGO ORIGINAL VA AQUÍ DENTRO
 // ============================================================
 
 async function iniciarReproductor() {
@@ -247,10 +247,7 @@ async function iniciarReproductor() {
     
     console.log('🔑 Token:', mt[0].token.substring(0, 50) + '...');
 
-    // ============================================================
-    // 3. TODO EL CÓDIGO ORIGINAL (sin modificar nada)
-    // ============================================================
-
+    // 3. EL CÓDIGO ORIGINAL (sin modificar)
     var randomIndex = Math.floor(Math.random() * mt.length);
     var selected = mt[randomIndex];
 
@@ -1205,53 +1202,42 @@ else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
         key = "4e486d25d7d0e7d131743b285963c643";
 }
 	
+    // Convertir keyId y key a una cadena JSON
+    if (keyId && key) {
+        var keyString = `"${keyId}":"${key}"`;
+        var base64Key = btoa(keyString);
+        var extensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
 
+        const playerDiv = document.getElementById("player");
+        const alertaDiv = document.getElementById("alerta-extension");
 
-            
-
-            // Convertir keyId y key a una cadena JSON
-               if (keyId && key) {
-                var keyString = `"${keyId}":"${key}"`;
-                // Codificar en base64
-                var base64Key = btoa(keyString);
-
-              var extensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
-
-
-                // Mostrar el reproductor o el mensaje de extensión según corresponda
-                const playerDiv = document.getElementById("player");
-                const alertaDiv = document.getElementById("alerta-extension");
-
-                isExtensionInstalled(
-                    () => {
-                        playerDiv.classList.remove("hidden");
-                        playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${extensionUrl}"></iframe>`;
-                    },
-                    () => {
-                        alertaDiv.classList.remove("hidden");
-                    }
-                );
-            } else {
-                alert('KeyId o Key no definidos.');
+        isExtensionInstalled(
+            () => {
+                playerDiv.classList.remove("hidden");
+                playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${extensionUrl}"></iframe>`;
+            },
+            () => {
+                alertaDiv.classList.remove("hidden");
             }
-        }
+        );
+    } else {
+        alert('KeyId o Key no definidos.');
+    }
+}
 
-        // ============================================================
-        // 🔥 EJECUTAR LA FUNCIÓN PRINCIPAL
-        // ============================================================
-        iniciarReproductor();
+// ============================================================
+// 🔥 EJECUTAR LA FUNCIÓN PRINCIPAL
+// ============================================================
+iniciarReproductor();
 
-        // ============================================================
-        // FIN - Función para verificar la extensión
-        // ============================================================
+// Función para verificar si la extensión está instalada
+function isExtensionInstalled(installedCallback, notInstalledCallback) {
+    const img = document.createElement('img');
+    img.onload = installedCallback;
+    img.onerror = notInstalledCallback;
+    img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
+}
 
-        // Función para verificar si la extensión está instalada
-        function isExtensionInstalled(installedCallback, notInstalledCallback) {
-            const img = document.createElement('img');
-            img.onload = installedCallback;
-            img.onerror = notInstalledCallback;
-            img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
-        }
     </script>
     
       
