@@ -1,0 +1,288 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TV Deportes en VIVO</title>
+    <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #player {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+        #player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .alert-card {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            margin: 20px auto;
+        }
+        .alert-card h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .alert-card .boxicon {
+            font-size: 48px;
+            color: #ff0;
+        }
+        .alert-card p {
+            margin: 10px 0;
+            color: #ebebeb;
+        }
+        @media (max-width: 480px) {
+            .alert-card {
+                max-width: 90%;
+                padding: 5px;
+                margin-right: 50px;
+            }
+            .alert-card h2 {
+                font-size: 20px;
+            }
+            .alert-card .boxicon {
+                font-size: 36px;
+            }
+            .alert-card p {
+                font-size: 14px;
+            }
+        }
+        @media (min-width: 481px) and (max-width: 768px) {
+            .alert-card {
+                max-width: 80%;
+                padding: 25px;
+            }
+            .alert-card h2 {
+                font-size: 22px;
+            }
+            .alert-card .boxicon {
+                font-size: 42px;
+            }
+            .alert-card p {
+                font-size: 16px;
+            }
+        }
+        a {
+            color: #0f0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="player" class="hidden"></div>
+        <div id="alerta-extension" class="hidden alert">
+            <i class="bx bx-error-circle boxicon"></i>
+            <center>
+                <div id="jb" class="jumbotron">
+                    <div class="image"><img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60" width="10%"></div>
+                    <h1>Reproductor MPD/M3U8/M3U/EPG</h1>
+                </div>
+                <p><i style="color:red">IMPORTANTE</i>: Para reproducir el canal necesitas instalar la extension en tu Navegador Google Chrome: <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
+                <h2>Instalacion</h2>
+                <p>Para instalar la extension Tienes que ingresar a <a target="_blank" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">Reproductor MPD/M3U8/M3U/EPG</a> o buscar en <b>Chrome Web Store o Brave</b></p>
+                <img src="/img/brave.png" width="40%">
+                <p>Una vez instalada la extension recarga la pagina y visualizaras el canal.</p>
+            </center>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // ============================================================
+        // FUNCIONES BÁSICAS
+        // ============================================================
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+            var results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var getURL = getParameterByName('get');
+        if (getURL == "") { alert('Vuelve a la página anterior'); }
+
+        // ============================================================
+        // CONFIGURACIÓN DEL NÚMERO DE CANAL
+        // ============================================================
+        var number;
+
+        if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA==" || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" || getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" || getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz" || getURL == "VVNBX05ldHdvcms=" || getURL == "RHNwb3J0c19VWQ==" || getURL == "RHNwb3J0czJfVVk=" || getURL == "RHNwb3J0c19QbHVzX1VZ")
+            number = 7;
+        else if (getURL == "RVNQTjJfQXJn" || getURL == "Q2luZW1heA==" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfOF9DQkE" || getURL == "MjZfVFZfSEQ" || getURL == "RGlwdXRhZG9zX1RW" || getURL == "QXJnZW50aW5pc2ltYQ" || getURL == "TWV0cm8" || getURL == "QkJDX1dvcmxkX05ld3M" || getURL == "VGhlYXRlcl9IRA==" || getURL == "R2xpdHo=" || getURL == "UXVpZXJvX0hE" || getURL == "RGlzY292ZXJ5X1dvcmxkX0hE" || getURL == "RXVyb2NoYW5uZWw=" || getURL == "RGlzY292ZXJ5X1NjaWVuY2U=" || getURL == "SU5DQUFfVHY=" || getURL == "VFY1X01vbmRl" || getURL == "TVRWX0hpdHM=" || getURL == "TVRWX0hE" || getURL == "Tmlja19Kcg==" || getURL == "VFZfRXNwYW5h" || getURL == "V09CSQ==" || getURL == "Vm9sdmVy" || getURL == "VGVsZXN1cg==" || getURL == "TGlmZXRpbWU=" || getURL == "QW50ZW5hXzM=" || getURL == "Rm94X05ld3M=" || getURL == "VHZfQ2hpbGU=" || getURL == "QU1DX1Nlcmllcw==" || getURL == "U3R1ZGlvX1VuaXZlcnNhbA==" || getURL == "SVNBVA==" || getURL == "U3VuX0NoYW5uZWw=" || getURL == "UkFJ" || getURL == "VmVudXM=" || getURL == "U2V4dHJlbWU" || getURL == "UGxheWJveQ" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "VGVsZWZlSEQ=" || getURL == "Q2FuYWw3" || getURL == "RW5jdWVudHJv" || getURL == "VGVsZW1heA" || getURL == "TmV0X1RW" || getURL == "Q2FuYWxfMTJfQ0JB" || getURL == "RWxfR2FyYWdl" || getURL == "RmlsbV9BcnRz" || getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" || getURL == "RXVyb3BhX0V1cm9wYQ" || getURL == "RXVyb25ld3M=" || getURL == "Rm9vZF9OZXR3b3Jr" || getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=" || getURL == "Q00=" || getURL == "UEFLQV9QQUtB" || getURL == "SGlzdG9yeV8y" || getURL == "U3lGeQ==" || getURL == "VEJT" || getURL == "VENN" || getURL == "SEJPXzI=" || getURL == "SEJPX1BsdXM=" || getURL == "SEJPX0ZhbWlseQ==" || getURL == "SEJPX0V4dHJlbWU=" || getURL == "SEJPX011bmRp" || getURL == "SEJPX1NpZ25hdHVyZQ==" || getURL == "Q2FuYWxfUnVyYWw=" || getURL == "VExD" || getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk" || getURL == "RGlzY292ZXJ5X0tpZHM=" || getURL == "SFRW" || getURL == "TkJBX1RW" || getURL == "VW5pdmVyc2FsX0NpbmVtYQ==" || getURL == "VW5pdmVyc2FsX0NvbWVkeQ==" || getURL == "dW5pdmVyc2FsX0NyaW1l" || getURL == "VW5pdmVyc2FsX1ByZW1pZXJl" || getURL == "VW5pdmVyc2FsX1JlYWxpdHk=" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" || getURL == "Q2FuYWxfUnVyYWw=" || getURL == "S1pP" || getURL == "R29sZGVu")
+            number = 6;
+        else if (getURL == "QzlOX0M0")
+            number = 5;
+        else if (getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE" || getURL == "TmF0R2VvSEQ=" || getURL == "VE5UX0hEX0FyZw==" || getURL == "VE5UU2VyaWVz" || getURL == "Q2FydG9vbk5ldHdvcms=" || getURL == "Tmlja2Vsb2Rlb24=" || getURL == "QWR1bHRfU3dpbQ==" || getURL == "RXZlbnRvczFIRA" || getURL == "VHlDX0ludGVybmFjaW9uYWw=")
+            number = 3;
+        else if (getURL == "Q2FuYWxfNV9Sb3Nhcmlv" || getURL == "VEVMRUZVVFVST19DNA==" || getURL == "VGVsZWZlX05ldXF1ZW4=" || getURL == "VGVsZWZlX1NhbHRh" || getURL == "U05UX0M0" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "TEFfVEVMRV9DNA==" || getURL == "U1VSX1RWX0M0" || getURL == "Q2FuYWwxMlVSVQ==" || getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE" || getURL == "Q2FuYWw0X1VSVQ==" || getURL == "SEJPSEQ=" || getURL == "Q2FuYWwxMF9VUlU=" || getURL == "UlBDX0M0" || getURL == "RVNQTjJfVVk=" || getURL == "RVNQTl9VWQ==")
+            number = 4;
+        else
+            number = 3;
+
+        // ============================================================
+        // VERIFICACIÓN DE DISPOSITIVO
+        // ============================================================
+        function isWindowsPC() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
+        }
+
+        function showUnsupportedDeviceMessage() {
+            const unsupportedMessage = document.createElement('div');
+            unsupportedMessage.classList.add('alert-card');
+            unsupportedMessage.innerHTML = `
+                <i class='bx bx-error-circle boxicon'></i>
+                <h2>Dispositivo no compatible</h2>
+                <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
+            `;
+            document.body.appendChild(unsupportedMessage);
+        }
+
+        if (!isWindowsPC()) {
+            showUnsupportedDeviceMessage();
+        } else {
+
+            // ============================================================
+            // 🔥 CÓDIGO PRINCIPAL CON TOKEN DINÁMICO
+            // ============================================================
+            var cdnFijo = "qn-01282-hor-1-01-1---7482-vm9d";
+            var tokenActual = "";
+
+            // Token de respaldo (por si el Worker falla)
+            var tokenRespaldo = "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzgxOTAwNTg2Iiwic2lwIjoiODQuMjUyLjExNC44IiwicGF0aCI6Ii9saXZlL2M3ZWRzL1NvbnlIRC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjE3MTAxYzE5ZTM4MDI5ZWMiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIzIiwiYXVkIjoiMjgyIiwic291cmNlcyI6WzE5MSw4NSwxNDQsMjEwLDg2LDg4XX0=.qE08CnYh29DEvq2ZzEdTmmhnKwRnGjk65E_LtD6pV3DK6cTSEfq7RYdGzuxLefJChkh4zJxMvOd7tJDjzYBpeQ==";
+
+            // ============================================================
+            // FUNCIÓN PARA OBTENER TOKEN
+            // ============================================================
+            function obtenerToken(callback) {
+                fetch('https://token.pmdiez.workers.dev/')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success && data.token) {
+                            tokenActual = data.token;
+                            console.log('✅ Token obtenido del Worker:', tokenActual.substring(0, 50) + '...');
+                            callback(null, tokenActual);
+                        } else {
+                            console.warn('⚠️ No se pudo obtener token del Worker, usando respaldo');
+                            callback(null, tokenRespaldo);
+                        }
+                    })
+                    .catch(err => {
+                        console.warn('⚠️ Error al obtener token:', err.message);
+                        callback(null, tokenRespaldo);
+                    });
+            }
+
+            // ============================================================
+            // FUNCIÓN QUE INICIA EL REPRODUCTOR
+            // ============================================================
+            function iniciarReproductorConToken(token) {
+                console.log('🔑 Usando token:', token.substring(0, 50) + '...');
+
+                // Construir mt con el token obtenido
+                var mt = [{ cdn: cdnFijo, token: token }];
+                var randomIndex = Math.floor(Math.random() * mt.length);
+                var selected = mt[randomIndex];
+
+                console.log("CDN seleccionado:", selected.cdn);
+
+                var mpdBase = `https://${selected.cdn}.http.global.dns.qwilted-cds.cqloud.com/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
+
+                console.log("MPD URL:", mpdBase);
+
+                // ============================================================
+                // DEFINIR CLAVES (SOLO EJEMPLO, AGREGA TODAS LAS QUE NECESITES)
+                // ============================================================
+                var keyId, key;
+
+                // ⚠️ Aquí van TODAS tus claves keyId/key
+                // Este es solo un ejemplo, reemplázalo con tu código completo
+                if (getURL == "QkJDX1dvcmxkX05ld3M") {
+                    keyId = "019f72f2091d4cbea59ff8c85b117f86";
+                    key = "a4eac51195506752f9f63ad24def9c37";
+                } else if (getURL == "QVhOSEQ=") {
+                    keyId = "03e77b5bbf5135a85d587c5af2f2f730";
+                    key = "1dd1ab1938a791d03f09eb88478b4880";
+                } else {
+                    // Si no encuentra la clave, usa una por defecto
+                    keyId = "019f72f2091d4cbea59ff8c85b117f86";
+                    key = "a4eac51195506752f9f63ad24def9c37";
+                }
+
+                // ============================================================
+                // CONSTRUIR URL DE LA EXTENSIÓN
+                // ============================================================
+                if (keyId && key) {
+                    var keyString = `"${keyId}":"${key}"`;
+                    var base64Key = btoa(keyString);
+                    var extensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
+
+                    const playerDiv = document.getElementById("player");
+                    const alertaDiv = document.getElementById("alerta-extension");
+
+                    isExtensionInstalled(
+                        () => {
+                            playerDiv.classList.remove("hidden");
+                            playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${extensionUrl}"></iframe>`;
+                        },
+                        () => {
+                            alertaDiv.classList.remove("hidden");
+                        }
+                    );
+                } else {
+                    alert('KeyId o Key no definidos.');
+                }
+            }
+
+            // ============================================================
+            // VERIFICAR EXTENSIÓN
+            // ============================================================
+            function isExtensionInstalled(installedCallback, notInstalledCallback) {
+                const img = document.createElement('img');
+                img.onload = installedCallback;
+                img.onerror = notInstalledCallback;
+                img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
+            }
+
+            // ============================================================
+            // 🔥 INICIAR TODO: OBTENER TOKEN Y LUEGO REPRODUCIR
+            // ============================================================
+            obtenerToken(function(err, token) {
+                // Si hay error, token será el de respaldo
+                iniciarReproductorConToken(token);
+            });
+
+        }
+    </script>
+</body>
+</html>
