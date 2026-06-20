@@ -107,6 +107,10 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m9/1bf05575f7908eac96eb72f88ade6
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/tyc-sports-ar.png",TYCSports
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m29/4781134d9ccc5226fed6e32ee9565e1a.sdp/playlist.m3u8
 
+#EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/espn-ar.png",ESPN Deportes
+
+https://rekh0b61oeoi.78655371.net:8443/hls/lf445b.m3u8?s=Vx6Uq50Gjfuak7T9JPHh4Q&e=1781978438
+
 #EXTINF:-1 group-title="Internacional / Deportes" tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/main/countries/argentina/espn-ar.png",ESPN
 https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m31/99d0b8450ef24ed1695bf1277b38a510.sdp/playlist.m3u8
 
