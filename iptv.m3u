@@ -13,9 +13,9 @@ https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m5/b7a57c4782ac4f920c9867820293d
 
 
 #EXTINF:-1 group-title="Noticias / General" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/TVP_-_Televisi%C3%B3n_P%C3%BAblica_%282021%29.svg/250px-TVP_-_Televisi%C3%B3n_P%C3%BAblica_%282021%29.svg.png",TV Pública
-https://edgetvp.global.ssl.fastly.net/b16/ngrp:c7_vivo01_dai_source-20001_all/c7_vivo01_dai_source-20001_1080p.m3u8?hdnts=exp=1781793584~acl=104.28.162.223~hmac=7e2db719b7d8b04e0dcdb185bd89607e63a72932ab21904365ca86a74a53c170
+#https://edgetvp.global.ssl.fastly.net/b16/ngrp:c7_vivo01_dai_source-20001_all/c7_vivo01_dai_source-20001_1080p.m3u8?hdnts=exp=1781793584~acl=104.28.162.223~hmac=7e2db719b7d8b04e0dcdb185bd89607e63a72932ab21904365ca86a74a53c170
 https://manifest.googlevideo.com/api/manifest/hls_playlist/expire/1782041169/ei/8XU3apKICILQp-oPtcahkQo/ip/104.28.162.223/id/CrwZz19aCrk.1/itag/96/source/yt_live_broadcast/requiressl/yes/ratebypass/yes/live/1/sgoap/gir%3Dyes%3Bitag%3D140/sgovp/gir%3Dyes%3Bitag%3D137/rqh/1/hls_chunk_host/rr4---sn-1gi7znes.googlevideo.com/xpc/EgVo2aDSNQ%3D%3D/ctier/SPL/bui/ARmQxEX47mPYUObSMKfZnGr3jsy0P76VY7pOPyizOR0rA92UOWWj-b3gVT7y_Oz0OHCCyTECAm2HeOEB/spc/SQ-umqE2L7FHF4ePjDKXYxp-7eDfsL5vNh4Y6V1-lgVnTB3g6A/vprv/1/reg/0/playlist_type/DVR/initcwndbps/2912500/met/1782019570,/mh/RZ/mm/44/mn/sn-1gi7znes/ms/lva/mv/m/mvi/4/pl/24/rms/lva,lva/dover/11/pacing/0/keepalive/yes/fexp/51565115,51565682,51987687/mt/1782019232/sparams/expire,ei,ip,id,itag,source,requiressl,ratebypass,live,sgoap,sgovp,rqh,xpc,ctier,bui,spc,vprv,reg,playlist_type/sig/AHEqNM4wRQIhAOryPinqYJmAyZ1U6B7pKlB7bYT7MEOdWN94nUgY9XpsAiAgC3PP5JEbbY2kXVmkn3kFHitQC2lyPp-lpef1ZVI_kg%3D%3D/lsparams/hls_chunk_host,initcwndbps,met,mh,mm,mn,ms,mv,mvi,pl,rms/lsig/APaTxxMwRAIgFX6MeYqsVNYSBKx6vxGeIGAEmZoONXLOKlsygfEuq-YCIE7CS9twnJts8Gp4zSBVVIMwbz0f8efcLJR6jwv5_dBp/playlist/index.m3u8
-https://val02.ride.com.ar/tvmia/04an/playlist.m3u8
+#https://val02.ride.com.ar/tvmia/04an/playlist.m3u8
 #https://j7md5zrwdrwv-hls-live.5centscdn.com/vt41m4/e4f8d87d28edabcafc8f3ede1820e605.sdp/playlist.m3u8
 
 
