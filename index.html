@@ -50,6 +50,23 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
+
+        .channel-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+        .channel-card:hover { transform: translateY(-2px); }
+        .logo-box { min-height: 78px; display:flex; align-items:center; justify-content:center; }
+        .logo-box img { max-width: 150px; max-height: 58px; width:auto; height:auto; object-fit:contain; }
+        .compact-grid { grid-template-columns: 1fr !important; }
+        .compact-card { flex-direction:row !important; align-items:center !important; padding: .75rem 1rem !important; }
+        .compact-card .logo-box { width:54px; min-height:54px; flex:0 0 54px; }
+        .compact-card .logo-box img { max-width:48px; max-height:42px; }
+        .compact-card .card-actions { width:auto !important; margin-left:auto; }
+        .compact-card .mirror-area { display:none; }
+        .filter-tool { display:inline-flex; align-items:center; gap:.35rem; padding:.5rem .75rem; border-radius:.7rem; border:1px solid rgb(229 231 235); background:white; color:rgb(55 65 81); font-size:.78rem; font-weight:600; white-space:nowrap; cursor:pointer; transition:all .2s ease; }
+        .dark .filter-tool { border-color:rgb(55 65 81); background:rgb(31 41 55); color:rgb(209 213 219); }
+        .filter-tool:hover { border-color:rgb(59 130 246); color:rgb(37 99 235); }
+        .filter-tool.active { background:rgb(37 99 235); border-color:rgb(37 99 235); color:white; }
+        .category-count { font-size:.68rem; opacity:.75; }
+        @media (prefers-reduced-motion: reduce) { * { scroll-behavior:auto !important; animation:none !important; transition:none !important; } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans min-h-screen flex flex-col">
@@ -65,7 +82,7 @@
                 <h1 class="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400">
                     Lista de Canales
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base"></p>
+                <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base">Canales en vivo · búsqueda rápida · favoritos</p>
             </div>
             <button id="themeToggle" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 shadow-md group cursor-pointer">
                 <span id="themeIcon" class="text-xl">🌙</span>
@@ -92,6 +109,24 @@
                 <!-- Categories -->
                 <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2 justify-start sm:justify-center" id="categoryContainer">
                     <!-- Categories injected by JS -->
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-2 max-w-6xl mx-auto w-full">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button id="favoritesToggle" type="button" class="filter-tool">⭐ Favoritos <span id="favoriteCount" class="category-count">0</span></button>
+                        <button id="recentToggle" type="button" class="filter-tool">🕘 Recientes</button>
+                        <button id="clearFilters" type="button" class="filter-tool hidden">✕ Limpiar</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <select id="sortSelect" class="filter-tool bg-white dark:bg-gray-800" aria-label="Ordenar canales">
+                            <option value="default">Orden original</option>
+                            <option value="az">A → Z</option>
+                            <option value="za">Z → A</option>
+                            <option value="favorites">Favoritos primero</option>
+                            <option value="recent">Más vistos</option>
+                        </select>
+                        <button id="viewToggle" type="button" class="filter-tool" title="Cambiar vista">▦ Compacta</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -305,12 +340,26 @@ Lista de Canales
         const state = {
             searchQuery: '',
             activeCategory: 'Todos',
-            isDarkMode: false
+            isDarkMode: false,
+            favoritesOnly: false,
+            recentOnly: false,
+            compactView: false,
+            sort: 'default',
+            favorites: [],
+            recent: []
         };
 
-        try {
-            state.isDarkMode = localStorage.getItem('darkMode') === 'true';
-        } catch (e) {}
+        function loadStorage() {
+            try {
+                state.isDarkMode = localStorage.getItem('darkMode') === 'true';
+                state.favorites = JSON.parse(localStorage.getItem('channelFavorites') || '[]');
+                state.recent = JSON.parse(localStorage.getItem('channelRecent') || '[]');
+                state.activeCategory = localStorage.getItem('channelCategory') || 'Todos';
+                state.sort = localStorage.getItem('channelSort') || 'default';
+                state.compactView = localStorage.getItem('channelCompact') === 'true';
+            } catch (e) {}
+        }
+        loadStorage();
 
         const categories = [
             { name: 'Todos', icon: '📋' },
@@ -356,6 +405,103 @@ Lista de Canales
             { name: "FreeShot Live", url: "https://www.freeshot.live/", icon: "📺" }
         ];
 
+        /*
+         * CLASIFICACIÓN DE CANALES
+         * ------------------------
+         * Se usa el nombre del canal como fuente principal y el emoji como
+         * respaldo. Así los canales que llevan logo HTML también quedan
+         * correctamente clasificados.
+         *
+         * Categorías disponibles:
+         * TV | Cine | Deportes | Basket | Noticias | Docu/Cultura |
+         * Infantil | Música | Adultos | Internacional
+         */
+        const CHANNEL_CATEGORIES = {};
+
+        function addCategory(category, names) {
+            names.split('|').forEach(name => {
+                CHANNEL_CATEGORIES[name] = category;
+            });
+        }
+
+        // Cine / series / entretenimiento
+        addCategory('Cine',
+            'Cinecanal|Space|Star+|A3 Cine|A3 Series|Adult Swim|AEHD|' +
+            'AMC Series|AXNHD|BravoTV|ComedyCentral|Cinemax|E Entertainment Television|' +
+            'Eurochannel|Europa Europa|Glitz|Golden|HBO 2|HBO Extreme|HBO Mundi|' +
+            'HBO Plus|HBO POP|HBO Signature|HBOHD|Hola TV|INCAA Tv|ISAT|Paramount|' +
+            'SonyHD|Studio Universal|SyFy|TBS|TCM|TNT HD Arg|TNTSeries|TruTV|' +
+            'Universal Channel HD|Universal Cinema|Universal Comedy|universal Crime|' +
+            'Universal Premiere|Universal Reality|USA Network|Volver|WarnerHD'
+        );
+
+        // Deportes
+        addCategory('Deportes',
+            'ESPN2 Arg|ESPN2 UY|ESPN3 Uy-Py|ESPN4|ESPN UY|' +
+            'Eventos1HD|Eventos 2 HD|Eventos HD UY|Fox Sports Premium Backup|' +
+            'Fox Sports Premium HD|FoxSports2 UY|FoxSports3 UY|DSports UY|DSports2 UY|' +
+            'DSports Plus UY|TNT Sports HD|TNT Sports Backup|TyC International|TyCSport'
+        );
+
+        // Baloncesto
+        addCategory('Basket', 'NBA TV');
+
+        // Noticias / actualidad
+        addCategory('Noticias',
+            '26 TV HD|America24|BBC World News|C5N|C9N C4|CronicaTV|Diputados TV|' +
+            'Euronews|Fox News|La Nacion|NOTICIAS PY C4|TodoNoticias|Telesur'
+        );
+
+        // Documentales, ciencia, historia, cultura y factual
+        addCategory('Docu/Cultura',
+            'AnimalPlanet|Canal Rural|DiscoveryHD|Discovery Science|Discovery World HD|' +
+            'DiscoveryHomeHealthHD|DiscoveryTurbo|El Garage|Encuentro|Film Arts|' +
+            'Food Network|History 2|History backup|HistoryHD|ID|Investigacion Periodistica|' +
+            'Lifetime|NatGeoHD|Sun Channel|Theater HD|TLC|WOBI'
+        );
+
+        // Infantil / familiar
+        addCategory('Infantil',
+            'Boomerang|CartoonNetwork|Discovery Kids|DisneyJr|Dreamworks|HBO Family|' +
+            'Nick Jr|Nickelodeon|PAKA PAKA'
+        );
+
+        // Música
+        addCategory('Música',
+            'Argentinisima|CM|Flow Music 1|Flow Music 2|Flow Music 3|Flow Music XP|' +
+            'HTV|MTV00|MTV HD|MTV Hits|Quiero HD'
+        );
+
+        // Adultos
+        addCategory('Adultos', 'Extreme|Playboy|Venus');
+
+        // Canales de señal internacional / otros países
+        addCategory('Internacional',
+            'Canal10 URU|Canal12URU|Canal4 URU|Paraguay TV|PARAVISION C4|RPC C4|' +
+            'RAI|SNT C4|SUR TV C4|TELEFUTURO C4|Telemundo HD|TV5 Monde|TV Chile|TV Espana'
+        );
+
+        function getChannelCategory(name, icon) {
+            // 1. Clasificación explícita por nombre.
+            if (Object.prototype.hasOwnProperty.call(CHANNEL_CATEGORIES, name)) {
+                return CHANNEL_CATEGORIES[name];
+            }
+
+            // 2. Respaldo para cualquier canal nuevo que lleve emoji.
+            if (icon.includes('🎥')) return 'Cine';
+            if (icon.includes('⚽')) return 'Deportes';
+            if (icon.includes('🏀')) return 'Basket';
+            if (icon.includes('📰')) return 'Noticias';
+            if (icon.includes('🌍')) return 'Docu/Cultura';
+            if (icon.includes('🧸')) return 'Infantil';
+            if (icon.includes('🎵')) return 'Música';
+            if (icon.includes('🔞')) return 'Adultos';
+            if (icon.includes('🌐')) return 'Internacional';
+
+            // 3. Cualquier canal no clasificado explícitamente se considera TV general.
+            return 'TV';
+        }
+
         function parseChannels() {
             const parsedChannels = [];
             const lines = rawData.split('\n');
@@ -380,16 +526,10 @@ Lista de Canales
                         mirrors.push({ name: m[1], url: m[2] });
                     }
                     
-                    let category = 'TV';
-                    if (icon.includes('🎥')) category = 'Cine';
-                    else if (icon.includes('⚽')) category = 'Deportes';
-                    else if (icon.includes('🏀')) category = 'Basket';
-                    else if (icon.includes('📰')) category = 'Noticias';
-                    else if (icon.includes('🌍')) category = 'Docu/Cultura';
-                    else if (icon.includes('🧸')) category = 'Infantil';
-                    else if (icon.includes('🎵')) category = 'Música';
-                    else if (icon.includes('🔞')) category = 'Adultos';
-                    else if (icon.includes('🌐')) category = 'Internacional';
+                    // La categoría NO se obtiene solo del emoji:
+                    // muchos canales usan su logo (<img>) y no tenían emoji,
+                    // por lo que el código anterior los metía automáticamente en TV.
+                    const category = getChannelCategory(name, icon);
 
                     parsedChannels.push({ icon, name, url, mirrors, category });
                 }
@@ -430,26 +570,31 @@ Lista de Canales
             });
         }
 
+        function getCategoryCount(name) {
+            return channelsData.filter(ch => name === 'Todos' || ch.category === name).length;
+        }
+
         function renderCategories() {
             if (!categoryContainer) return;
             categoryContainer.innerHTML = categories.map(cat => `
-                <button 
-                    onclick="window.setCategory('${cat.name}')"
+                <button type="button" onclick="window.setCategory('${cat.name}')"
                     class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 cursor-pointer ${
-                        state.activeCategory === cat.name 
-                            ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30 scale-105' 
+                        state.activeCategory === cat.name
+                            ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30 scale-105'
                             : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                    }"
-                >
-                    <span>${cat.icon}</span>
-                    <span>${cat.name}</span>
+                    }">
+                    <span>${cat.icon}</span><span>${cat.name}</span><span class="category-count">${getCategoryCount(cat.name)}</span>
                 </button>
             `).join('');
         }
 
         window.setCategory = (categoryName) => {
             state.activeCategory = categoryName;
+            state.favoritesOnly = false;
+            state.recentOnly = false;
+            try { localStorage.setItem('channelCategory', categoryName); } catch(e) {}
             renderCategories();
+            renderTools();
             renderChannels();
         };
 
@@ -464,75 +609,158 @@ Lista de Canales
             `).join('');
         }
 
+        function normalizeText(text) {
+            return (text || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[_-]+/g, ' ').toLowerCase().trim();
+        }
+
+        function isFavorite(name) { return state.favorites.indexOf(name) !== -1; }
+
+        function saveUserState() {
+            try {
+                localStorage.setItem('channelFavorites', JSON.stringify(state.favorites));
+                localStorage.setItem('channelRecent', JSON.stringify(state.recent));
+                localStorage.setItem('channelSort', state.sort);
+                localStorage.setItem('channelCompact', state.compactView);
+            } catch(e) {}
+        }
+
+        function toggleFavorite(name) {
+            const i = state.favorites.indexOf(name);
+            if (i === -1) state.favorites.push(name);
+            else state.favorites.splice(i, 1);
+            saveUserState();
+            renderTools();
+            renderChannels();
+        }
+        window.toggleFavorite = toggleFavorite;
+
+        function registerRecent(name) {
+            state.recent = [name].concat(state.recent.filter(n => n !== name)).slice(0, 12);
+            saveUserState();
+        }
+        window.registerRecent = registerRecent;
+
+        function renderTools() {
+            const favBtn = document.getElementById('favoritesToggle');
+            const recentBtn = document.getElementById('recentToggle');
+            const clearBtn = document.getElementById('clearFilters');
+            const count = document.getElementById('favoriteCount');
+            const sort = document.getElementById('sortSelect');
+            const view = document.getElementById('viewToggle');
+            if (count) count.textContent = state.favorites.length;
+            if (favBtn) favBtn.classList.toggle('active', state.favoritesOnly);
+            if (recentBtn) recentBtn.classList.toggle('active', state.recentOnly);
+            if (clearBtn) clearBtn.classList.toggle('hidden', !(state.searchQuery || state.activeCategory !== 'Todos' || state.favoritesOnly || state.recentOnly));
+            if (sort) sort.value = state.sort;
+            if (view) view.textContent = state.compactView ? '▦ Grande' : '▦ Compacta';
+        }
+
+        function getFilteredChannels() {
+            const q = normalizeText(state.searchQuery);
+            let list = channelsData.filter(ch => {
+                const matchesSearch = !q || normalizeText(ch.name).includes(q) || normalizeText(ch.category).includes(q);
+                const matchesCategory = state.activeCategory === 'Todos' || ch.category === state.activeCategory;
+                const matchesFavorites = !state.favoritesOnly || isFavorite(ch.name);
+                const matchesRecent = !state.recentOnly || state.recent.indexOf(ch.name) !== -1;
+                return matchesSearch && matchesCategory && matchesFavorites && matchesRecent;
+            });
+            if (state.sort === 'az') list.sort((a,b) => normalizeText(a.name).localeCompare(normalizeText(b.name), 'es'));
+            if (state.sort === 'za') list.sort((a,b) => normalizeText(b.name).localeCompare(normalizeText(a.name), 'es'));
+            if (state.sort === 'favorites') list.sort((a,b) => Number(isFavorite(b.name)) - Number(isFavorite(a.name)) || normalizeText(a.name).localeCompare(normalizeText(b.name), 'es'));
+            if (state.sort === 'recent') list.sort((a,b) => (state.recent.indexOf(a.name) < 0 ? 999 : state.recent.indexOf(a.name)) - (state.recent.indexOf(b.name) < 0 ? 999 : state.recent.indexOf(b.name)));
+            return list;
+        }
+
         function renderChannels() {
             if (!channelGrid || !emptyState || !channelCount) return;
-            
-            const filteredChannels = channelsData.filter(ch => {
-                const matchesSearch = ch.name.toLowerCase().includes(state.searchQuery.toLowerCase());
-                const matchesCategory = state.activeCategory === 'Todos' || ch.category === state.activeCategory;
-                return matchesSearch && matchesCategory;
-            });
-
+            const filteredChannels = getFilteredChannels();
             channelCount.textContent = filteredChannels.length;
+            channelGrid.classList.toggle('compact-grid', state.compactView);
 
             if (filteredChannels.length === 0) {
                 channelGrid.innerHTML = '';
                 emptyState.classList.remove('hidden');
                 return;
             }
-
             emptyState.classList.add('hidden');
-            
-            channelGrid.innerHTML = filteredChannels.map((ch, index) => `
-                <div class="fade-in bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:shadow-xl hover:border-primary-500/50 dark:hover:border-primary-500/50 transition-all duration-300 flex flex-col gap-3" style="animation-delay: ${index * 10}ms">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-3xl">${ch.icon}</span>
-                            <div>
-                                <h3 class="font-bold text-gray-900 dark:text-white text-lg leading-tight">${ch.name}</h3>
-                                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full mt-1 inline-block">${ch.category}</span>
+
+            channelGrid.innerHTML = filteredChannels.map((ch, index) => {
+                const favorite = isFavorite(ch.name);
+                const logoMatch = ch.icon.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
+                const logo = logoMatch ? logoMatch[1] : '';
+                const cardIcon = logo ? `<img src="${logo}" alt="${ch.name}" loading="lazy" decoding="async" onerror="this.style.display='none'">` : `<span class="text-4xl">${ch.icon || '📺'}</span>`;
+                return `
+                <article class="channel-card ${state.compactView ? 'compact-card' : ''} fade-in bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-xl hover:border-primary-500/50 dark:hover:border-primary-500/50 flex flex-col gap-3" style="animation-delay:${Math.min(index,20)*15}ms">
+                    <div class="flex items-start gap-3 flex-1 min-w-0">
+                        <div class="logo-box shrink-0">${cardIcon}</div>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-gray-900 dark:text-white text-base leading-tight break-words">${ch.name}</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full mt-1 inline-block">${ch.category}</span>
+                                </div>
+                                <button type="button" onclick="window.toggleFavorite(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})" class="shrink-0 text-2xl leading-none ${favorite ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600 hover:text-yellow-400'}" title="${favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}" aria-label="${favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}">${favorite ? '★' : '☆'}</button>
                             </div>
                         </div>
                     </div>
-                    
-                    <a href="${ch.url}" target="_blank" rel="noopener noreferrer"
-                        class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Ver Ahora
-                    </a>
-
+                    <div class="card-actions w-full">
+                        <a href="${ch.url}" target="_blank" rel="noopener noreferrer" onclick="window.registerRecent(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})"
+                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg">
+                            ▶ Ver canal
+                        </a>
+                    </div>
                     ${ch.mirrors.length > 0 ? `
-                        <details class="group/mirrors">
-                            <summary class="cursor-pointer text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-1 py-1">
-                                <svg class="w-4 h-4 transition-transform group-open/mirrors:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                Ver alternativas (${ch.mirrors.length})
-                            </summary>
+                    <div class="mirror-area">
+                        <details>
+                            <summary class="cursor-pointer text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">↗ Ver alternativas (${ch.mirrors.length})</summary>
                             <div class="mt-2 flex flex-wrap gap-2">
-                                ${ch.mirrors.map(m => `
-                                    <a href="${m.url}" target="_blank" rel="noopener noreferrer"
-                                        class="text-xs px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-400 transition-colors">
-                                        ${m.name}
-                                    </a>
-                                `).join('')}
+                                ${ch.mirrors.map(m => `<a href="${m.url}" target="_blank" rel="noopener noreferrer" onclick="window.registerRecent(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})" class="text-xs px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-400 transition-colors">${m.name}</a>`).join('')}
                             </div>
                         </details>
-                    ` : ''}
-                </div>
-            `).join('');
+                    </div>` : ''}
+                </article>`;
+            }).join('');
         }
 
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 state.searchQuery = e.target.value;
+                renderTools();
                 renderChannels();
             });
         }
+
+        const favoritesToggle = document.getElementById('favoritesToggle');
+        const recentToggle = document.getElementById('recentToggle');
+        const clearFilters = document.getElementById('clearFilters');
+        const sortSelect = document.getElementById('sortSelect');
+        const viewToggle = document.getElementById('viewToggle');
+
+        if (favoritesToggle) favoritesToggle.addEventListener('click', () => {
+            state.favoritesOnly = !state.favoritesOnly; state.recentOnly = false; renderTools(); renderChannels();
+        });
+        if (recentToggle) recentToggle.addEventListener('click', () => {
+            state.recentOnly = !state.recentOnly; state.favoritesOnly = false; renderTools(); renderChannels();
+        });
+        if (clearFilters) clearFilters.addEventListener('click', () => {
+            state.searchQuery = ''; state.activeCategory = 'Todos'; state.favoritesOnly = false; state.recentOnly = false;
+            if (searchInput) searchInput.value = '';
+            try { localStorage.setItem('channelCategory','Todos'); } catch(e) {}
+            renderCategories(); renderTools(); renderChannels();
+        });
+        if (sortSelect) sortSelect.addEventListener('change', e => {
+            state.sort = e.target.value; saveUserState(); renderChannels();
+        });
+        if (viewToggle) viewToggle.addEventListener('click', () => {
+            state.compactView = !state.compactView; saveUserState(); renderTools(); renderChannels();
+        });
 
         function init() {
             try {
                 applyTheme();
                 renderCategories();
                 renderExternalLinks();
+                renderTools();
                 renderChannels();
             } catch (e) {
                 console.error("Init error:", e);
