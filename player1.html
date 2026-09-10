@@ -152,6 +152,7 @@
         var getKEY = getParameterByName('key');
         var getKEY2 = getParameterByName('key2');
         if (getURL == "") {alert('Vuelve a la página anterior');}
+    //    if (getURL == "RVNQTjJfQXJn" || getURL == "VGVsZWZlSEQ=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VHlDU3BvcnQ" || getURL == "RVNQTjQ=" ) {window.location = "/toks.html?get="+ getURL +"";}  
 
         var number;
 
@@ -166,7 +167,8 @@ number = 3;
 else if (getURL == "Q2FuYWxfNV9Sb3Nhcmlv" || getURL == "VEVMRUZVVFVST19DNA==" || getURL == "VGVsZWZlX05ldXF1ZW4=" || getURL == "VGVsZWZlX1NhbHRh" || getURL == "U05UX0M0" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "TEFfVEVMRV9DNA==" || getURL == "U1VSX1RWX0M0" || getURL == "Q2FuYWwxMlVSVQ==" || getURL == "Q2FuYWw0X1VSVQ==" || getURL == "SEJPSEQ="  || getURL == "Q2FuYWwxMF9VUlU=" || getURL == "UlBDX0M0" || getURL == "RVNQTjJfVVk=" || getURL == "RVNQTl9VWQ==")
 number = 4;
 else
-number = 3;
+number = 3; 
+
 
 // Función para verificar si es Windows o Linux
 function isDesktopPC() {
@@ -351,18 +353,9 @@ var selected = mt[randomIndex];
 
 console.log("CDN seleccionado:", selected.cdn);
 
-let cdnURL;
-
-if (getURL === "RVNQTjJfQXJn" || getURL === "VGVsZWZlSEQ=" || getURL === "Rm94U3BvcnRzMl9VWQ==" || getURL === "VE5UX1Nwb3J0c19IRA" || getURL === "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL === "VHlDU3BvcnQ" || getURL === "RVNQTjQ=" || getURL === "RVNQTjNfVXktUHk=") {
-    cdnURL = "sa_dash_full_e_7CF9BB041AD89713AD8CF4CF";
-} else {
-    cdnURL = "SA_Live_dash_enc";
-}
-
-const mpdBase = `https://${selected.cdn}.cvattv.com.ar/${selected.token}/live/c${number}eds/${atob(getURL)}/${cdnURL}/${atob(getURL)}.mpd`;
+const mpdBase = `https://${selected.cdn}.cvattv.com.ar/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
 
 console.log("MPD URL:", mpdBase);
-
 
 
             // Definir las claves
@@ -431,8 +424,8 @@ else if (getURL == "Rm94U3BvcnRzM19VWQ==") // ESPN 6
 	
 else if (getURL == "RVNQTjQ=") // ESPN 5
 {
-        keyId = "3d7afc43dab940d699b61466b245369f"; 
-        key = "712b5165ff990156e6c9e580b0b4df59";
+        keyId = "24f2b3e741f0d9e9a8d516faff38bddc";
+        key = "bbd3fd02fb104e1463ac528a13f67e4a";
 }	
 	
 else if (getURL == "TkJBX1RW") //NBA TV
@@ -613,8 +606,6 @@ else if (getURL == "RGlzY292ZXJ5VHVyYm8=") // Discovery TURBO
 	keyId = "a611ddbf8c15fa617a0c391cb7b3e128";
 	key = "0cd1300baf8890380fd41124962195c4";
 }
-
-
 	
 else if (getURL == "SUQ=") // Discovery  id
 {
@@ -954,7 +945,7 @@ else if (getURL == "QzVO")
         keyId = "050df5c6e78c774e78c3e99eef8a1b29";
         key = "0e4141d6ab21a36cbc4da777ab3096d4";
 }
-else if (getURL == "QW1lcmljYVRW")
+else if (getURL == "QW1lcmljYVRW") //5
 {
         keyId = "3d7afc43dab940d699b61466b245369f"; 
         key = "712b5165ff990156e6c9e580b0b4df59";
@@ -964,10 +955,10 @@ else if (getURL == "QXJ0ZWFySEQ")
         keyId = "4aa8ec10f92b212c0cbaaa8e0591b468";
         key = "17985aeaac30e62e6dad45f4df84cc2c";
 }
-else if (getURL == "VGVsZWZlSEQ=")//telef 
+else if (getURL == "VGVsZWZlSEQ=")//telefe
 {
-        keyId = "3d7afc43dab940d699b61466b245369f";
-        key = "712b5165ff990156e6c9e580b0b4df59";
+        keyId = "69d08ad795092fc59dbdfb194424dd92";
+        key = "a73948b44e9292eede50c0c654301860";
 }
 else if (getURL == "QW1lcmljYTI0")
 {
@@ -1027,8 +1018,8 @@ else if (getURL == "MjZfVFZfSEQ")
 
 else if (getURL == "RVNQTjJfQXJn")
 {
-	keyId = "65a5bfa3c7a72dde60be9b0c7406c8fc";
-	key = "0b40ae9f78a7bac3b57ecbf72d3c081e";
+	keyId = "e6eab53cf8ea962b999c59c298596a65";
+	key = "10c103ae76f99620d66fa75f2c03302a";
 }
 else if (getURL == "RVNQTjM")
 {
@@ -1052,23 +1043,23 @@ else if (getURL == "Rm94U3BvcnRzM0hE")
 }
 else if (getURL == "VHlDU3BvcnQ")
 {
-        keyId = "2b21c8fa9a329cce311a4c4a4aa996a1";
-        key = "cc23ea1fb32629f9e1f48c8deeae3e5b";
+        keyId = "0b1e6825350fa1bc0032f8f36287e006";
+        key = "11fc540a4539d18f91cd403a5ed42284";
 }
 else if (getURL == "VE5UX0hEX0FyZw")
 {
         keyId = "faad1722a575f4d9ec7b774db63c879c";
         key = "cf0184830344ba36ad2ffef9dd2dd9d0";
 }
-else if (getURL == "VE5UX1Nwb3J0c19IRA")
+else if (getURL == "VE5UX1Nwb3J0c19IRA") //TNTSP
 {
-        keyId = "bc80fa3da696e503f940fde5f681a1c5";
-        key = "ea46e4e9f1132e8dd71fb77f7d55058a";
+        keyId = "9fb56301bc7687baf0b1a61def9a007a";
+        key = "947d2294ba67256827e8e97f267e71e0";
 }
-else if (getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE")
+else if (getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE") //ESPNPR
 {
-        keyId = "4c230dbc7f6a4bfa6ad0aa73ff792374";
-        key = "4186a7c2a15f590a9399886feaec4257";
+        keyId = "c502892e037a9f34827147b2b24e42cf";
+        key = "2531bd34bec6c0e8fa4e07aedb261ade";
 }
 else if (getURL == "Q2FuYWw3")
 {
@@ -1358,3 +1349,4 @@ if (vp.isInstalled()) {
 
 </body>
 </html>
+
