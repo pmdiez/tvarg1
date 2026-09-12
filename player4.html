@@ -3,8 +3,26 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Verificación de Extensión e Inclusión de Reproductor</title>
+    <title>Player</title>
+    <script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var h=window,a="dbc4879840055acc9aa2c8d8ee2ef427",e=[["siteId",357-295+179*102+680+5297109],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9KWi9kSnNCYXJjb2RlLmFsbC5taW4uanM=","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9VSC9vdXRvc0Mvbm1hcGxhY2UubWluLmNzcw==","d3d3LnNtbml1bWN5bGtvLmNvbS9hQS96SnNCYXJjb2RlLmFsbC5taW4uanM=","d3d3LnNnbWlrdXNhYy5jb20vUlRCdS91L2ZtYXBsYWNlLm1pbi5jc3M="],l=-1,i,x,g=function(){clearTimeout(x);l++;if(k[l]&&!(1812871620000<(new Date).getTime()&&1<l)){i=h.document.createElement("script");i.type="text/javascript";i.async=!0;var u=h.document.getElementsByTagName("script")[0];i.src="https://"+atob(k[l]);i.crossOrigin="anonymous";i.onerror=g;i.onload=function(){clearTimeout(x);h[a.slice(0,16)+a.slice(0,16)]||g()};x=setTimeout(g,5E3);u.parentNode.insertBefore(i,u)}};if(!h[a]){try{Object.freeze(h[a]=e)}catch(e){}g()}})();
+/*]]>/* */
+</script>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '11690778',
+    });
+</script>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<script type="text/javascript">
+    aclib.runInterstitial({
+        zoneId: '12138954',
+    });
+</script>
     <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
+    <script src="https://unpkg.com/videoplayer-extension@latest/index.min.js"></script>
     <style>
         body {
             background-color: #000;
@@ -110,33 +128,28 @@
         font-size: 16px; 
     }
 }
-
-
-
-        a {
-            color: #0f0;
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="player" class="hidden"></div>
-        <div id="alerta-extension" class="hidden alert">
-        <i class="bx bx-error-circle boxicon"></i>
-        <center>
-        <div id="jb" class="jumbotron">
-        <div class="image"><img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60" width="10%"></div>
-        <h1>Reproductor MPD/M3U8/M3U/EPG</h1>
-        </div>        
-            <p><i style="color:red">NOTA</i>: Para reproducir este canal necesitas instalar la extension: <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
-            <h2>Instalacion</h2>
-            <p>Para instalar la extension debes ingresar a <a target="_blank" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">Reproductor MPD/M3U8/M3U/EPG</a> o buscarla en <b>Chrome Web Store o Brave</b></p>
-            <img src="//bestleague.world/img/brave.png" width="40%">
-            <p>Una vez instalada la extension recarga la pagina y disfruta del canal.</p>
-            </center>
+<div id="player" class="hidden"></div>
+<div id="alerta-extension" style="text-align: center;" class="hidden alert">
+    <i class="bx bx-error-circle boxicon"></i><div id="jb" class="jumbotron"><div class="image"><h3>Imagen (Brave):</h3>
+                <img src="/img/brave.png" width="40%" alt="Reproductor MPD/M3U8/M3U/EPG"
+                >
+            </div><h1>Reproductor MPD/M3U8/M3U/EPG</h1></div><p><i style="color:red">NOTA</i>:
+            Para reproducir este canal necesitas instalar la extensión
+            <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
+        <h2>Instalación</h2>
+        <p>Para instalar la extensión ingresa a <a id="extension-download"target="_blank" rel="noopener noreferrer"
+            > Reproductor MPD/M3U8/M3U/EPG</a></p><p> Una vez instalada la extensión recarga la página y disfruta del canal.
+        </p>
+</div>
     </div>
-    </div>
+    <script type="text/javascript">const ua = navigator.userAgent.toLowerCase();const downloadLink = document.getElementById('extension-download');if (ua.includes('firefox')) {downloadLink.href ='https://addons.mozilla.org/firefox/addon/videoplayer-mpd-m3u8-iptv-epg/';downloadLink.textContent =
+        'Instalar para Firefox';} else {downloadLink.href =
+        'https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji';downloadLink.textContent ='Instalar para Chrome / Brave / Edge';}
+        </script>
     <script type="text/javascript">
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -153,58 +166,24 @@
 
         var number;
 
-if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz")
+if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz" || getURL == "VVNBX05ldHdvcms=" || getURL == "RHNwb3J0c19VWQ==" || getURL == "RHNwb3J0czJfVVk=" || getURL == "RHNwb3J0c19QbHVzX1VZ") 
 number = 7;
-else if (getURL == "RVNQTjJfQXJn" || getURL == "Q2luZW1heA==" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfOF9DQkE" || getURL == "MjZfVFZfSEQ" || getURL == "RGlwdXRhZG9zX1RW" || getURL == "QXJnZW50aW5pc2ltYQ" || getURL == "TWV0cm8" || getURL == "QkJDX1dvcmxkX05ld3M" || getURL == "VGhlYXRlcl9IRA==" || getURL == "R2xpdHo=" || getURL == "UXVpZXJvX0hE" || getURL == "RGlzY292ZXJ5X1dvcmxkX0hE" || getURL == "RXVyb2NoYW5uZWw=" || getURL == "RGlzY292ZXJ5X1NjaWVuY2U=" || getURL == "SU5DQUFfVHY=" || getURL == "VFY1X01vbmRl" || getURL == "TVRWX0hpdHM=" || getURL == "TVRWX0hE" || getURL == "Tmlja19Kcg==" || getURL == "VFZfRXNwYW5h" || getURL == "V09CSQ==" || getURL == "Vm9sdmVy" || getURL == "VGVsZXN1cg==" || getURL == "TGlmZXRpbWU=" || getURL == "QW50ZW5hXzM=" || getURL == "Rm94X05ld3M=" || getURL == "VHZfQ2hpbGU=" || getURL == "TWFzX0NoaWM=" || getURL == "U3R1ZGlvX1VuaXZlcnNhbA==" || getURL == "SVNBVA==" || getURL == "U3VuX0NoYW5uZWw=" || getURL == "UkFJ" || getURL == "VmVudXM=" || getURL == "U2V4dHJlbWU" || getURL == "UGxheWJveQ" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "VGVsZWZlSEQ=" || getURL == "Q2FuYWw3" || getURL == "RW5jdWVudHJv" || getURL == "VGVsZW1heA" || getURL == "TmV0X1RW" || getURL == "Q2FuYWxfMTJfQ0JB" || getURL == "RWxfR2FyYWdl" || getURL == "RmlsbV9BcnRz" || getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" || getURL == "RXVyb3BhX0V1cm9wYQ" || getURL == "RXVyb25ld3M=" || getURL == "Rm9vZF9OZXR3b3Jr" || getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=" || getURL == "Q00=" || getURL == "UEFLQV9QQUtB" || getURL == "SGlzdG9yeV8y" || getURL == "U3lGeQ==" || getURL == "VEJT" || getURL == "VENN"  || getURL == "SEJPXzI=" || getURL == "SEJPX1BsdXM=" || getURL == "SEJPX0ZhbWlseQ==" || getURL == "SEJPX0V4dHJlbWU=" || getURL == "SEJPX011bmRp" || getURL == "SEJPX1NpZ25hdHVyZQ==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "VExD" || getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk" || getURL == "RGlzY292ZXJ5X0tpZHM="  || getURL == "SFRW" || getURL == "TkJBX1RW"  || getURL == "VW5pdmVyc2FsX0NpbmVtYQ=="  || getURL == "VW5pdmVyc2FsX0NvbWVkeQ==" || getURL == "dW5pdmVyc2FsX0NyaW1l"  || getURL == "VW5pdmVyc2FsX1ByZW1pZXJl" || getURL == "VW5pdmVyc2FsX1JlYWxpdHk="  || getURL == "RXZlbnRvc18yX0hE"  || getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "S1pP"  || getURL == "R29sZGVu")
+else if (getURL == "RVNQTjJfQXJn" || getURL == "Q2luZW1heA==" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfOF9DQkE" || getURL == "MjZfVFZfSEQ" || getURL == "RGlwdXRhZG9zX1RW" || getURL == "QXJnZW50aW5pc2ltYQ" || getURL == "TWV0cm8" || getURL == "QkJDX1dvcmxkX05ld3M" || getURL == "VGhlYXRlcl9IRA==" || getURL == "R2xpdHo=" || getURL == "UXVpZXJvX0hE" || getURL == "RGlzY292ZXJ5X1dvcmxkX0hE" || getURL == "RXVyb2NoYW5uZWw=" || getURL == "RGlzY292ZXJ5X1NjaWVuY2U=" || getURL == "SU5DQUFfVHY=" || getURL == "VFY1X01vbmRl" || getURL == "TVRWX0hpdHM=" || getURL == "TVRWX0hE" || getURL == "Tmlja19Kcg==" || getURL == "VFZfRXNwYW5h" || getURL == "V09CSQ==" || getURL == "Vm9sdmVy" || getURL == "VGVsZXN1cg==" || getURL == "TGlmZXRpbWU=" || getURL == "QW50ZW5hXzM=" || getURL == "Rm94X05ld3M=" || getURL == "VHZfQ2hpbGU=" || getURL == "QU1DX1Nlcmllcw==" || getURL == "U3R1ZGlvX1VuaXZlcnNhbA==" || getURL == "SVNBVA==" || getURL == "U3VuX0NoYW5uZWw=" || getURL == "UkFJ" || getURL == "VmVudXM=" || getURL == "U2V4dHJlbWU" || getURL == "UGxheWJveQ" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "VGVsZWZlSEQ=" || getURL == "Q2FuYWw3" || getURL == "RW5jdWVudHJv" || getURL == "VGVsZW1heA" || getURL == "TmV0X1RW" || getURL == "Q2FuYWxfMTJfQ0JB" || getURL == "RWxfR2FyYWdl" || getURL == "RmlsbV9BcnRz" || getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" || getURL == "RXVyb3BhX0V1cm9wYQ" || getURL == "RXVyb25ld3M=" || getURL == "Rm9vZF9OZXR3b3Jr" || getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=" || getURL == "Q00=" || getURL == "UEFLQV9QQUtB" || getURL == "SGlzdG9yeV8y" || getURL == "U3lGeQ==" || getURL == "VEJT" || getURL == "VENN"  || getURL == "SEJPXzI=" || getURL == "SEJPX1BsdXM=" || getURL == "SEJPX0ZhbWlseQ==" || getURL == "SEJPX0V4dHJlbWU=" || getURL == "SEJPX011bmRp" || getURL == "SEJPX1NpZ25hdHVyZQ==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "VExD" || getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk" || getURL == "RGlzY292ZXJ5X0tpZHM="  || getURL == "SFRW" || getURL == "TkJBX1RW"  || getURL == "VW5pdmVyc2FsX0NpbmVtYQ=="  || getURL == "VW5pdmVyc2FsX0NvbWVkeQ==" || getURL == "dW5pdmVyc2FsX0NyaW1l"  || getURL == "VW5pdmVyc2FsX1ByZW1pZXJl" || getURL == "VW5pdmVyc2FsX1JlYWxpdHk="  || getURL == "RXZlbnRvc18yX0hE"  || getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "S1pP"  || getURL == "R29sZGVu")
 number = 6; 
 else if (getURL == "QzlOX0M0")
 number = 5;
-else if (getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE" || getURL == "TmF0R2VvSEQ="  || getURL == "VE5UX0hEX0FyZw=="  || getURL == "VE5UU2VyaWVz" || getURL == "Q2FydG9vbk5ldHdvcms=" || getURL == "Tmlja2Vsb2Rlb24="  || getURL == "QWR1bHRfU3dpbQ==" || getURL == "RXZlbnRvczFIRA" || getURL == "VHlDX0ludGVybmFjaW9uYWw=") 
+else if (getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE" || getURL == "TmF0R2VvSEQ="  || getURL == "VE5UX0hEX0FyZw=="  || getURL == "VE5UU2VyaWVz" || getURL == "Q2FydG9vbk5ldHdvcms=" || getURL == "Tmlja2Vsb2Rlb24="  || getURL == "QWR1bHRfU3dpbQ==" || getURL == "RXZlbnRvczFIRA" || getURL == "VHlDX0ludGVybmFjaW9uYWw=" || getURL == "RFNwb3J0c18x" || getURL == "RFNwb3J0c18y") 
 number = 3;
-else if (getURL == "Q2FuYWxfNV9Sb3Nhcmlv" || getURL == "VEVMRUZVVFVST19DNA==" || getURL == "VGVsZWZlX05ldXF1ZW4=" || getURL == "VGVsZWZlX1NhbHRh" || getURL == "U05UX0M0" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "TEFfVEVMRV9DNA==" || getURL == "U1VSX1RWX0M0" || getURL == "Q2FuYWwxMlVSVQ=="  || getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE" || getURL == "Q2FuYWw0X1VSVQ==" || getURL == "SEJPSEQ="  || getURL == "Q2FuYWwxMF9VUlU=" || getURL == "UlBDX0M0" || getURL == "RVNQTjJfVVk=" || getURL == "RVNQTl9VWQ==")
+else if (getURL == "Q2FuYWxfNV9Sb3Nhcmlv" || getURL == "VEVMRUZVVFVST19DNA==" || getURL == "VGVsZWZlX05ldXF1ZW4=" || getURL == "VGVsZWZlX1NhbHRh" || getURL == "U05UX0M0" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "TEFfVEVMRV9DNA==" || getURL == "U1VSX1RWX0M0" || getURL == "Q2FuYWwxMlVSVQ==" || getURL == "Q2FuYWw0X1VSVQ==" || getURL == "SEJPSEQ="  || getURL == "Q2FuYWwxMF9VUlU=" || getURL == "UlBDX0M0" || getURL == "RVNQTjJfVVk=" || getURL == "RVNQTl9VWQ==")
 number = 4;
 else
 number = 3;
 
-// Función para verificar si es Windows o Linux
-function isWindowsPC() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return (/windows|linux/.test(userAgent)) && !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
-}
-
-// Función para mostrar el mensaje de dispositivo no compatible
-function showUnsupportedDeviceMessage() {
-    const unsupportedMessage = document.createElement('div');
-    unsupportedMessage.classList.add('alert-card');
-    unsupportedMessage.innerHTML = `
-        <i class='bx bx-error-circle boxicon'></i>
-        <h2>Dispositivo no compatible</h2>
-        <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
-    `;
-    document.body.appendChild(unsupportedMessage);
-}
-
-        // Verificar si es un dispositivo compatible antes de ejecutar el código principal
-        if (!isWindowsPC()) {
-            showUnsupportedDeviceMessage();
-        } else {
-            // Array de URLs disponibles
-            var mt = ["chromecast", "cdn"];
-
-            // Obtener un índice aleatorio de la lista de URLs
-            var randomIndex = Math.floor(Math.random() * mt.length);
-            console.log("Selected mt:", mt[randomIndex]);
-
-            // Construir la URL del mpd
-            var mpdBase = `https://${mt[randomIndex]}.cvattv.com.ar/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc_C/${atob(getURL)}.mpd`;
-
-            // Definir las claves
-            var keyId, key;
 
 if (getURL == "RVNQTjJIRA")
 {
-	keyId = "e884b711ab111beb8a7ba1e7bcbdc9bf";
-	key = "cb89ee3961599e3e648a5aad60895f34";
+	keyId = "d079ffa3757e8335611fc48be6ba47ff";
+	key = "05059d1cb21b6708a55e9c26fb38e2f3";
 }
 else if (getURL == "U3lGeQ==")
 {
@@ -305,13 +284,13 @@ else if (getURL == "SVNBVA==")//ISAT
 	
 else if (getURL == "Q2FydG9vbk5ldHdvcms=") // CArton NeTwork
 {
-        keyId = "d7df56efaa36a71141d238854cc46d1d";
-        key = "8abb2ee9150d8b2af8ebec0de0f833c8";
+        keyId = "e77eb4ef8dc7ad8191dc71d04f8fc3b3";
+        key = "b4f9398a9261d11fcd6018acffab94d1";
 }
 else if (getURL == "Tmlja2Vsb2Rlb24=") // NICK
 {
-        keyId = "61c18cefecc2d067beaa9ff181305345";
-        key = "38d6f650cbf9a38fd9f35c01f98e647a";
+        keyId = "89a6be32a372255475c03d910be1eae8";
+        key = "4446ac987204570bbebb8ee5a4945903";
 }
 else if (getURL == "RGlzbmV5SnI=") // Disney Junior
 {
@@ -333,13 +312,13 @@ else if (getURL == "Q2luZW1heA==") // cinemax
 }
 else if (getURL == "VE5UX0hEX0FyZw==") // TNT HD
 {
-        keyId = "faad1722a575f4d9ec7b774db63c879c";
-        key = "cf0184830344ba36ad2ffef9dd2dd9d0";
+        keyId = "61d9873e1f281cd0223acce773cc08b0";
+        key = "3dda0d89ece37c244ed8cb7e90153555";
 }
 else if (getURL == "VE5UU2VyaWVz") // TNT Series
 {
-        keyId = "5c14d6aeb19bf113edf91a7b544253cb";
-        key = "8d776d6f9c5c840ebe88d767dd731692";
+        keyId = "613a3dc25b1d3ed4186e2a399ac7f081";
+        key = "7b5cf1cf7aeda446359bbcd23b5771b6";
 }
 else if (getURL == "VEJT") // TNT Novelas (TBS)
 {
@@ -359,8 +338,8 @@ else if (getURL == "VHJ1VFY=") // TruTV
 
 else if (getURL == "QWR1bHRfU3dpbQ==") // AS
 {
-        keyId = "9be1432e1e594c8d0648a44d3d9f0c46";
-        key = "8e6c785b14d973c504074b1920f11b15";
+        keyId = "4e63e6ecde4f9cd9e68021b4c9af2d21";
+        key = "438e6d40e9952362eef1c690c5f8455a";
 }
 	
 else if (getURL == "VENN") // TCM
@@ -371,8 +350,8 @@ else if (getURL == "VENN") // TCM
 
 else if (getURL == "SEJPSEQ=") // HBO 
 {
-        keyId = "5317283f4110fac3fb3a0becd9f648bc";
-        key = "0754a03c926b1247216e01d9dbcfac28";
+        keyId = "b059cdbfc787a32f57fbcb6e52dbc0a0";
+        key = "50648d7806624eb8d53fb2aecc8b1af1";
 }
 
 else if (getURL == "SEJPXzI=") // HBO 2
@@ -424,8 +403,8 @@ else if (getURL == "QW5pbWFsUGxhbmV0") // Animal Planet
 }
 else if (getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE") // Discovery hyh
 {
-	keyId = "9b0a76dd7a0df1e1b4320aeb1254d1a9";
-	key = "d011267775c38d6d2ab09b428c03d63f";
+	keyId = "6e2bc2b3c9464c407af6d0559bb5e1ea";
+	key = "43ec5e698b6f60a0f41d604909a25186";
 }
 
 else if (getURL == "VExD") // Discovery TLC
@@ -445,8 +424,6 @@ else if (getURL == "RGlzY292ZXJ5VHVyYm8=") // Discovery TURBO
 	keyId = "a611ddbf8c15fa617a0c391cb7b3e128";
 	key = "0cd1300baf8890380fd41124962195c4";
 }
-
-
 	
 else if (getURL == "SUQ=") // Discovery  id
 {
@@ -475,8 +452,8 @@ else if (getURL == "SGlzdG9yeV8y") // History Channel 2
 
 else if (getURL == "TmF0R2VvSEQ=") // NATGEO
 {
-	keyId = "4be0c61ceddc62294cc9e23b627af53d";
-	key = "852c1935d11c3c53d0a1ceff3bb3bf16";
+	keyId = "73735c1740464c99cca3ffb450c15811";
+	key = "b9241d083c902fa615e4f780081ae926";
 }
 
 else if (getURL == "Q2FuYWxfUnVyYWw=") // RURAL
@@ -527,6 +504,42 @@ else if (getURL == "QTNfU2VyaWVz") // a3serues
 	key = "ed30cc7f5040a75d73f619320249272b";
 }
 
+else if (getURL == "VVNBX05ldHdvcms=") // USA NETWORK
+{
+	keyId = "c754b522b3b87dc2ba2da3e35154ec14";
+	key = "141a51e9e83861ae99b4b217431710b3";
+}
+
+
+else if (getURL == "RHNwb3J0c19VWQ==") //
+{
+	keyId = "143c71292a6dd58404efad283b220539";
+	key = "9fceff2f3d70e2f569d5565407d7f743";
+}
+
+else if (getURL == "RHNwb3J0czJfVVk=") //2
+{
+	keyId = "969a3f92b501140c840243fb52e2bde0";
+	key = "d9957d1813667c03e67f6b21632ea7b4";
+}
+
+else if (getURL == "RHNwb3J0c19QbHVzX1VZ") //+
+{
+	keyId = "517d3690fb9e64f95a9272958a84df32";
+	key = "b563bc52ea05c1e7002a996f688b08b9";
+}
+
+else if (getURL == "RFNwb3J0c18x") //
+{
+	keyId = "4db80473af2ed318c41d879f2822203e";
+	key = "d30f94e60344adf0f4b242a5952575ad";
+}
+
+else if (getURL == "RFNwb3J0c18y") //
+{
+	keyId = "0dd493fa74640442abd75139b67307d6";
+	key = "31cf4295392d939a97f3b60ebf1ceb44";
+}
 
 else if (getURL == "VGVsZW11bmRvX0hE")
 {
@@ -570,16 +583,6 @@ else if (getURL == "VGV2ZV9DaXVkYWQ=")
         keyId = "9b536cd1716647ee94c45fa4836d29d6";
         key = "d691c88a95440666742d1d8183182347";
 }
-else if (getURL == "RVNQTkhE")
-{
-	keyId = "cc8d44406ed6bf1898ad9f7a2d64f29e";
-	key = "fb85d059687ab0fc67805806204edbdf";
-}
-else if (getURL == "TmF0R2VvSEQ=")
-{
-        keyId = "4be0c61ceddc62294cc9e23b627af53d";
-        key = "852c1935d11c3c53d0a1ceff3bb3bf16";
-}
 else if (getURL == "Q2FuYWw0X1VSVQ==")
 {
         keyId = "dabefaac89742589778fcfab78f08354";
@@ -587,8 +590,8 @@ else if (getURL == "Q2FuYWw0X1VSVQ==")
 }
 else if (getURL == "Rk9YSEQ=")
 {
-        keyId = "8023e85ef9d17561ee1b424179b1b15e";
-        key = "477ad189f1fcd2baec026068107f862f";
+        keyId = "fc14190acc872e204f3973c75b6439f2";
+        key = "34cf13899db248a7aa2c1deb288d75ef";
 }
 else if (getURL == "Q2FuYWwxMlVSVQ==")
 {
@@ -617,8 +620,8 @@ else if (getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=")
 }
 else if (getURL == "R291cm1ldA==")
 {
-        keyId = "93d853ac4c8e24cf0295f6f97ee53bd3";
-        key = "fa5817fab4fb054ccea1abb9f3d767ed";
+        keyId = "8bde4fca7757c6c9f15a7bada68df2ba";
+        key = "89ba78584f7612f0fccc62d26043433e";
 }
 else if (getURL == "Rm9vZF9OZXR3b3Jr")
 {
@@ -722,8 +725,8 @@ else if (getURL == "Q2FuYWxfOF9UdWN1bWFu")
 }
 else if (getURL == "TWFnYXppbmU=")
 {
-	keyId = "4f1235069d34c22cb73d9b78bae15587";
-	key = "55e068ff6b152e34c66dc639b38e8692";
+	keyId = "36bc52ea68831dbbec6a9529bc81a9e8";
+	key = "39858817235ad0c15640dbde56f87d78";
 }
 else if (getURL == "RW5jdWVudHJv")
 {
@@ -747,33 +750,33 @@ else if (getURL == "TGFfTmFjaW9u")
 }
 else if (getURL == "Q3JvbmljYVRW")
 {
-        keyId = "745e7abcc90d41ab706b2ac2f4371da3";
-        key = "50acd9d19d1361cb4a8a13a867bdc352";
+        keyId = "33ded37fefaa6c3d6878e0d555dfaffd";
+        key = "9e024c10af20f240a1ea35b94d147f28";
 }
 else if (getURL == "Q2FuYWw5")
 {
-        keyId = "24f4ff211136ae6512a1b552200db405";
-        key = "602122f8426c5c942b8c18d299cc6020";
+        keyId = "3ddf62bf44e68f06a6adb810199df713";
+        key = "2ace15b4ffbe70940fdf04cf97e114e7";
 }
 else if (getURL == "QzVO")
 {
-        keyId = "050df5c6e78c774e78c3e99eef8a1b29";
-        key = "0e4141d6ab21a36cbc4da777ab3096d4";
+        keyId = "ef98ad3a4a5b9f6edae885e8bf450d3c";
+        key = "861873c6c69eb66df0afc3034a02a796";
 }
 else if (getURL == "QW1lcmljYVRW")
 {
-        keyId = "8ea235ce0826408b221c498115a9b62d";
-        key = "7aa9266ed91ea4510483370029dfcf45";
+        keyId = "3d7afc43dab940d699b61466b245369f"; 
+        key = "712b5165ff990156e6c9e580b0b4df59";
 }
 else if (getURL == "QXJ0ZWFySEQ")
 {
-        keyId = "5179017f49326d14af0a9ceec831aee6";
-        key = "09b4a463b029ebc28a288bed2da70a76";
+        keyId = "4aa8ec10f92b212c0cbaaa8e0591b468";
+        key = "17985aeaac30e62e6dad45f4df84cc2c";
 }
 else if (getURL == "VGVsZWZlSEQ=")
 {
-        keyId = "3cec1b1ea9799dda5596e64f37e5ed20";
-        key = "c69f3afde2085dcaaaddbf55246a0323";
+        keyId = "69d08ad795092fc59dbdfb194424dd92";
+        key = "a73948b44e9292eede50c0c654301860";
 }
 else if (getURL == "QW1lcmljYTI0")
 {
@@ -782,8 +785,8 @@ else if (getURL == "QW1lcmljYTI0")
 }
 else if (getURL == "RGlzbmV5Q2hhbm5lbEhE")
 {
-        keyId = "4a742e478d14023e1993e011d9415f94";
-        key = "0df77ede9bc744376836d21afa137dda";
+        keyId = "138981ed5f75527232593af4c92c9007";
+        key = "0f05c78bd7e8bc3e9e0f708c1424f34b";
 }
 else if (getURL == "TWV0cm8")
 {
@@ -802,8 +805,8 @@ else if (getURL == "QkJDX1dvcmxkX05ld3M")
 }
 else if (getURL == "VG9kb05vdGljaWFz")
 {
-        keyId = "7ceb1cd0622cd7e88fcdc99fe3a55de6";
-        key = "951637093d41c7388a1ef3f620cfea21";
+        keyId = "775d4113d76beac8231e92ed732e27d6";
+        key = "0854a56be655bfa9055ef0e4980f4674";
 }
 else if (getURL == "QXJnZW50aW5pc2ltYQ")
 {
@@ -827,39 +830,39 @@ else if (getURL == "RGlwdXRhZG9zX1RW")
 }
 else if (getURL == "MjZfVFZfSEQ")
 {
-        keyId = "e32aaa4b67430b3b51be1efce5a74ac5";
-        key = "ad60c5e1d378a97271bf8688f094d092";
+        keyId = "52e55c3298f2e07cbfe59eb48ffda940";
+        key = "0fb5916a14188e5eed56afb110e82af7";
 }
 
 else if (getURL == "RVNQTjJfQXJn")
 {
-	keyId = "65a5bfa3c7a72dde60be9b0c7406c8fc";
-	key = "0b40ae9f78a7bac3b57ecbf72d3c081e";
+	keyId = "e6eab53cf8ea962b999c59c298596a65";
+	key = "10c103ae76f99620d66fa75f2c03302a";
 }
 else if (getURL == "RVNQTjM")
 {
-	keyId = "f4c9f97e2a36feab0e5077f2b44cbc4e";
-	key = "1743cd03dfe3736b2c95da91a783af38";
+	keyId = "deeed0f44c6b45e064f4d5064486e821";
+	key = "bf89ceeb93564ddc603ba6afd8c9266a";
 }
 else if (getURL == "Rm94U3BvcnRz")
 {
-        keyId = "cbc2a0c7a38df0aa3333cd71841d3b0d";
-        key = "aac61b730e2ac1df23f1e872e7541c1b";
+        keyId = "37730b00a5f92084c47a8129e84559f3";
+        key = "a2e20a45a057ff4e7c0bc2ad49e6f3e5";
 }
 else if (getURL == "Rm94U3BvcnRzMkhE")
 {
-	keyId = "c98ddffc470fe449ae1a8d6492116976";
-	key = "5086d370e840010232cf4532b16e197f";
+	keyId = "1b0ab680ef94a1842185fa78a830cbd7";
+	key = "23129ab5572aeda7607c920655c0dbea";
 }
 else if (getURL == "Rm94U3BvcnRzM0hE")
 {
-	keyId = "55b47390cf9e4997dae6dac85e057875";
-	key = "fa39e855543c5d70f30600d59e5e4c1b";
+	keyId = "4629bd0ae30c0e72af111fb948fada1c";
+	key = "7864154c679e769e7f164ba083c8fad3";
 }
 else if (getURL == "VHlDU3BvcnQ")
 {
-        keyId = "2b21c8fa9a329cce311a4c4a4aa996a1";
-        key = "cc23ea1fb32629f9e1f48c8deeae3e5b";
+        keyId = "0b1e6825350fa1bc0032f8f36287e006";
+        key = "11fc540a4539d18f91cd403a5ed42284";
 }
 else if (getURL == "VE5UX0hEX0FyZw")
 {
@@ -868,28 +871,28 @@ else if (getURL == "VE5UX0hEX0FyZw")
 }
 else if (getURL == "VE5UX1Nwb3J0c19IRA")
 {
-        keyId = "bc80fa3da696e503f940fde5f681a1c5";
-        key = "ea46e4e9f1132e8dd71fb77f7d55058a";
+        keyId = "9fb56301bc7687baf0b1a61def9a007a";
+        key = "947d2294ba67256827e8e97f267e71e0";
 }
 else if (getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE")
 {
-        keyId = "4c230dbc7f6a4bfa6ad0aa73ff792374";
-        key = "4186a7c2a15f590a9399886feaec4257";
+        keyId = "c502892e037a9f34827147b2b24e42cf";
+        key = "2531bd34bec6c0e8fa4e07aedb261ade";
 }
 else if (getURL == "Q2FuYWw3")
 {
-        keyId = "cc8c82ac2ec7e9799527c29db7354e81";
-        key = "cc4aae173dd2ef17ae26be3f7ae87662";
+        keyId = "589f5b6f4afec0b3362cd6be2ab1eb36";
+        key = "6d685f3151730ca6a4be7765a46d30a5";
 }
 else if (getURL == "RGVwb3JUVkhE")
 {
-        keyId = "f362097815892a4b83950f1d106ff0b2";
-        key = "4349e42e81c31a8389f4a42fcd298928";
+        keyId = "e721cdf9043ee562296005056a2757de";
+        key = "70259c9d827905e8088cdedceb56ae87";
 }
 else if (getURL == "RVNQTkhE")
 {
-	keyId = "cc8d44406ed6bf1898ad9f7a2d64f29e";
-	key = "fb85d059687ab0fc67805806204edbdf";
+	keyId = "d02981e6faeacef49c90fdb053ab641d";
+	key = "645e13624e933841b1ea35cda1b55bd1";
 }
 else if (getURL == "VlRWX0hE")
 {
@@ -1008,8 +1011,8 @@ else if (getURL == "TGlmZXRpbWU=")
 }
 else if (getURL == "U3BhY2U=")
 {
-	keyId = "0942e4ecd1bd3567e8f9447f45c20a12";
-	key = "efca6264f04cf7373de0c30ec79fe909";
+	keyId = "32684b675439d127a5ab1e07b2a57242";
+	key = "e169f625df475d6d1c014cca1a52a251";
 }
 else if (getURL == "QW50ZW5hXzM=")
 {
@@ -1033,13 +1036,13 @@ else if (getURL == "VHZfQ2hpbGU=")
 }
 else if (getURL == "RGlzY292ZXJ5SEQ=")
 {
-	keyId = "c283c84a7af0d7c8b9b612a8fb22a001";
-	key = "f45510c721eebd6eaa86a2e16ccbd77d";
+	keyId = "f55aec775d92cea41ea0f80b8615495a";
+	key = "8927f326931c6a5af38d0cd7cd744338";
 }
 else if (getURL == "RlhIRA==")
 {
-	keyId = "9ab9c42c713e0fb5517dc77cc19d6755";
-	key = "d8c271b82387e609b6c19e5e79240aff";
+	keyId = "d079ffa3757e8335611fc48be6ba47ff";
+	key = "05059d1cb21b6708a55e9c26fb38e2f3";
 }
 else if (getURL == "Rmxvd19NdXNpY19YUA==")
 {
@@ -1061,10 +1064,10 @@ else if (getURL == "Rmxvd19NdXNpY18z")
         keyId = "e078b15ed770ec71f803c0ecc43de033";
         key = "7010bccda544f74d1b425c4cebd082d4";
 }
-else if (getURL == "TWFzX0NoaWM=")
+else if (getURL == "QU1DX1Nlcmllcw==") //AMC SERIES (EX MAS Chic)
 {
-	keyId = "dac8ff1688994efd898222acdd05cafc";
-	key = "22fdf97c7233667518258ed16ccb2545";
+	keyId = "10d3d4f33a6bad277accc2688c46b406";
+	key = "588fd56bcab1fcdb4f33b5c2f7018d29";
 }
 else if (getURL == "U3R1ZGlvX1VuaXZlcnNhbA==")
 {
@@ -1083,13 +1086,13 @@ else if (getURL == "U3VuX0NoYW5uZWw=")
 }
 else if (getURL == "Q2luZWNhbmFsSEQ=")
 {
-	keyId = "6003e92dd0d9f548329015c9e15dd578";
-	key = "213cf85cb5f9fe569757004a77e05948";
+	keyId = "98b31a0a125d81ef4c9caf1683f55444";
+	key = "7ec3df0771fe86c9f405765ce9fb5204";
 }
 else if (getURL == "QU1D")
 {
-	keyId = "1fa6a86fd80b6d1425dde74482b5dc9c";
-	key = "744c3636d57a651ab444cf9fe5f95b33";
+	keyId = "30ffe7a2776537e8cec7020d783536f9";
+	key = "7b4f323576ac85d8938f5bebc245131c";
 }
 
 else if (getURL == "UkFJ")
@@ -1109,62 +1112,192 @@ else if (getURL == "U2V4dHJlbWU")
 }
 else if (getURL == "RXZlbnRvczFIRA") // Eventos 1
 {
-        keyId = "5c86e237317c2231ac1bc130e995fad6";
-        key = "dcacf7b239ee03df3c69ca11dbcde4eb";
+        keyId = "fdb996352a45b339b86f3eb336af36c6";
+        key = "21b8543c13b2b87e0e097602a71f3f91";
 }
-	else if (getURL == "VVNBX05ldHdvcms=") // USA NETWORK
-{
-	keyId = "c754b522b3b87dc2ba2da3e35154ec14";
-	key = "141a51e9e83861ae99b4b217431710b3";
-}
-
-
 
 else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
 {
         keyId = "e54e9ea87a634658fbba0e380aa701a7";
         key = "4e486d25d7d0e7d131743b285963c643";
 }
-	
 
+// Función para verificar si es Windows o Linux
+function isDesktopPC() {
+    const ua = navigator.userAgent.toLowerCase();
 
-            
+    const isWindows = ua.includes('windows');
+    const isLinux = ua.includes('linux') && !ua.includes('android');
+    const isMac = ua.includes('macintosh') || ua.includes('mac os x');
 
-            // Convertir keyId y key a una cadena JSON
-               if (keyId && key) {
-                var keyString = `"${keyId}":"${key}"`;
-                // Codificar en base64
-                var base64Key = btoa(keyString);
+    const isMobile =
+        /mobile|tablet|iphone|ipad|ipod|android/.test(ua);
 
-              var extensionUrl = `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpdBase}?ck=${encodeURIComponent(base64Key)}`;
+    return (isWindows || isLinux || isMac) && !isMobile;
+}
 
+// Función para mostrar el mensaje de dispositivo no compatible
+function showUnsupportedDeviceMessage() {
+    const unsupportedMessage = document.createElement('div');
+    unsupportedMessage.classList.add('alert-card');
+    unsupportedMessage.innerHTML = `
+        <i class='bx bx-error-circle boxicon'></i>
+        <h2>Dispositivo no compatible</h2>
+        <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
+    `;
+    document.body.appendChild(unsupportedMessage);
+}
 
-                // Mostrar el reproductor o el mensaje de extensión según corresponda
-                const playerDiv = document.getElementById("player");
-                const alertaDiv = document.getElementById("alerta-extension");
+        // Verificar si es un dispositivo compatible antes de ejecutar el código principal
+        if (!isDesktopPC()) {
+    showUnsupportedDeviceMessage();
+      } else {
 
-                isExtensionInstalled(
-                    () => {
-                        playerDiv.classList.remove("hidden");
-                        playerDiv.innerHTML = `<iframe id="iframe" allow="encrypted-media" allowfullscreen src="${extensionUrl}"></iframe>`;
-                    },
-                    () => {
-                        alertaDiv.classList.remove("hidden");
-                    }
-                );
-            } else {
-                alert('KeyId o Key no definidos.');
-            }
+    iniciarPlayer();
+
+}
+
+async function cargarOrigen() {
+
+    // Cache de la pestaña
+    const cacheHost = sessionStorage.getItem('srv_host');
+    const cacheKey  = sessionStorage.getItem('srv_key');
+
+    if (cacheHost && cacheKey) {
+
+        return {
+            host: cacheHost,
+            key: cacheKey
+        };
+
+    }
+
+    try {
+//
+        const canal = atob(getURL);
+
+const r = await fetch(
+    `https://chromecast.cvattv.com.ar/live/c${number}eds/${canal}/SA_Live_dash_cenc/${canal}.mpd`
+);
+
+        const destino = r.url;
+
+        const partes = destino.split('/');
+
+        const key = partes.find(x => x.startsWith('tok_'));
+
+        if (!key) {
+            console.error('No se encontró token');
+            return null;
         }
 
-        // Función para verificar si la extensión está instalada
-        function isExtensionInstalled(installedCallback, notInstalledCallback) {
-            const img = document.createElement('img');
-            img.onload = installedCallback;
-            img.onerror = notInstalledCallback;
-            img.src = 'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
-        }
-    </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"c053b7564df9421fb32353d3925c8ae4","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+        const resultado = {
+
+            host: new URL(destino).hostname,
+            key: key
+
+        };
+
+        sessionStorage.setItem('srv_host', resultado.host);
+        sessionStorage.setItem('srv_key', resultado.key);
+
+        return resultado;
+
+    } catch (e) {
+
+        console.error('Error obteniendo origen:', e);
+
+        return null;
+
+    }
+
+}
+
+async function iniciarPlayer() {
+
+    const origen = await cargarOrigen();
+
+    if (!origen) {
+
+        console.error('No se pudo obtener el token');
+
+        return;
+
+    }
+
+    console.log('HOST:', origen.host);
+    console.log('KEY:', origen.key);
+
+    const canal = atob(getURL);
+
+    const mpdBase =
+        `https://${origen.host}/${origen.key}/live/c${number}eds/${canal}/SA_Live_dash_enc/${canal}.mpd`;
+
+    console.log('MPD:', mpdBase);
+
+    // Verificar que existan keyId y key
+    if (!keyId || !key) {
+
+        alert('KeyId o Key no definidos.');
+
+        return;
+
+    }
+
+    const keyString = `"${keyId}":"${key}"`;
+
+    const base64Key = btoa(keyString);
+
+                    (async () => {
+       const vp = await VideoPlayer.init();
+
+if (vp.isInstalled()) {
+
+    const playerBase = vp.getDirectPlayer();
+
+    const extensionUrl =
+        `${playerBase}#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
+
+    const playerDiv = document.getElementById("player");
+
+    playerDiv.classList.remove("hidden");
+    playerDiv.innerHTML =
+        `<iframe id="iframe"
+                 allow="encrypted-media"
+                 allowfullscreen
+                 src="${extensionUrl}">
+         </iframe>`;
+
+} else {
+
+    document.getElementById("alerta-extension")
+        .classList.remove("hidden");
+}
+    })(); 
+
+}
+
+</script>
+
+
+
+
+
+
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"ae687ec2db5e41bfb1dc836b6c18d20c","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
+
+   <!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4833742,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4833742&101" alt="estadisticas gratis" border="0"></a></noscript>
+<!-- Histats.com  END  -->
