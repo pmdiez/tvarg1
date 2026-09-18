@@ -1,0 +1,356 @@
+
+<html>
+<head>
+<title>Embed 2</title>
+<meta name="robots" content="NOINDEX, NOFOLLOW">
+<meta content='width=device-width, initial-scale=1' name='viewport'>	
+<meta http-equiv="Content-Language" content="es" />	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+<body  style="padding: 0px; margin:0px;"><body>
+    
+    
+	<script src="https://unpkg.com/videoplayer-extension@latest/index.min.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #player {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        #player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        .alert-card{
+            position:fixed;
+            left:15px;
+            right:15px;
+            top:50%;
+            transform:translateY(-50%);
+            background:#111827;
+            color:#fff;
+            padding:25px 20px;
+            border-radius:18px;
+            text-align:center;
+            font-family:Arial,Helvetica,sans-serif;
+            box-shadow:0 10px 30px rgba(0,0,0,.35);
+            z-index:9999;
+        }
+        
+        .alert-card .boxicon{
+            font-size:55px;
+            color:#3b82f6;
+            margin-bottom:12px;
+            display:block;
+        }
+        
+        .alert-card h2{
+            margin:0 0 10px;
+            font-size:24px;
+        }
+        
+        .alert-card p{
+            margin:0;
+            font-size:15px;
+            line-height:1.5;
+            color:#cbd5e1;
+        }
+
+        #alerta-extension{
+            max-width:850px;
+            margin:15px auto;
+            background:linear-gradient(145deg,#111827,#1e293b);
+            border-radius:22px;
+            padding:25px;
+            color:#fff;
+            box-shadow:0 10px 35px rgba(0,0,0,.4);
+            border:1px solid rgba(255,255,255,.06);
+            position:relative;
+            overflow:hidden;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+        
+        #alerta-extension::before{
+            content:'';
+            position:absolute;
+            width:220px;
+            height:220px;
+            background:#2563eb;
+            border-radius:50%;
+            filter:blur(120px);
+            top:-120px;
+            right:-120px;
+            opacity:.2;
+        }
+        
+        .top-area{
+            display:flex;
+            align-items:center;
+            gap:20px;
+            margin-bottom:20px;
+            position:relative;
+            z-index:2;
+        }
+        
+        .logo-box{
+            width:80px;
+            height:80px;
+            min-width:80px;
+            background:#fff;
+            border-radius:18px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        
+        .logo-box img{
+            width:60%;
+        }
+        
+        .title-area h1{
+            margin:8px 0;
+            font-size:28px;
+            line-height:1.1;
+        }
+        
+        .title-area p{
+            margin:0;
+            color:#cbd5e1;
+            font-size:14px;
+        }
+        
+        .tag-live{
+            display:inline-block;
+            background:#2563eb;
+            padding:5px 12px;
+            border-radius:50px;
+            font-size:11px;
+            font-weight:bold;
+            letter-spacing:1px;
+        }
+        
+        .content-info{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:15px;
+            margin-bottom:20px;
+            position:relative;
+            z-index:2;
+        }
+        
+        .step-card{
+            background:rgba(255,255,255,.05);
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:16px;
+            padding:15px;
+            display:flex;
+            gap:14px;
+            align-items:flex-start;
+        }
+        
+        .step-number{
+            width:38px;
+            height:38px;
+            min-width:38px;
+            border-radius:50%;
+            background:#2563eb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:16px;
+            font-weight:bold;
+        }
+        
+        .step-card h3{
+            margin:0 0 5px;
+            font-size:16px;
+        }
+        
+        .step-card p{
+            margin:0;
+            color:#cbd5e1;
+            font-size:13px;
+            line-height:1.4;
+        }
+        
+        .bottom-area{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:20px;
+            flex-wrap:wrap;
+            position:relative;
+            z-index:2;
+        }
+        
+        .install-btn{
+            display:inline-block;
+            background:linear-gradient(135deg,#2563eb,#4f46e5);
+            color:#fff;
+            text-decoration:none;
+            padding:14px 28px;
+            border-radius:50px;
+            font-weight:bold;
+            font-size:14px;
+            letter-spacing:.5px;
+            transition:.3s;
+            white-space:nowrap;
+        }
+        
+        .install-btn:hover{
+            transform:translateY(-2px);
+        }
+        
+        .browser-image img{
+            width:270px;
+            max-width:100%;
+        }
+        
+        @media(max-width:700px){
+        
+            #alerta-extension{
+                padding:20px;
+            }
+        
+            .top-area{
+                flex-direction:column;
+                text-align:center;
+            }
+        
+            .content-info{
+                grid-template-columns:1fr;
+            }
+        
+            .title-area h1{
+                font-size:23px;
+            }
+        
+            .bottom-area{
+                flex-direction:column;
+            }
+        
+            .browser-image img{
+                width:140px;
+            }
+        
+        }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<div id="player" class="hidden"></div>
+
+		<div id="alerta-extension" class="hidden alert">
+
+			<div class="top-area">
+				<div class="logo-box">
+					<img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60">
+				</div>
+
+				<div class="title-area">
+					<span class="tag-live">EXTENSIÓN NECESARIA</span>
+					<h1>MPD • M3U8 • IPTV Player</h1>
+					<p>Instala la extensión para comenzar la reproducción del canal.</p>
+				</div>
+			</div>
+
+			<div class="content-info">
+				<div class="step-card">
+					<div class="step-number">1</div>
+
+					<div>
+						<h3>Instalar extensión</h3>
+						<p>Descarga el reproductor desde Chrome Web Store o Brave.</p>
+					</div>
+				</div>
+
+				<div class="step-card">
+					<div class="step-number">2</div>
+
+					<div>
+						<h3>Recargar página</h3>
+						<p>Una vez instalada la extensión, vuelve a cargar esta página.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="bottom-area">
+				<div class="buttons-area">
+					<a target="_blank" class="install-btn" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">
+						INSTALAR EXTENSIÓN
+					</a>
+				</div>
+			
+				<div class="browser-image">
+					<img src="https://i.postimg.cc/gJqHRFDz/extension.png">
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+ <script>
+    var HEADERS = 'eyJvcmlnaW4iOiJodHRwczovL3dlYmNsaWVudC5hbnRpbmFwbGF5cGx1cy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly93ZWJjbGllbnQuYW50aW5hcGxheXBsdXMuY29tLmFyLyJ9';
+    var EXTENSION_ID = 'opmeopcambhfimffbomjgemehjkbbmji';
+    var config = {"url":"https:\/\/cdn.sensa.com.ar\/live\/eds\/HBOPop\/live_dash_cld\/HBOPop.mpd","k1":"d5cf1ad9c7bc0a20051535aff63a5c04","k2":"019ea0de590a01385f50ae3fe090d19e"};
+
+    (async () => {
+        const vp = await VideoPlayer.init();
+        
+        if (vp.isInstalled()) {
+            const playerBase = vp.getDirectPlayer();
+            
+   
+            const ckValue = btoa(`"${config.k1}":"${config.k2}"`);
+            const extUrl = `${playerBase}#${config.url}?ck=${ckValue}&headers=${HEADERS}`;
+
+            const playerDiv = document.getElementById("player");
+            playerDiv.classList.remove("hidden");
+            playerDiv.innerHTML = `
+                <iframe id="iframe" 
+                        allow="encrypted-media" 
+                        allowfullscreen 
+                        src="${extUrl}">
+                </iframe>
+            `;
+        } else {
+            document.getElementById("alerta-extension").classList.remove("hidden");
+        }
+    })();
+</script>
+
+
+</body>
+</head>
+</html>
