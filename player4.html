@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Verificación de Extensión e Inclusión de Reproductor</title>
+    <title>Player</title>
     <link rel="stylesheet" href="https://boxicons.com/css/boxicons.min.css">
-    <script src="https://unpkg.com/videoplayer-extension@latest/index.min.js"></script>
     <style>
         body {
             background-color: #000;
@@ -21,7 +19,7 @@
 
         .container {
             width: 100%;
-            height: 100vh;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,7 +29,7 @@
         #player {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* Aspect ratio 16:9 */
+            height: 100%;
             background: #000;
         }
 
@@ -47,99 +45,274 @@
         .hidden {
             display: none;
         }
+        
+        .alert-card{
+            position:fixed;
+            left:15px;
+            right:15px;
+            top:50%;
+            transform:translateY(-50%);
+            background:#111827;
+            color:#fff;
+            padding:25px 20px;
+            border-radius:18px;
+            text-align:center;
+            font-family:Arial,Helvetica,sans-serif;
+            box-shadow:0 10px 30px rgba(0,0,0,.35);
+            z-index:9999;
+        }
+        
+        .alert-card .boxicon{
+            font-size:55px;
+            color:#3b82f6;
+            margin-bottom:12px;
+            display:block;
+        }
+        
+        .alert-card h2{
+            margin:0 0 10px;
+            font-size:24px;
+        }
+        
+        .alert-card p{
+            margin:0;
+            font-size:15px;
+            line-height:1.5;
+            color:#cbd5e1;
+        }
 
-.alert-card {
-    background-color: #333;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin: 20px auto;
-}
-
-.alert-card h2 {
-    margin-top: 0;
-    font-size: 24px;
-}
-
-.alert-card .boxicon {
-    font-size: 48px;
-    color: #ff0;
-}
-
-.alert-card p {
-    margin: 10px 0;
-    color: #ebebeb;
-}
-
-@media (max-width: 480px) {
-    .alert-card {
-        max-width: 90%;
-        padding: 5px;
-        margin-right: 50px;
-    }
-
-    .alert-card h2 {
-        font-size: 20px;
-    }
-
-    .alert-card .boxicon {
-        font-size: 36px;
-    }
-
-    .alert-card p {
-        font-size: 14px;
-    }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-    .alert-card {
-        max-width: 80%;
-        padding: 25px;
-    }
-
-    .alert-card h2 {
-        font-size: 22px;
-    }
-
-    .alert-card .boxicon {
-        font-size: 42px;
-    }
-
-    .alert-card p {
-        font-size: 16px; 
-    }
-}
-
-
-
-        a {
-            color: #0f0;
-            text-decoration: underline;
+        #alerta-extension{
+            max-width:850px;
+            margin:15px auto;
+            background:linear-gradient(145deg,#111827,#1e293b);
+            border-radius:22px;
+            padding:25px;
+            color:#fff;
+            box-shadow:0 10px 35px rgba(0,0,0,.4);
+            border:1px solid rgba(255,255,255,.06);
+            position:relative;
+            overflow:hidden;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+        
+        #alerta-extension::before{
+            content:'';
+            position:absolute;
+            width:220px;
+            height:220px;
+            background:#2563eb;
+            border-radius:50%;
+            filter:blur(120px);
+            top:-120px;
+            right:-120px;
+            opacity:.2;
+        }
+        
+        .top-area{
+            display:flex;
+            align-items:center;
+            gap:20px;
+            margin-bottom:20px;
+            position:relative;
+            z-index:2;
+        }
+        
+        .logo-box{
+            width:80px;
+            height:80px;
+            min-width:80px;
+            background:#fff;
+            border-radius:18px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        
+        .logo-box img{
+            width:60%;
+        }
+        
+        .title-area h1{
+            margin:8px 0;
+            font-size:28px;
+            line-height:1.1;
+        }
+        
+        .title-area p{
+            margin:0;
+            color:#cbd5e1;
+            font-size:14px;
+        }
+        
+        .tag-live{
+            display:inline-block;
+            background:#2563eb;
+            padding:5px 12px;
+            border-radius:50px;
+            font-size:11px;
+            font-weight:bold;
+            letter-spacing:1px;
+        }
+        
+        .content-info{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:15px;
+            margin-bottom:20px;
+            position:relative;
+            z-index:2;
+        }
+        
+        .step-card{
+            background:rgba(255,255,255,.05);
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:16px;
+            padding:15px;
+            display:flex;
+            gap:14px;
+            align-items:flex-start;
+        }
+        
+        .step-number{
+            width:38px;
+            height:38px;
+            min-width:38px;
+            border-radius:50%;
+            background:#2563eb;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:16px;
+            font-weight:bold;
+        }
+        
+        .step-card h3{
+            margin:0 0 5px;
+            font-size:16px;
+        }
+        
+        .step-card p{
+            margin:0;
+            color:#cbd5e1;
+            font-size:13px;
+            line-height:1.4;
+        }
+        
+        .bottom-area{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:20px;
+            flex-wrap:wrap;
+            position:relative;
+            z-index:2;
+        }
+        
+        .install-btn{
+            display:inline-block;
+            background:linear-gradient(135deg,#2563eb,#4f46e5);
+            color:#fff;
+            text-decoration:none;
+            padding:14px 28px;
+            border-radius:50px;
+            font-weight:bold;
+            font-size:14px;
+            letter-spacing:.5px;
+            transition:.3s;
+            white-space:nowrap;
+        }
+        
+        .install-btn:hover{
+            transform:translateY(-2px);
+        }
+        
+        .browser-image img{
+            width:270px;
+            max-width:100%;
+        }
+        
+        @media(max-width:700px){
+        
+            #alerta-extension{
+                padding:20px;
+            }
+        
+            .top-area{
+                flex-direction:column;
+                text-align:center;
+            }
+        
+            .content-info{
+                grid-template-columns:1fr;
+            }
+        
+            .title-area h1{
+                font-size:23px;
+            }
+        
+            .bottom-area{
+                flex-direction:column;
+            }
+        
+            .browser-image img{
+                width:140px;
+            }
+        
         }
     </style>
 </head>
 <body>
-    <div class="container">
-<div id="player" class="hidden"></div>
-<div id="alerta-extension" style="text-align: center;" class="hidden alert">
-    <i class="bx bx-error-circle boxicon"></i><div id="jb" class="jumbotron"><div class="image"><h3>Imagen (Brave):</h3>
-                <img src="brave2026.png" width="40%" alt="Reproductor MPD/M3U8/M3U/EPG"
-                >
-            </div><h1>Reproductor MPD/M3U8/M3U/EPG</h1></div><p><i style="color:red">NOTA</i>:
-            Para reproducir este canal necesitas instalar la extensión
-            <strong>Reproductor MPD/M3U8/M3U/EPG</strong></p>
-        <h2>Instalación</h2>
-        <p>Para instalar la extensión ingresa a <a id="extension-download"target="_blank" rel="noopener noreferrer"
-            > Reproductor MPD/M3U8/M3U/EPG</a></p><p> Una vez instalada la extensión recarga la página y disfruta del canal.
-        </p>
-</div>
+<div class="container">
+    <div id="player" class="hidden"></div>
+
+    <div id="alerta-extension" class="hidden alert">
+
+        <div class="top-area">
+            <div class="logo-box">
+                <img src="https://lh3.googleusercontent.com/CpjFFK0vJQElr4Xo1TAzovP8tCzedGN0h5uzSthqCaRQXlDvU6kIrIc4QTm1sPrxlD29NWLqfT_srE6MK5j7Iy9wkg=s60">
+            </div>
+
+            <div class="title-area">
+                <span class="tag-live">EXTENSIÓN NECESARIA</span>
+                <h1>MPD • M3U8 • IPTV Player</h1>
+                <p>Instala la extensión para comenzar la reproducción del canal.</p>
+            </div>
+        </div>
+
+        <div class="content-info">
+            <div class="step-card">
+                <div class="step-number">1</div>
+
+                <div>
+                    <h3>Instalar extensión</h3>
+                    <p>Descarga el reproductor desde Chrome Web Store o Brave.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+
+                <div>
+                    <h3>Recargar página</h3>
+                    <p>Una vez instalada la extensión, vuelve a cargar esta página.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-area">
+            <div class="buttons-area">
+                <a target="_blank" class="install-btn" href="https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji">
+                    INSTALAR EXTENSIÓN
+                </a>
+            </div>
+        
+            <div class="browser-image">
+                <img src="https://i.postimg.cc/gJqHRFDz/extension.png">
+            </div>
+        </div>
+
     </div>
-    <script type="text/javascript">const ua = navigator.userAgent.toLowerCase();const downloadLink = document.getElementById('extension-download');if (ua.includes('firefox')) {downloadLink.href ='https://addons.mozilla.org/firefox/addon/videoplayer-mpd-m3u8-iptv-epg/';downloadLink.textContent =
-        'Instalar para Firefox';} else {downloadLink.href =
-        'https://chromewebstore.google.com/detail/reproductor-mpdm3u8m3uepg/opmeopcambhfimffbomjgemehjkbbmji';downloadLink.textContent ='Instalar para Chrome / Brave / Edge';}
-        </script>
+</div>
     <script type="text/javascript">
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -153,1182 +326,242 @@
         var getKEY = getParameterByName('key');
         var getKEY2 = getParameterByName('key2');
         if (getURL == "") {alert('Vuelve a la página anterior');}
-        var number;
 
-if (getURL == "QTNfQ2luZQ==" || getURL == "Rmxvd19NdXNpY19YUA=="  || getURL == "Rmxvd19NdXNpY18x" || getURL == "Rmxvd19NdXNpY18y" || getURL == "Rmxvd19NdXNpY18z" ||  getURL == "QUVIRA==" || getURL == "SG9sYV9UVg==" || getURL == "QVhOSEQ=" || getURL == "TVRWMDA=" || getURL == "V2FybmVySEQ=" || getURL == "R0VOX1RW" || getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE" || getURL == "VG9kb05vdGljaWFz" || getURL == "VHlDU3BvcnQ" || getURL == "QW1lcmljYTI0" || getURL == "QzVO" || getURL == "TGFfTmFjaW9u" || getURL == "Q3JvbmljYVRW" || getURL == "Q2FuYWxfOF9UdWN1bWFu" || getURL == "UGFyYWd1YXlfVFY=" || getURL == "UGFyYW1vdW50" || getURL == "Q29tZWR5Q2VudHJhbA" || getURL == "Rmxvd19NdXNpY18z" || getURL == "Qm9vbWVyYW5n" || getURL == "RHJlYW13b3Jrcw==" || getURL == "QW5pbWFsUGxhbmV0" || getURL == "SGlzdG9yeUhE" ||  getURL == "SUQ=" || getURL == "QnJhdm9UVg==" || getURL == "U29ueUhE" || getURL == "VHJ1VFY=" || getURL == "SEJPX1BPUA==" || getURL == "RGlzY292ZXJ5VHVyYm8=" || getURL == "RGlzbmV5SnI=" || getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=" || getURL == "Rm94U3BvcnRzMl9VWQ==" || getURL == "RVNQTjQ=" || getURL == "Rm94U3BvcnRzM19VWQ==" || getURL == "RXZlbnRvc19IRF9VeQ==" || getURL == "VGVsZW11bmRvX0hE" || getURL == "RVNQTjNfVXktUHk=" || getURL == "QTNfU2VyaWVz" || getURL == "VVNBX05ldHdvcms=" || getURL == "RHNwb3J0c19VWQ==" || getURL == "RHNwb3J0czJfVVk=" || getURL == "RHNwb3J0c19QbHVzX1VZ") 
-number = 7;
-else if (getURL == "RVNQTjJfQXJn" || getURL == "Q2luZW1heA==" || getURL == "RXZlbnRvc18yX0hE" || getURL == "Q2FuYWxfOF9DQkE" || getURL == "MjZfVFZfSEQ" || getURL == "RGlwdXRhZG9zX1RW" || getURL == "QXJnZW50aW5pc2ltYQ" || getURL == "TWV0cm8" || getURL == "QkJDX1dvcmxkX05ld3M" || getURL == "VGhlYXRlcl9IRA==" || getURL == "R2xpdHo=" || getURL == "UXVpZXJvX0hE" || getURL == "RGlzY292ZXJ5X1dvcmxkX0hE" || getURL == "RXVyb2NoYW5uZWw=" || getURL == "RGlzY292ZXJ5X1NjaWVuY2U=" || getURL == "SU5DQUFfVHY=" || getURL == "VFY1X01vbmRl" || getURL == "TVRWX0hpdHM=" || getURL == "TVRWX0hE" || getURL == "Tmlja19Kcg==" || getURL == "VFZfRXNwYW5h" || getURL == "V09CSQ==" || getURL == "Vm9sdmVy" || getURL == "VGVsZXN1cg==" || getURL == "TGlmZXRpbWU=" || getURL == "QW50ZW5hXzM=" || getURL == "Rm94X05ld3M=" || getURL == "VHZfQ2hpbGU=" || getURL == "QU1DX1Nlcmllcw==" || getURL == "U3R1ZGlvX1VuaXZlcnNhbA==" || getURL == "SVNBVA==" || getURL == "U3VuX0NoYW5uZWw=" || getURL == "UkFJ" || getURL == "VmVudXM=" || getURL == "U2V4dHJlbWU" || getURL == "UGxheWJveQ" || getURL == "VE5UX1Nwb3J0c19IRA" || getURL == "VGVsZWZlSEQ=" || getURL == "Q2FuYWw3" || getURL == "RW5jdWVudHJv" || getURL == "VGVsZW1heA" || getURL == "TmV0X1RW" || getURL == "Q2FuYWxfMTJfQ0JB" || getURL == "RWxfR2FyYWdl" || getURL == "RmlsbV9BcnRz" || getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=" || getURL == "RXVyb3BhX0V1cm9wYQ" || getURL == "RXVyb25ld3M=" || getURL == "Rm9vZF9OZXR3b3Jr" || getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=" || getURL == "Q00=" || getURL == "UEFLQV9QQUtB" || getURL == "SGlzdG9yeV8y" || getURL == "U3lGeQ==" || getURL == "VEJT" || getURL == "VENN"  || getURL == "SEJPXzI=" || getURL == "SEJPX1BsdXM=" || getURL == "SEJPX0ZhbWlseQ==" || getURL == "SEJPX0V4dHJlbWU=" || getURL == "SEJPX011bmRp" || getURL == "SEJPX1NpZ25hdHVyZQ==" || getURL == "Q2FuYWxfUnVyYWw="  || getURL == "VExD" || getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk" || getURL == "RGlzY292ZXJ5X0tpZHM="  || getURL == "SFRW" || getURL == "TkJBX1RW"  || getURL == "VW5pdmVyc2FsX0NpbmVtYQ=="  || getURL == "VW5pdmVyc2FsX0NvbWVkeQ==" || getURL == "dW5pdmVyc2FsX0NyaW1l"  || getURL == "VW5pdmVyc2FsX1ByZW1pZXJl" || getURL == "VW5pdmVyc2FsX1JlYWxpdHk="  || getURL == "RXZlbnRvc18yX0hE"  || getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==" || getURL == "S1pP"  || getURL == "R29sZGVu")
-number = 6; 
-else if (getURL == "QzlOX0M0")
-number = 5;
-else if (getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE" || getURL == "TmF0R2VvSEQ="  || getURL == "VE5UX0hEX0FyZw=="  || getURL == "VE5UU2VyaWVz" || getURL == "Q2FydG9vbk5ldHdvcms=" || getURL == "Tmlja2Vsb2Rlb24="  || getURL == "QWR1bHRfU3dpbQ==" || getURL == "RXZlbnRvczFIRA" || getURL == "VHlDX0ludGVybmFjaW9uYWw=" || getURL == "RFNwb3J0c18x" || getURL == "RFNwb3J0c18y") 
-number = 3;
-else if (getURL == "Q2FuYWxfNV9Sb3Nhcmlv" || getURL == "VEVMRUZVVFVST19DNA==" || getURL == "VGVsZWZlX05ldXF1ZW4=" || getURL == "VGVsZWZlX1NhbHRh" || getURL == "U05UX0M0" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "Tk9USUNJQVNfUFlfQzQ=" || getURL == "UEFSQVZJU0lPTl9DNA==" || getURL == "TEFfVEVMRV9DNA==" || getURL == "U1VSX1RWX0M0" || getURL == "Q2FuYWwxMlVSVQ==" || getURL == "Q2FuYWw0X1VSVQ==" || getURL == "SEJPSEQ="  || getURL == "Q2FuYWwxMF9VUlU=" || getURL == "UlBDX0M0" || getURL == "RVNQTjJfVVk=" || getURL == "RVNQTl9VWQ==")
-number = 4;
-else
-number = 3; 
-
-
-// Función para verificar si es Windows o Linux
-function isDesktopPC() {
-    const ua = navigator.userAgent.toLowerCase();
-
-    const isWindows = ua.includes('windows');
-    const isLinux = ua.includes('linux') && !ua.includes('android');
-    const isMac = ua.includes('macintosh') || ua.includes('mac os x');
-
-    const isMobile =
-        /mobile|tablet|iphone|ipad|ipod|android/.test(ua);
-
-    return (isWindows || isLinux || isMac) && !isMobile;
-}
-
-// Función para mostrar el mensaje de dispositivo no compatible
-function showUnsupportedDeviceMessage() {
-    const unsupportedMessage = document.createElement('div');
-    unsupportedMessage.classList.add('alert-card');
-    unsupportedMessage.innerHTML = `
-        <i class='bx bx-error-circle boxicon'></i>
-        <h2>Dispositivo no compatible</h2>
-        <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo.</p>
-    `;
-    document.body.appendChild(unsupportedMessage);
-}
-
-        // Verificar si es un dispositivo compatible antes de ejecutar el código principal
-        if (!isDesktopPC()) {
-    showUnsupportedDeviceMessage();
-      } else {
-var mt = [
-  {
-    cdn: "edge-live01-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDM1Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0FtZXJpY2EyNC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImZlYzc0MWE2MTUxMTllZjkiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMjQ1Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.F8-E6VAehiehD49_7X2F-2xQbEARwDxiCtslMYQHNFzlPmKIdt7Sx1p-j8Bpg_slENnslr9L1_ITq9KOSSwG2Q=="
-  },
-  {
-    cdn: "edge-live02-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2Mjc2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ZvbHZlci9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjY2YTg1YzgyNGQzMDYzYzIiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMzQxIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.2hkRauaFIwVif1uvoTp7Cm2HXL1VUbXwIsEWTlkI6WC-W6owx1RmDkBbmBCoIxeb7Qoe3cUwNAtoTQ5e3q9CVA=="
-  },
-  {
-    cdn: "edge-live02-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDY3Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0lEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiYWZlZDExNWYxYjZkOTEyNiIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTUiLCJhdWQiOiIzNjEiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.sMDB-kyGQnK57bMh-wL0DxhSnen5Jpm8sP1UYA89s7NLYgI2qmXXoxdz9YZbI4ZeMTkO3xgWUP4FTTyGKT0NVQ=="
-  },
-  {
-    cdn: "edge-live03-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjU2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0NhbmFsOS9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjM2ZDU5MWRmMDkyYzBjNjciLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMzQyIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.8DV_1kSk_ixFYlGrWqM_Xv2pDKT5-u1mIMvTZgTJYKMMZX1Z4cstKERE01jn8npfUsQPLAayHZdi6hCmCV_71A=="
-  },
-  {
-    cdn: "edge-live03-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NTYyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M0ZWRzL0VTUE5fVVkvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiI2ZmEzMTc3NDU5ZjU5YjFhIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjM2MiIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.5cA_56AlHI4TR9sCwzg-4oxuAbv6ZSmULRiDTbyiDwwJUHjeomuUdfVBRbp-ssqP8DQaBFVmiN2nVhSTww4f9g=="
-  },
-  {
-    cdn: "edge-live04-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDcyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL1NvbnlIRC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjBiNjQxOGRkNTZkYjk2ZjEiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMzEwIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.N0eDuRfubgFoUuQYm5K0D98sdhdnCqQ_WFubGVbMP1MXQqYaSmyLMa8gf37vBmjD1kBAQ0CLn_P2DQ2F-h1vjQ=="
-  },
-  {
-    cdn: "edge-live04-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjQxIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0hpc3RvcnlIRC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjU4OTUwZjlmNjdkN2NlNzgiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMzYzIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.nw8Xdl5z9Pyn4_5RxLrP-99NwsuG6hcQSM3ElB_UBlfLS4rRpYndZTqean9A8pCVrEVa4fSPeK57nY9XljpGKw=="
-  },
-  {
-    cdn: "edge-live05-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NTMyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M0ZWRzL1RlbGVmZV9TYWx0YS9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImVlY2EwNGU5NTFhOGJhNDkiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiMzI0Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.Gce359nGVUrD12CmFuMG34fMRVtHTFKAjvQJAg-irwSA2veqa3URaVUw8F5LH5ujXxpaQLrw3MDcC-SmhUrHVA=="
-  },
-  {
-    cdn: "edge-live07-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjU5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0VTUE4ySEQvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiIxNjM1Yjg1ZTUwZWE4NTQ0Iiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjMxMSIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.rY11ICo80rGma1B9hJnEGT2VbrGPTQEZOELa1ce8EobADLPHdwXUINatURcLYS25qqvAxi_XPqvXtZnvTJye2w=="
-  },
-  {
-    cdn: "edge-live08-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDQ3Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0NhbmFsXzhfVHVjdW1hbi9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjMwOTU0YWI5MTAzZjMxNGUiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMzEyIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.FmqVJ7FBRWflCmr1sHMTDq2KwiKrRx8wGU4gux5_EV5kdv6Yfaq6Vav2DPPEGY1QQDZHnl_tv2qLOfV9Uez-_w=="
-  },
-  {
-    cdn: "edge-live08-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjU0Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0FydGVhckhEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiNzgzNGJjZmUzNDVhNTIwNSIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTUiLCJhdWQiOiIzMTYiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.qdSQ4F3fpMqKBQw5fC_2ocetWqQzYwgHl3Paoc1aL4yFilB6p15oiISCrMPItdIQArj4qOPCI46o22ORGgeWAg=="
-  },
-  {
-    cdn: "edge-live09-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjM4Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1ROVF9TcG9ydHNfSEQvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiI4NjMzMjRkNTYyMmNhZTMxIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjMxNCIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.N1B2kB_FSeyq6H_OB8ZJgWx4gywor7GcdsLyFuLRuCMRWDRLD9Nx__GAxHZMEhTsSztQr_KM_Qgk7XpZjTDqTA=="
-  },
-  {
-    cdn: "edge-live10-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjY5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL0V2ZW50b3MxSEQvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiJhMGQ0MDYzYWFhMzFiYWZmIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjMxNSIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.VmvuFH0H-iLCTq7D70MoDFj3AGteHqLEAbvPHJ78cB-ky3PgZCPkPMzDGvrUFJF4RQGAOueVaAwsI_fggt9cXg=="
-  },
-  {
-    cdn: "edge-live11-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDQyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0xhX05hY2lvbi9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjUwMzFmODk5YWUxMDYzMmQiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiNjIiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.sJLs2K51uMR7_Y6G5-FDwRKssmIE-TLueZaiCkJ15qoO5TjM-_eBGKx8Lwf_QyR-L-gTufAoF-xNp2gwrWLI9g=="
-  },
-  {
-    cdn: "edge-live11-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NTUyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M0ZWRzL0hCT0hEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiMjlhMjRmM2JmYjhjYTgyYiIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMjIiLCJhdWQiOiI4NyIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.On_SCIFICA2A6c3kYYGze266Hm8UvQYMO0WVfBLAELviyIZBjmZk6IrWFObKUHtq8OQw8IvL9a9NWJ20UHp3nw=="
-  },
-  {
-    cdn: "edge-live12-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjQzIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M1ZWRzL0M5Tl9DNC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImIzZjc1NjVmMDRkYzk2YWYiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiNjUiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.7Vspm7CdgiIJOd11hSocTB1I9e3RiuhqHqdNRmS7DJ0KqTfDrPqeYBbEem6CYoTXZykTHH1Z4QHMDFRVP9MGUQ=="
-  },
-  {
-    cdn: "edge-live14-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDk2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0V2ZW50b3NfSERfVXkvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiIxZWQ5MWExMTk5NTEwYzFmIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjEyMiIsImF1ZCI6IjcxIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.yxaf1auM2e1RJkLfbjecF2D8heRk0F9-jbRgwUcJ7YcJT0qzX-C_ltyD-yOTF55e5hrujSp9InZGxiwVob8_Tw=="
-  },
-  {
-    cdn: "edge-live15-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjgxIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1BBS0FfUEFLQS9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjhmNzJkOTgzMWUyOTRkNjEiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiNTgiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.zPQFCYNZe00EW6GkZWSdI7Ns4JrJShX1sW78rRTmoVhTAfwmKjI3zHU_FA3iX3i1fUMkcGUpSiKVN0F_OgznbA=="
-  },
-  {
-    cdn: "edge-live16-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MDc5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL01UVl9IaXRzL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiZDhmN2NmODhiZTVmYTJmNSIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMTgxLjEyLjM2LjE1MCIsImF1ZCI6Ijc3Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.YQl--N7nWcJsDOHQPnYn-Ygk8ZwtO0d-1PtIbMzjuvf6lwyjHWzJ_OUhrik9Bm5G-tF8ENLL7ZGksoFp2CTMeA=="
-  },
-  {
-    cdn: "edge-live16-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MDg2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1RWX0VzcGFuYS9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjRlY2ZhM2U1ZGIwOGQ2NmUiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzE4MS4xMi4zNi4xNTAiLCJhdWQiOiIxMDUiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.t13zIrdRBcXA_Ex2ZVY2yHRWeOdSf0sl8aciQQOrjlNyJ9xjF3ivgBLkU0nnNRdnmero5y8b4Db3HumjpBP1UA=="
-  },
-  {
-    cdn: "edge-live18-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjY2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0FNQ19TZXJpZXMvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiI3MTZkM2Y4MDZhMWZkYzM1Iiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjM0NCIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.oknaAlTSPPA0pfv8TrJEpQoZoasRF06MvQZ3LehyhnyXe4Kv5TvAbRHT4IZSKIHEi865oQcDwbrnpCc2remSnw=="
-  },
-  {
-    cdn: "edge-live19-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDQ5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL1BhcmFndWF5X1RWL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiMDI2MzE3ZWY3OTNmMDkwMSIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTUiLCJhdWQiOiIzNDUiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.ZryYumGQMkuj9SQovGCsjHyOHuKozPML-vF2mCGMB_WpciidTMKZ6_Kwox26WcK1boBOXW2aMi4mEuzzsv-rkQ=="
-  },
-  {
-    cdn: "edge-live21-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjY0Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0hCT19QbHVzL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiN2I4NjU1OWYwZTg2ZDdlMyIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTUiLCJhdWQiOiIzNTEiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.8Iz6sSeOBZLQSjBPdbA_43AzhAq-yhGt7QAosMXdIiwXPiYMuS2dDpu2WGWC6woZxD3r4hy-mXSdAD5upst0rg=="
-  },
-  {
-    cdn: "edge-live22-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDUyIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2MzZWRzL1BhcmFtb3VudC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImRlNTU1MzljNGMzZjY2NjgiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMzUyIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.OMqunRV2j8PfEiQnG8DuNY9nkFyX0qdOde3mNAf7e_s8h2RJXABSwo-DYGIjHx35qkrCeha_Xs9n2St0F0MLFQ=="
-  },
-  {
-    cdn: "edge-live23-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjUxIiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL05pY2tfSnIvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiJkMTlhNjVlYWMyNTZiMzgzIiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjM1MyIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.hr0C5S1VR2oEZJ1vHvVkTUGwVWx8BWYj_VMsrgaFy_9gdhwBrpQ6dYsq9VVE0NqJo0l2eSDn79rm87lx1sfjHg=="
-  },
-  {
-    cdn: "edge-live31-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2Mjc0Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0VTUE40L1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiOGYwOGJmMDM1NjI0OTI4MCIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTUiLCJhdWQiOiI3OCIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.DwAmqWlCI_XBcvU8f3w4558gkV6tWRyEuholFgHJPG134r815hmfkgUZQUb8I1DsjPnJTZmBTQvCqdblVSYUpA=="
-  },
-  {
-    cdn: "edge-live32-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MDk2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL0xpZmV0aW1lL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiZmM4NzMxYTUxY2MxMjliYSIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMTgxLjEyLjM2LjE1MCIsImF1ZCI6IjU5Iiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==._Py1JjPDgmGlw2e6cvR33itQKuDE-Tu2pXROoAjUzmMWzI_7MWN2b9Yl9HcMXldBmlwo7WKJFRbg4ipEp8js5g=="
-  },
-  {
-    cdn: "edge-live34-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NTM0Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M0ZWRzL1NOVF9DNC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6ImYwYmQ2N2E2NTMwYTE4ZTQiLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTIyIiwiYXVkIjoiNzkiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.dM4lEjhbLQcBoHzk3Pyl_0Jl1sLxoZ9y63Kkbu_OHq89hde7NTTCKyl8rcCGN3DinOg2_JhpV5joyheZKLQ4hQ=="
-  },
-  {
-    cdn: "edge-vod06-sl",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjQ5Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M2ZWRzL1RlbGVmZUhEL1NBX0xpdmVfZGFzaF9lbmNfLyIsInNlc3Npb25fY2RuX2lkIjoiZmZmZjAxYjhjMGY5MTMzYyIsInNlc3Npb25faWQiOiIiLCJjbGllbnRfaWQiOiIiLCJkZXZpY2VfaWQiOiIiLCJtYXhfc2Vzc2lvbnMiOjAsInNlc3Npb25fZHVyYXRpb24iOjAsInVybCI6Imh0dHBzOi8vMjAxLjIzNS42Ni4xMTUiLCJhdWQiOiIxMzkiLCJzb3VyY2VzIjpbODUsMTQ0LDIxMCw4Niw4OF19.Sa4CGbzFYM5sJ3ZlQUvEHqA0o_RexmEfij1YMON4TdsiUNRC5kYtZODd7pJSaz3UcY_SP5TGcGPAt3yB0sZfCw=="
-  },
-  {
-    cdn: "edge5-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2MjQ2Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M0ZWRzL0ZveF9TcG9ydHNfUHJlbWl1bl9IRC9TQV9MaXZlX2Rhc2hfZW5jXy8iLCJzZXNzaW9uX2Nkbl9pZCI6IjM1OTUwNWQxNzg0MTczMjciLCJzZXNzaW9uX2lkIjoiIiwiY2xpZW50X2lkIjoiIiwiZGV2aWNlX2lkIjoiIiwibWF4X3Nlc3Npb25zIjowLCJzZXNzaW9uX2R1cmF0aW9uIjowLCJ1cmwiOiJodHRwczovLzIwMS4yMzUuNjYuMTE1IiwiYXVkIjoiMjIwIiwic291cmNlcyI6Wzg1LDE0NCwyMTAsODYsODhdfQ==.-1FFxb0ByzVDn-1slvSrIuVXCIigQ77C1iK5_ejtdND0ge-4vJ50B6fvEWX-BBWl4XfQ8N_NGUF5F7FyKWxEMg=="
-  },
-  {
-    cdn: "edge6-hr",
-    token: "tok_eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNzkxMDE2NDc4Iiwic2lwIjoiODQuMjUyLjExNC4yIiwicGF0aCI6Ii9saXZlL2M3ZWRzL0hCT19QT1AvU0FfTGl2ZV9kYXNoX2VuY18vIiwic2Vzc2lvbl9jZG5faWQiOiI2N2QwNjI3MDc0ODMwNjM1Iiwic2Vzc2lvbl9pZCI6IiIsImNsaWVudF9pZCI6IiIsImRldmljZV9pZCI6IiIsIm1heF9zZXNzaW9ucyI6MCwic2Vzc2lvbl9kdXJhdGlvbiI6MCwidXJsIjoiaHR0cHM6Ly8yMDEuMjM1LjY2LjExNSIsImF1ZCI6IjIxOSIsInNvdXJjZXMiOls4NSwxNDQsMjEwLDg2LDg4XX0=.AnvnLpNmPwnIubnhbKUdv6kbXrw0MpvNpVyyuAawmpaDxoBEN_2Rkrw3n79u2coK2lIj-bOAV5a7yJrC1Oru7Q=="
-  }
-];
-
-
-
-var randomIndex = Math.floor(Math.random() * mt.length);
-var selected = mt[randomIndex];
-
-console.log("CDN seleccionado:", selected.cdn);
-
-const mpdBase = `https://${selected.cdn}.cvattv.com.ar/${selected.token}/live/c${number}eds/${atob(getURL)}/SA_Live_dash_enc/${atob(getURL)}.mpd`;
-
-console.log("MPD URL:", mpdBase);
-
-
-            // Definir las claves
-            var keyId, key;
-
-
-if (getURL == "RVNQTjJIRA")
-{
-	keyId = "d079ffa3757e8335611fc48be6ba47ff";
-	key = "05059d1cb21b6708a55e9c26fb38e2f3";
-}
-
-else if (getURL == "U3lGeQ==")
-{
-        keyId = "9cd99cbb466c42e5b33e7a2ef7e2c7df";
-        key = "18d9faccdaf2d15807d0a3f713e8b2a4";
-}
-
-else if (getURL == "VW5pdmVyc2FsX0NpbmVtYQ==") // Universal Cinema
-{
-        keyId = "6c2ba2a391c2edc5a2990841c5c30636"; 
-        key = "892061b87f07c6d816f234a1328c3420"; 
-}
-
-else if (getURL == "VW5pdmVyc2FsX0NvbWVkeQ==") // Universal Comedy 
-{
-        keyId = "1b517ae7d7f99219f56dd4a84e15b81c"; 
-        key = "339c4e668547d83c35c32e97a0a1453e"; 
-}
-
-else if (getURL == "dW5pdmVyc2FsX0NyaW1l") // Universal Crime 
-{
-        keyId = "d8a2142b66d54b58165973e137bef4f0"; 
-        key = "f30900beab737d0f39b543e58344ba2f"; 
-}	
-
-else if (getURL == "VW5pdmVyc2FsX1ByZW1pZXJl") // Universal Premiere 
-{
-        keyId = "909eb7589305cd00e1b6827fadd74411"; 
-        key = "43a9e55701369434df4892240d9741c2"; 
-}
-
-else if (getURL == "VW5pdmVyc2FsX1JlYWxpdHk=") // Universal Reality 
-{
-        keyId = "8ebb9535d7a19a2876a1d150fe613c88"; 
-        key = "c1ad609a9831f56126f3c76ffbc4ca04"; 
-}
-		
-else if (getURL == "RXZlbnRvc19IRF9VeQ==") // Eventos 1 UY
-{
-        keyId = "48d0e34c8797c5c2a742d2630a8fb975";
-        key = "fb5d12b9d8febe836e5670abd003ddca";
-}
-
-else if (getURL == "Rm94U3BvcnRzMl9VWQ==") // ESPN 7
-{
-        keyId = "5fc7b662e69c0fbf8d39691166b1c919";
-        key = "89157cdd25df25d56f1ecccee3850888";
-}
-
-else if (getURL == "Rm94U3BvcnRzM19VWQ==") // ESPN 6
-{
-        keyId = "5fc7b662e69c0fbf8d39691166b1c919";
-        key = "89157cdd25df25d56f1ecccee3850888";
-}
-	
-else if (getURL == "RVNQTjQ=") // ESPN 5
-{
-        keyId = "24f2b3e741f0d9e9a8d516faff38bddc";
-        key = "bbd3fd02fb104e1463ac528a13f67e4a";
-}	
-
-else if (getURL == "TkJBX1RW") //NBA TV
-{
-        keyId = "1a9ded52bb6b4a95ceaf0225f6ec950d";
-        key = "96ddfcf278a5103f3a4535efcb3cada2";
-}
-
-else if (getURL == "SFRW")  // HTV
-{
-        keyId = "daecef5fe32f4ce083c6a0c692755d6a";
-        key = "d4227f24389a9ba77293214b93eb0d7d";
-}
-	
-else if (getURL == "SW52ZXN0aWdhY2lvbl9QZXJpb2Rpc3RpY2E=")  // IP Noticias
-{
-        keyId = "723d8d918d61cee1f708ec849b6498a2";
-        key = "b4b48cfccc1cddcc73bc7a7df46cb531";
-}
-	 
-else if (getURL == "UlBDX0M0")  // el trece py
-{
-        keyId = "a8093cdcb2d504bd38f16764bd21b6e5";
-        key = "bfcf3b033b5f0b5ae020751a6746326f";
-}
-	 
-else if (getURL == "Q2FuYWxfZGVfbGFzX2VzdHJlbGxhcw==")//canal Las estrellas out/v1
-{
-        keyId = "df2f4235fe7c45c5a661554bc70cda0e"; 
-        key = "39a738dbd543f5e3659c9dc265232aec"; 
-}	
-
-else if (getURL == "SVNBVA==")//ISAT
-{
-	keyId = "db764164934a48749a7a01bd015694f3";
-	key = "512f3c8869af45e6e5dd1525b6a77867";
-}
-	
-else if (getURL == "Q2FydG9vbk5ldHdvcms=") // CArton NeTwork
-{
-        keyId = "e77eb4ef8dc7ad8191dc71d04f8fc3b3";
-        key = "b4f9398a9261d11fcd6018acffab94d1";
-}
-
-else if (getURL == "Tmlja2Vsb2Rlb24=") // NICK
-{
-        keyId = "89a6be32a372255475c03d910be1eae8";
-        key = "4446ac987204570bbebb8ee5a4945903";
-}
-
-else if (getURL == "RGlzbmV5SnI=") // Disney Junior
-{
-        keyId = "bd29c4a538f28845ce33581111749428";
-        key = "46d9589f41a11c3637c07c604956deac";
-}
-	
-else if (getURL == "RGlzY292ZXJ5X0tpZHM=") // Discovery Kids
-{
-        keyId = "ffb2f0f63c23a3592d4653e938b9ca19";
-        key = "d3661ae881fc55fc7a15815cd439747b";
-}
-
-else if (getURL == "Q2luZW1heA==") // cinemax
-{
-        keyId = "fd84db183866916b15366b4852e68da8"; 
-        key = "1201b1f0ed299a46ddffabb5c8553793"; 
-}
-
-else if (getURL == "VE5UX0hEX0FyZw==") // TNT HD
-{
-        keyId = "61d9873e1f281cd0223acce773cc08b0";
-        key = "3dda0d89ece37c244ed8cb7e90153555";
-}
-
-else if (getURL == "VE5UU2VyaWVz") // TNT Series
-{
-        keyId = "613a3dc25b1d3ed4186e2a399ac7f081";
-        key = "7b5cf1cf7aeda446359bbcd23b5771b6";
-}
-
-else if (getURL == "VEJT") // TNT Novelas (TBS)
-{
-        keyId = "c62c95f2180545198eb91df4cc32e3fc"; 
-        key = "6a21b6ef5adb8689dda7c3cc1eec0c35"; 
-}
-
-else if (getURL == "U29ueUhE") // Sony Channel
-{
-        keyId = "cef493fcf7f74c3993381b1e02c86df6"; 
-        key = "ce1b16015e7963e71bcf0f84e34a9991"; 
-}
-
-else if (getURL == "VHJ1VFY=") // TruTV
-{
-        keyId = "7d0cecffe9c29734343cf9983978c1a1";
-        key = "f86b5ac05f2a2626b6c61bd4e13344d8";
-}
-
-else if (getURL == "QWR1bHRfU3dpbQ==") // AS
-{
-        keyId = "4e63e6ecde4f9cd9e68021b4c9af2d21";
-        key = "438e6d40e9952362eef1c690c5f8455a";
-}
-	
-else if (getURL == "VENN") // TCM
-{
-        keyId = "a5f44a5e30714cf3bcee7c7f15a08b4e";
-        key = "c3c141ae941ab9750339c3af45a65ce2";
-}
-
-else if (getURL == "SEJPSEQ=") // HBO 
-{
-        keyId = "b059cdbfc787a32f57fbcb6e52dbc0a0";
-        key = "50648d7806624eb8d53fb2aecc8b1af1";
-}
-
-else if (getURL == "SEJPXzI=") // HBO 2
-{
-        keyId = "91bd6f829d06498c21e212acf1c5fa07"; 
-        key = "148a358284689e40b22074c244c535da"; 
-}
-
-else if (getURL == "SEJPX1BsdXM=") // HBO Plus
-{
-        keyId = "c1c780647a98d46c3e5867cf204d129a"; 
-        key = "006d44f02be55c28f34b9106d79a82a9"; 
-}
-
-else if (getURL == "SEJPX0ZhbWlseQ==") // HBO Family
-{
-        keyId = "535473132f68082160b489482ca35f8e";
-        key = "e90fd91fcd3fc809bed2b1c0d37f7297";
-}
-
-else if (getURL == "SEJPX0V4dHJlbWU=") // HBO Xtreme
-{
-        keyId = "b1c518c4859b1eac1ac409dd7a712155"; 
-        key = "d9ae29d636e14074da10360765ee4cb5"; 
-}
-
-else if (getURL == "SEJPX011bmRp") // HBO Mundi
-{
-        keyId = "56fc145492109590d82cf8f60c55d4f5"; 
-        key = "c713241579436e0d5fe2480b6eb7b1fd"; 
-}
-
-else if (getURL == "SEJPX1BPUA==") // HBO POP
-{
-        keyId = "782be6aa05e2e53f1f0769ac21335975"; 
-        key = "bc54efe24ebc6127dee264704cdd543b"; 
-}
-
-else if (getURL == "SEJPX1NpZ25hdHVyZQ==") // HBO Signature
-{
-        keyId = "4918d3bf399a237e8ee065eb3ebf7327"; 
-        key = "747179296ae370e9b8746a09904b5385"; 
-}
-
-else if (getURL == "QW5pbWFsUGxhbmV0") // Animal Planet
-{
-	keyId = "bd3391cf0c35692dbaca16b76169e211";
-	key = "0dd3924a07b0a4051f6db1d57e75a700";
-}
-else if (getURL == "RGlzY292ZXJ5SG9tZUhlYWx0aEhE") // Discovery hyh
-{
-	keyId = "6e2bc2b3c9464c407af6d0559bb5e1ea";
-	key = "43ec5e698b6f60a0f41d604909a25186";
-}
-
-else if (getURL == "VExD") // Discovery TLC
-{
-	keyId = "2718fd9ea3492a477bd91c51d348185d";
-	key = "979d54e467efcac7b5ea18d50f74ee08";
-}
-
-else if (getURL == "Q2FuYWxfZGVfbGFfY2l1ZGFk") // El Canal de la Ciudad
-{
-	keyId = "8700e5c6a3528f38f878a1720ab8a5d4";
-	key = "dd4d69622cd92dfe429229925c6a0a75";
-}
-
-else if (getURL == "RGlzY292ZXJ5VHVyYm8=") // Discovery TURBO
-{
-	keyId = "0f55ecc6486bcae9fd3f53271fc16ad8";
-	key = "eeb7df5969fc58b5771f2f3bc7502ad5";
-}
-	
-else if (getURL == "SUQ=") // Discovery  id
-{
-	keyId = "2a6094881a1486dc8a3efe6be9f22017";
-	key = "ddb8613a5a749a93d9bbc44559298de0";
-}
-
-else if (getURL == "Q2FuYWwxMF9VUlU=") // Canal 10 uru
-{
-	keyId = "8dd34782d754f8fcb1e8b38da9ffad0b";
-	key = "6fb97467c0f0ea13f86d41a70e029c51";
-}
-
-else if (getURL == "SGlzdG9yeUhE") // History Channel
-{
-	keyId = "b10e48eb0c9940015e28dfe7637b48fa";
-	key = "4df252f95de70923b736f3f659821cb7";
-}
-else if (getURL == "SGlzdG9yeV8y") // History Channel 2
-{
-	keyId = "6e08ea85cdbf5d3d2089d5e9a5349d8c";
-	key = "ccdb13d6d47775894452a0629c986b67";
-}
-
-else if (getURL == "TmF0R2VvSEQ=") // NATGEO
-{
-	keyId = "73735c1740464c99cca3ffb450c15811";
-	key = "b9241d083c902fa615e4f780081ae926";
-}
-
-else if (getURL == "Q2FuYWxfUnVyYWw=") // RURAL
-{
-	keyId = "72308b4673698df3c4143be5410c82d4";
-	key = "35f38c9fb04664572ee6c0a9c53a2388";
-}
-
-else if (getURL == "S1pP") // KZO
-{
-	keyId = "71c9374566b0b5517083bc923175969a";
-	key = "56292911445ae704f390669ec5d7faa7";
-}
-
-else if (getURL == "R29sZGVu") // golden
-{
-	keyId = "f6cd784e5b53208261dd81a345908400"; 
-	key = "b125fd77d7d88752dc045e57edcf9943"; 
-}
-
-else if (getURL == "RVNQTl9VWQ==") // ESPN1 UY
-{
-	keyId = "6362e1f36fcb7ee3c47debd9140336ad";
-	key = "9ba1d46c5b9c7a3130a5dabbf7155175";
-}
-
-else if (getURL == "RVNQTjJfVVk=") // ESPN2 UY
-{
-	keyId = "0d820100144772fed9f38b83650fa7e1";
-	key = "ded8cc47b29b0eb0b0a87df22e721847";
-}
-
-else if (getURL == "RVNQTjNfVXktUHk=") // ESPN3 UY-PY
-{
-	keyId = "ed53871dc50dcdc59a6271db3c8c51b3";
-	key = "0c21dc8629e3f2e6fe9efa8b80dc447e";
-}
-
-else if (getURL == "VHlDX0ludGVybmFjaW9uYWw=") // TYC INT
-{
-	keyId = "58e1ebe75d944f6a98ea67b1c7c0a572";
-	key = "1c311b069dbce31ce8e62a6e7e2433eb";
-}
-
-else if (getURL == "QTNfU2VyaWVz") // a3serues
-{
-	keyId = "5e34e08ae5ae440f01a03e505dd24a57";
-	key = "ed30cc7f5040a75d73f619320249272b";
-}
-
-else if (getURL == "VVNBX05ldHdvcms=") // USA NETWORK
-{
-	keyId = "c754b522b3b87dc2ba2da3e35154ec14";
-	key = "141a51e9e83861ae99b4b217431710b3";
-}
-
-else if (getURL == "RHNwb3J0c19VWQ==") //DSports uy
-{
-	keyId = "143c71292a6dd58404efad283b220539";
-	key = "9fceff2f3d70e2f569d5565407d7f743";
-}
-
-else if (getURL == "RHNwb3J0czJfVVk=") //2
-{
-	keyId = "969a3f92b501140c840243fb52e2bde0";
-	key = "d9957d1813667c03e67f6b21632ea7b4";
-}
-
-else if (getURL == "RHNwb3J0c19QbHVzX1VZ") //+
-{
-	keyId = "517d3690fb9e64f95a9272958a84df32";
-	key = "b563bc52ea05c1e7002a996f688b08b9";
-}
-
-else if (getURL == "RFNwb3J0c18x") //DSports
-{
-	keyId = "86d19904429f78baf98cf1fd481c430e";
-	key = "5229197732a9a3e109264b272bd782f2";
-}
-
-else if (getURL == "RFNwb3J0c18y") //
-{
-	keyId = "0dd493fa74640442abd75139b67307d6";
-	key = "31cf4295392d939a97f3b60ebf1ceb44";
-}
-
-else if (getURL == "VGVsZW11bmRvX0hE")
-{
-	keyId = "8f1780497a311eb5e38ea03085888c47";
-	key = "0dbdebc8d5336c970ac8c904e9bcd034";
-}
-
-else if (getURL == "VlRWX1BsdXNfSEQ")
-{
-        keyId = "da8a49a594160cc0059f07b9f71cd39a";
-        key = "37ca91dd799b351a02445151c7f61070";
-}
-else if (getURL == "VHlDX0ludGVybmFjaW9uYWw")
-{
-        keyId = "58e1ebe75d944f6a98ea67b1c7c0a572";
-        key = "1c311b069dbce31ce8e62a6e7e2433eb";
-}
-else if (getURL == "QnJhdm9UVg==")
-{
-        keyId = "d67ea3430c0dd019e820535765268109";
-        key = "7d7bf2d1b5f4c7c97138a1b9b98e0675";
-}
-else if (getURL == "RHJlYW13b3Jrcw==")
-{
-        keyId = "7f30c43e47544412221fd64201d92f4b";
-        key = "f83d09d75a0946b1d71aa48c201b4d8b";
-}
-else if (getURL == "Qm9vbWVyYW5n")
-{
-	keyId = "5792e613fceb699c79cbc0e75fe4cd37";
-	key = "a672793730476ed23e5c1bce2ff570c6";
-}
-else if (getURL == "Rmxvd19NdXNpY18z")
-{
-        keyId = "e078b15ed770ec71f803c0ecc43de033";
-        key = "7010bccda544f74d1b425c4cebd082d4";
-}
-else if (getURL == "VGV2ZV9DaXVkYWQ=")
-{
-        keyId = "9b536cd1716647ee94c45fa4836d29d6";
-        key = "d691c88a95440666742d1d8183182347";
-}
-else if (getURL == "Q2FuYWw0X1VSVQ==")
-{
-        keyId = "dabefaac89742589778fcfab78f08354";
-        key = "896dd914683b01c8044ffd34d7b6416b";
-}
-else if (getURL == "Rk9YSEQ=")
-{
-        keyId = "fc14190acc872e204f3973c75b6439f2";
-        key = "34cf13899db248a7aa2c1deb288d75ef";
-}
-else if (getURL == "Q2FuYWwxMlVSVQ==")
-{
-        keyId = "dfde9d35d7438bfdf61da5dfac0557c1";
-        key = "acb13370c03a7254e2bb9cc9d2125017";
-}
-else if (getURL == "Q00=")
-{
-        keyId = "682f36b5736f4560951ca14b80d29524";
-        key = "3accb729067a39b3b8143f1b447b9d25";
-}
-else if (getURL == "UEFLQV9QQUtB")
-{
-        keyId = "334001b2f2644df9bdf35e92d2b89f8f";
-        key = "475ec87d86ed0636dbb6d6d9d4a43bb7";
-}
-else if (getURL == "Q29tZWR5Q2VudHJhbA")
-{
-        keyId = "797eb97d11b7ee31e7da456248464879";
-        key = "93a54e23d6fb5e7d05420a279923988c";
-}
-else if (getURL == "RV9FbnRlcnRhaW5tZW50X1RlbGV2aXNpb24=")
-{
-        keyId = "194d96e9bd9009b1eacc529e3260560a";
-        key = "c37a50d6848ce6d3dcce0c15d227b9e0";
-}
-else if (getURL == "R291cm1ldA==")
-{
-        keyId = "8bde4fca7757c6c9f15a7bada68df2ba";
-        key = "89ba78584f7612f0fccc62d26043433e";
-}
-else if (getURL == "Rm9vZF9OZXR3b3Jr")
-{
-        keyId = "94d3ef068988afbe74787867f3f505c5";
-        key = "6264b63a33548f46327ce824127841ba";
-}
-else if (getURL == "U1VSX1RWX0M0")
-{
-        keyId = "c047764a90e9a5b0213aec8fed8a24aa";
-        key = "07e62001064fbe64796b4ed3836761f4";
-}
-else if (getURL == "RXVyb25ld3M=")
-{
-        keyId = "d86b0f56d32f45adb0a6b4e488c8f0c2";
-        key = "e4f180b0e61be3e80ab602df5e56ff3f";
-}
-else if (getURL == "U05UX0M0")
-{
-        keyId = "9f61dcce871cc41aeb206d05028fc30a";
-        key = "9f6248194a3bf5e35b96b194e8624693";
-}
-else if (getURL == "Tk9USUNJQVNfUFlfQzQ=")
-{
-        keyId = "8f66fe15735b2b1b3d5eb3646caa405e";
-        key = "404b93fd7b499b1061c9a714e1cdb2d0";
-}
-else if (getURL == "Tk9USUNJQVNfUFlfQzQ=")
-{
-        keyId = "8f66fe15735b2b1b3d5eb3646caa405e";
-        key = "404b93fd7b499b1061c9a714e1cdb2d0";
-}
-else if (getURL == "UEFSQVZJU0lPTl9DNA==")
-{
-        keyId = "bd8e8c9b32ef027e8ff4ff0cfce855a4";
-        key = "2918e9893b570c3fa1f215b52a12cc91";
-}
-else if (getURL == "TEFfVEVMRV9DNA==")
-{
-        keyId = "7c6a481adf6a080ec09637d3f25989cf";
-        key = "036e343d636b821ab81838de387b62cb";
-}
-else if (getURL == "UEFSQVZJU0lPTl9DNA==")
-{
-        keyId = "b02c568163c14cfda4ddb958a0aab742";
-        key = "edef8ba979d64acea3c827dcd51d21ed";
-}
-else if (getURL == "RXVyb3BhX0V1cm9wYQ")
-{
-        keyId = "02ba4e4b769e4c148250ec3f2f206e46";
-        key = "659530e217d14c24826899bdefac48e9";
-}
-else if (getURL == "QzlOX0M0")
-{
-        keyId = "646700eeb14cadfa0543a20cf413d37e";
-        key = "4fc037c462023764624d8446442cbbca";
-}
-else if (getURL == "VW5pdmVyc2FsX0NoYW5uZWxfSEQ=")
-{
-        keyId = "6cf9a13d6fd65a0f2e1cee3969aab9f5";
-        key = "ea61c3c1adee71b5c2e9744e41d4b75f";
-}
-else if (getURL == "UGFyYW1vdW50")
-{
-        keyId = "b85b710ecff3e38f31fc8e249b1c1cef";
-        key = "a1544c193dde6f8858c9358ee69a60a7";
-}
-else if (getURL == "UGFyYWd1YXlfVFY=")
-{
-	keyId = "68a5bd6c58e6c05bacfd18d3feec31f2";
-	key = "ae23f8357512df2dfabcb8104b078182";
-}
-else if (getURL == "RmlsbV9BcnRz")
-{
-	keyId = "44ced0f8d39827356490dfdb264d9a0b";
-	key = "af022335fabcd3e2df916b2b53ae3685";
-}
-else if (getURL == "Q2FuYWxfMTJfQ0JB")
-{
-	keyId = "90422640d3e846159fa450f83870ed4a";
-	key = "abb3cd94aece1a462df25a8f21085cca";
-}
-else if (getURL == "RWxfR2FyYWdl")
-{
-	keyId = "03d1dfb8df034d8b81e57753df00a36d";
-	key = "08d83660db4a73bb1d61d60b09df5f4d";
-}
-else if (getURL == "VGVsZW1heA")
-{
-        keyId = "bddc55bb3a2d3423281dc109107d851d";
-        key = "9078a3e48389afcf63a457c0565e5263";
-}
-else if (getURL == "TmV0X1RW")
-{
-        keyId = "42803fd8c2cff83bfca0e64931c42d2b";
-        key = "728caae294e864b66aabe753c72df05e";
-}
-else if (getURL == "Q2FuYWxfOF9UdWN1bWFu")
-{
-	keyId = "7760caa058b51b7cce151c0539fa4a8f";
-	key = "edd086c1011ed2c54cbe869d0e8d9289";
-}
-else if (getURL == "TWFnYXppbmU=")
-{
-	keyId = "36bc52ea68831dbbec6a9529bc81a9e8";
-	key = "39858817235ad0c15640dbde56f87d78";
-}
-else if (getURL == "RW5jdWVudHJv")
-{
-	keyId = "13e166b20d99713a42e42bfe91c7330b";
-	key = "413a0665d266bcc76a706ccfce2a2410";
-}
-else if (getURL == "VGVsZWZlX05ldXF1ZW4=")
-{
-        keyId = "55828b728b8affe6d1d57d050025645d";
-        key = "8ac11ed6d0ccaeac3f8218419f65bb94";
-}
-else if (getURL == "VGVsZWZlX1NhbHRh")
-{
-        keyId = "6c7a5de392f874308e4dd8f2837f1115";
-        key = "9ccf9ec6922c403d67d0df7952547581";
-}
-else if (getURL == "TGFfTmFjaW9u")
-{
-        keyId = "3561945a15a88603aee20ea15c605d6c";
-        key = "7a1676bb6cc6cbb328f41626d8084594";
-}
-else if (getURL == "Q3JvbmljYVRW")
-{
-        keyId = "33ded37fefaa6c3d6878e0d555dfaffd";
-        key = "9e024c10af20f240a1ea35b94d147f28";
-}
-else if (getURL == "Q2FuYWw5")
-{
-        keyId = "3ddf62bf44e68f06a6adb810199df713";
-        key = "2ace15b4ffbe70940fdf04cf97e114e7";
-}
-else if (getURL == "QzVO")
-{
-        keyId = "ef98ad3a4a5b9f6edae885e8bf450d3c";
-        key = "861873c6c69eb66df0afc3034a02a796";
-}
-else if (getURL == "QW1lcmljYVRW")
-{
-        keyId = "3d7afc43dab940d699b61466b245369f"; 
-        key = "712b5165ff990156e6c9e580b0b4df59";
-}
-else if (getURL == "QXJ0ZWFySEQ")
-{
-        keyId = "4aa8ec10f92b212c0cbaaa8e0591b468";
-        key = "17985aeaac30e62e6dad45f4df84cc2c";
-}
-else if (getURL == "VGVsZWZlSEQ=")
-{
-        keyId = "69d08ad795092fc59dbdfb194424dd92";
-        key = "a73948b44e9292eede50c0c654301860";
-}
-else if (getURL == "QW1lcmljYTI0")
-{
-        keyId = "71133ea8e1941323a21acb5090c5c469";
-        key = "f46178e47581d410008a505eeed759fe";
-}
-else if (getURL == "RGlzbmV5Q2hhbm5lbEhE")
-{
-        keyId = "138981ed5f75527232593af4c92c9007";
-        key = "0f05c78bd7e8bc3e9e0f708c1424f34b";
-}
-else if (getURL == "TWV0cm8")
-{
-        keyId = "30040b6c7b723aee251c0dc3c4f4d84c";
-        key = "c8d60a61d2d9d2acd4040a21da4d2203";
-}
-else if (getURL == "R0VOX1RW")
-{
-        keyId = "49eb924ba998ca7fbbaee30dcef1ecb4";
-        key = "6e131b04b2e87598fb588ac205673698";
-}
-else if (getURL == "QkJDX1dvcmxkX05ld3M")
-{
-        keyId = "019f72f2091d4cbea59ff8c85b117f86";
-        key = "a4eac51195506752f9f63ad24def9c37";
-}
-else if (getURL == "VG9kb05vdGljaWFz")
-{
-        keyId = "775d4113d76beac8231e92ed732e27d6";
-        key = "0854a56be655bfa9055ef0e4980f4674";
-}
-else if (getURL == "QXJnZW50aW5pc2ltYQ")
-{
-        keyId = "7e9c0f045a0940b971d1067eecf629b7";
-        key = "923f466a008d077b21ac13ede21600a5";
-}
-else if (getURL == "Q2FuYWxfNV9Sb3Nhcmlv")
-{
-        keyId = "c61b5ac8e1664bf5b544e92ea2597e1c";
-        key = "938437ac25f0a18e04efc1a083489edc";
-}
-else if (getURL == "Q2FuYWxfOF9DQkE")
-{
-        keyId = "103ce214b4d04c8eb4dd43670e956dad";
-        key = "20e030576b8dc4df0d1c68e16af3bc0f";
-}
-else if (getURL == "RGlwdXRhZG9zX1RW")
-{
-        keyId = "83404a1a63bad8a1d21aabf89f6436cc";
-        key = "b4ce534c34911e703ffc780653bb2a78";
-}
-else if (getURL == "MjZfVFZfSEQ")
-{
-        keyId = "52e55c3298f2e07cbfe59eb48ffda940";
-        key = "0fb5916a14188e5eed56afb110e82af7";
-}
-
-else if (getURL == "RVNQTjJfQXJn")
-{
-	keyId = "e6eab53cf8ea962b999c59c298596a65";
-	key = "10c103ae76f99620d66fa75f2c03302a";
-}
-else if (getURL == "RVNQTjM")
-{
-	keyId = "deeed0f44c6b45e064f4d5064486e821";
-	key = "bf89ceeb93564ddc603ba6afd8c9266a";
-}
-else if (getURL == "Rm94U3BvcnRz")
-{
-        keyId = "37730b00a5f92084c47a8129e84559f3";
-        key = "a2e20a45a057ff4e7c0bc2ad49e6f3e5";
-}
-else if (getURL == "Rm94U3BvcnRzMkhE")
-{
-	keyId = "1b0ab680ef94a1842185fa78a830cbd7";
-	key = "23129ab5572aeda7607c920655c0dbea";
-}
-else if (getURL == "Rm94U3BvcnRzM0hE")
-{
-	keyId = "4629bd0ae30c0e72af111fb948fada1c";
-	key = "7864154c679e769e7f164ba083c8fad3";
-}
-else if (getURL == "VHlDU3BvcnQ")
-{
-        keyId = "0b1e6825350fa1bc0032f8f36287e006";
-        key = "11fc540a4539d18f91cd403a5ed42284";
-}
-else if (getURL == "VE5UX0hEX0FyZw")
-{
-        keyId = "faad1722a575f4d9ec7b774db63c879c";
-        key = "cf0184830344ba36ad2ffef9dd2dd9d0";
-}
-else if (getURL == "VE5UX1Nwb3J0c19IRA")
-{
-        keyId = "9fb56301bc7687baf0b1a61def9a007a";
-        key = "947d2294ba67256827e8e97f267e71e0";
-}
-else if (getURL == "Rm94X1Nwb3J0c19QcmVtaXVuX0hE")
-{
-        keyId = "c502892e037a9f34827147b2b24e42cf";
-        key = "2531bd34bec6c0e8fa4e07aedb261ade";
-}
-else if (getURL == "Q2FuYWw3")
-{
-        keyId = "589f5b6f4afec0b3362cd6be2ab1eb36";
-        key = "6d685f3151730ca6a4be7765a46d30a5";
-}
-else if (getURL == "RGVwb3JUVkhE")
-{
-        keyId = "e721cdf9043ee562296005056a2757de";
-        key = "70259c9d827905e8088cdedceb56ae87";
-}
-else if (getURL == "RVNQTkhE")
-{
-	keyId = "d02981e6faeacef49c90fdb053ab641d";
-	key = "645e13624e933841b1ea35cda1b55bd1";
-}
-else if (getURL == "VlRWX0hE")
-{
-	keyId = "b96960aa715a4e51b7e952e81c99ac8e";
-	key = "5bbffc680764dbd63d90b774b3aa0c0a";
-}
-else if (getURL == "QTNfQ2luZQ==")
-{
-	keyId = "5fd23d78b94f5dd7a5020547bf1673d3";
-	key = "29e4d16d200d4aca5437d144b8538e92";
-}
-else if (getURL == "VGhlYXRlcl9IRA==")
-{
-	keyId = "e76e0dd95f2187770a6fa9f72d7600f5";
-	key = "bcab30dad55228fcd0a89a534b7b4f04";
-}
-else if (getURL == "R2xpdHo=")
-{
-	keyId = "f812ef81d6ce425a8db4012a1ef8b0c1";
-	key = "5c2b9791b1074727eb349588e32bdc0a";
-}
-else if (getURL == "UXVpZXJvX0hE")
-{
-	keyId = "a354b0c82a3a720c4a6f52ed5a1190f4";
-	key = "45a76dcc84f058cfabc8b958d7303b28";
-}
-else if (getURL == "RGlzY292ZXJ5X1dvcmxkX0hE")
-{
-	keyId = "31e4b8ab99b5a7bd7812834701825dd9";
-	key = "fe9e6e8c22b0d33baaae895b9d0317aa";
-}
-else if (getURL == "RXVyb2NoYW5uZWw=")
-{
-	keyId = "95e7d20fc07b39fe9560be1a6be83ce1";
-	key = "40ef00abd884db6166b105da88862849";
-}
-else if (getURL == "RGlzY292ZXJ5X1NjaWVuY2U=")
-{
-	keyId = "c9fcd9709b38058ca2c90b83e81bc039";
-	key = "fb736e65c2a7248987e58a2a7e6d49a6";
-}
-else if (getURL == "SU5DQUFfVHY=")
-{
-	keyId = "7a11a38b78f2a44380bf3954b169066e";
-	key = "4e84e73a2ddfca8c8f473023033e0649";
-}
-else if (getURL == "QUVIRA==")
-{
-	keyId = "46d4dda63edf221dae86a32c6e1c8fdb";
-	key = "40d66cb806ec1fa0f5649d800a43ec44";
-}
-else if (getURL == "VFY1X01vbmRl")
-{
-	keyId = "62034ff5988b4787b17cdf6f751a3142";
-	key = "b3938f0af28b4c0c082b0d4210e389a0";
-}
-else if (getURL == "SG9sYV9UVg==")
-{
-	keyId = "5d759477f0ad1bdef2c6de09e7c275fd";
-	key = "82cc6eea185eecc934df95adfbbf9dbc";
-}
-else if (getURL == "TVRWX0hpdHM=")
-{
-	keyId = "61008dfc867544cd872de99b1f2b82cf";
-	key = "716449756316b91c54803aaa22a2fbf0";
-}
-else if (getURL == "VEVMRUZVVFVST19DNA==")
-{
-	keyId = "5d2731cf8a59b73438ef59d88cd882bf";
-	key = "3f412fa6368b7db4903588de695377e1";
-}
-else if (getURL == "TVRWX0hE")
-{
-	keyId = "0c9eb3ead38a122ac460ad96a8ebfd2e";
-	key = "66bfbfa4449eb8bc1bcf7577d5bffaad";
-}
-else if (getURL == "Tmlja19Kcg==")
-{
-	keyId = "e824b2277a86fd6adfc40aa948e5064a";
-	key = "28da2dbbe8e1a1463bbb23895b922083";
-}
-else if (getURL == "QVhOSEQ=")
-{
-	keyId = "95b9c884a97447ecab423d054cc499aa";
-	key = "f57499f1432bb70e9cb9a0ebfbef2da4";
-}
-else if (getURL == "TVRWMDA=")
-{
-	keyId = "1f0c09ed9e5841cf867ba6eb3cdfd61d";
-	key = "802c89c6bae6a245aaafcf40c1986fc1";
-}
-else if (getURL == "VFZfRXNwYW5h")
-{
-	keyId = "53e0a3741e2e4ff5843f165b53309088";
-	key = "45095caabd9a359cd7ea3910d865d643";
-}
-else if (getURL == "V09CSQ==")
-{
-	keyId = "f2e44a719947ebfe37de527a9d6df71e";
-	key = "029bddeb08909dd66a80276fc338d692";
-}
-else if (getURL == "Vm9sdmVy")
-{
-	keyId = "277df1cbe2bc86d555780d59eb7f2740";
-	key = "306cb0274acd57bf70c7eafc643ebb4d";
-}
-else if (getURL == "VGVsZXN1cg==")
-{
-	keyId = "5235d8ee29f14ce6b26ea5d828aee77a";
-	key = "6bf6bd339e3098babc2ab0b984cd2376";
-}
-else if (getURL == "TGlmZXRpbWU=")
-{
-	keyId = "c0e2d5650551523ee94db5dc1a8a13d4";
-	key = "d555f25b35d8f32cf9efab28c24ca1ba";
-}
-else if (getURL == "U3BhY2U=")
-{
-	keyId = "32684b675439d127a5ab1e07b2a57242";
-	key = "e169f625df475d6d1c014cca1a52a251";
-}
-else if (getURL == "QW50ZW5hXzM=")
-{
-	keyId = "1e1ad422a6714482b66fa702c16e50c6";
-	key = "4fdf28a0ab91356ca55a75f4e9bf8c92";
-}
-else if (getURL == "UGxheWJveQ")
-{
-	keyId = "8577d81eaf33436d9f1e482360685a7c";
-	key = "f608a0ac703cfaaf9442574d9a2b87fb";
-}
-else if (getURL == "Rm94X05ld3M=")
-{
-	keyId = "3fe3f31a5e7b48a1b548e9364757ce66";
-	key = "32993fc281207fe915f6f1e990957868";
-}
-else if (getURL == "VHZfQ2hpbGU=")
-{
-	keyId = "c5d0d76e24844235988f9265619e5fec";
-	key = "446b71a6deb806c6f129e25de999d07c";
-}
-else if (getURL == "RGlzY292ZXJ5SEQ=")
-{
-	keyId = "f55aec775d92cea41ea0f80b8615495a";
-	key = "8927f326931c6a5af38d0cd7cd744338";
-}
-else if (getURL == "RlhIRA==")
-{
-	keyId = "9701932cab0e4aa3b8078176d5d54dd0";
-	key = "76819026588b16fd7083436b2b94485e";
-}
-else if (getURL == "Rmxvd19NdXNpY19YUA==")
-{
-        keyId = "b2aae44a74144be8b2118e20d1412bab";
-        key = "8a7ae996d12d8d5d5637d1044f8e08b7";
-}
-else if (getURL == "Rmxvd19NdXNpY18x")
-{
-        keyId = "f34cd7709f093d23d4db009107d96862";
-        key = "d8a829138d970b45e867c9733a31b2f0";
-}
-else if (getURL == "Rmxvd19NdXNpY18y")
-{
-        keyId = "596b599580b39ae2f3c413f7eae36902";
-        key = "2d7e3d5d31f68690fd877a111f84e8e3";
-}
-else if (getURL == "Rmxvd19NdXNpY18z")
-{
-        keyId = "e078b15ed770ec71f803c0ecc43de033";
-        key = "7010bccda544f74d1b425c4cebd082d4";
-}
-else if (getURL == "QU1DX1Nlcmllcw==") //AMC SERIES (EX MAS Chic)
-{
-	keyId = "10d3d4f33a6bad277accc2688c46b406";
-	key = "588fd56bcab1fcdb4f33b5c2f7018d29";
-}
-else if (getURL == "U3R1ZGlvX1VuaXZlcnNhbA==")
-{
-	keyId = "dbe5d9ce01740076fdc95cbc0253b9ee";
-	key = "d8a8ef434bffae80e45e203f6f7f4988";
-}
-else if (getURL == "V2FybmVySEQ=")
-{
-	keyId = "07cef02a41651642cc35946c1b0fbc49";
-	key = "be57342c7cf6e70aa851c0d1074d11c0";
-}
-else if (getURL == "U3VuX0NoYW5uZWw=")
-{
-	keyId = "997776e5454ed2c20d1cf82cf11e79b4";
-	key = "403559af86e7b8b578f19205f9cdc6f0";
-}
-else if (getURL == "Q2luZWNhbmFsSEQ=")
-{
-	keyId = "98b31a0a125d81ef4c9caf1683f55444";
-	key = "7ec3df0771fe86c9f405765ce9fb5204";
-}
-else if (getURL == "QU1D")
-{
-	keyId = "30ffe7a2776537e8cec7020d783536f9";
-	key = "7b4f323576ac85d8938f5bebc245131c";
-}
-
-else if (getURL == "UkFJ")
-{
-	keyId = "d214547d7d9a4011a39a899ce6e70071";
-	key = "16c2ed0617cf1e123f3af6ea8875a82d";
-}
-else if (getURL == "VmVudXM=")
-{
-	keyId = "34237d2ae6684ee7a011f5b9c7c43e6d";
-	key = "05d973d987915120e567880f50a422af";
-}
-else if (getURL == "U2V4dHJlbWU")
-{
-	keyId = "95bd64227acf458daf7886f803d0298e";
-	key = "79e28ee0ec58958bb666f9e53a0cd434";
-}
-else if (getURL == "RXZlbnRvczFIRA") // Eventos 1
-{
-        keyId = "fdb996352a45b339b86f3eb336af36c6";
-        key = "21b8543c13b2b87e0e097602a71f3f91";
-}
-
-else if (getURL == "RXZlbnRvc18yX0hE") // Eventos 2
-{
-        keyId = "02c5f46dec4c3feadde6f5b0b0c6e9b6";
-        key = "89186f8c250f8291b4211ac1b2bdc103";
-}
-	
-     
-
-            // Convertir keyId y key a una cadena JSON
-               if (keyId && key) {
-                var keyString = `"${keyId}":"${key}"`;
-                // Codificar en base64
-                var base64Key = btoa(keyString);
-
-            }  else {
-                alert('KeyId o Key no definidos.');
+        
+            var number = 6;
+            var ck = "IjI2NTA5N2IxYWUzOThjMjQ2ZjVjYmVmNDFkM2I0NzQzIjoiMTQ2OGJmMjQ3NWVlZjIwMDQ2MGQ0NWViOGMyMDc4OGYi";
+        // Función para verificar si es Windows o Linux
+        function isWindowsPC() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            return (/windows|linux/.test(userAgent)) &&
+                   !(/mobile|tablet|iphone|ipod|android/.test(userAgent));
+        }
+        
+        // Función para mostrar el mensaje de dispositivo no compatible
+        function showUnsupportedDeviceMessage() {
+            const unsupportedMessage = document.createElement('div');
+        
+            unsupportedMessage.classList.add('alert-card');
+        
+            unsupportedMessage.innerHTML = `
+                <i class='bx bx-error-circle boxicon'></i>
+                <h2>Dispositivo no compatible</h2>
+                <p>Este contenido es compatible solo con PC. Por favor, usa un PC para visualizarlo, o selecciona otra opción.</p>
+            `;
+        
+            document.body.appendChild(unsupportedMessage);
+        }
+        
+        // Verificar dispositivo
+        if (!isWindowsPC()) {
+        
+            showUnsupportedDeviceMessage();
+        
+        } else {
+        
+            iniciarPlayer();
+        
+        }
+        
+        async function cargarOrigen() {
+        
+            // Cache de la pestaña
+            const cacheBase = sessionStorage.getItem('srv_base');
+        
+            if (cacheBase) {
+        
+                return {
+                    base: cacheBase
+                };
+        
             }
+        
+            // Métodos: chromecast redirect, luego cdn
+            const dominios = ['chromecast', 'cdn'];
+        
+            const TOKEN_REGEX = /(https:\/\/.+?)(?=\/live)/;
+        
+            for (const dominio of dominios) {
+        
+                try {
+        
+                    const r = await fetch(
+                        `https://${dominio}.cvattv.com.ar/live/c6eds/TelefeHD/SA_Live_dash_cenc/TelefeHD.mpd`,
+                        { signal: AbortSignal.timeout(5000) }
+                    );
+        
+                    if (r.redirected) {
+        
+                        const match = r.url.match(TOKEN_REGEX);
+        
+                        if (match) {
+        
+                            const resultado = {
+                                base: match[0]
+                            };
+        
+                            sessionStorage.removeItem('srv_host');
+                            sessionStorage.removeItem('srv_key');
+                            sessionStorage.setItem('srv_base', resultado.base);
+        
+                            console.info('[origen] OK:', resultado.base);
+        
+                            return resultado;
+        
+                        }
+        
+                    }
+        
+                    console.warn(`[origen] ${dominio}: sin redirect con token`);
+        
+                } catch (e) {
+        
+                    console.warn(`[origen] ${dominio} falló:`, e.message || e);
+        
+                }
+        
+            }
+        
+            console.error('No se encontró token');
+            return null;
+        
+        }
+        
+        async function iniciarPlayer() {
+        
+            const origen = await cargarOrigen();
+        
+            if (!origen) {
+        
+                console.error('No se pudo obtener el token');
+        
+                return;
+        
+            }
+        
+            console.log('ORIGEN:', origen.base);
+        
+            const canal = atob(getURL);
 
-                    (async () => {
-       const vp = await VideoPlayer.init();
+            const mpdBase = `${origen.base}/live/c6eds/${canal}/SA_Live_dash_enc/${canal}.mpd`;
+            
+            console.log('MPD:', mpdBase);
+            
+            
+        
+            // Verificar que exista la MPD con HEAD; si falla, probar la variante full
+            let mpd = mpdBase;
+        
+            try {
+        
+                const check = await fetch(mpdBase, { method: 'HEAD' });
+        
+                if (!check.ok) {
+        
+                    const alt =
+                        `${origen.base}/live/c${number}eds/${canal}/sa_dash_full_e_7CF9BB041AD89713AD8CF4CF/${canal}.mpd`;
+        
+                    const checkAlt = await fetch(alt, { method: 'HEAD' });
+        
+                    if (checkAlt.ok) {
+                        mpd = alt;
+                    } else {
+                        console.warn('Ambas variantes MPD dieron error, usando la original');
+                    }
+        
+                }
+        
+            } catch (error) {
+        
+                console.warn('Error verificando la MPD, usando la original:', error);
+        
+            }
+        
+            console.log('MPD final:', mpd);
+        
+                // Verificar que exista la clearkey (provista por el backend)
+            if (!ck) {
+        
+                alert('KeyId o Key no definidos.');
+        
+                return;
+        
+            }
+        
+            const extensionUrl =
+                `chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/pages/player.html#${mpd}?ck=${encodeURIComponent(ck)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;    console.log('Extension URL:', extensionUrl);
+        
+            const playerDiv = document.getElementById("player");
+            const alertaDiv = document.getElementById("alerta-extension");
+        
+            isExtensionInstalled(
+        
+                () => {
+        
+                    playerDiv.classList.remove("hidden");
+        
+                    playerDiv.innerHTML = `
+                        <iframe
+                            id="iframe"
+                            allow="encrypted-media"
+                            allowfullscreen
+                            src="${extensionUrl}">
+                        </iframe>
+                    `;
+        
+                },
+        
+                () => {
+        
+                    alertaDiv.classList.remove("hidden");
+        
+                }
+        
+            );
+        
+        }
+        
+        // Función para verificar si la extensión está instalada
+        function isExtensionInstalled(installedCallback, notInstalledCallback) {
+        
+            const img = document.createElement('img');
+        
+            img.onload = installedCallback;
+            img.onerror = notInstalledCallback;
+        
+            img.src =
+                'chrome-extension://opmeopcambhfimffbomjgemehjkbbmji/play-on.png';
+        
+        }
 
-if (vp.isInstalled()) {
+    var HEADERS = 'eyJvcmlnaW4iOiJodHRwczovL3dlYmNsaWVudC5hbnRpbmFwbGF5cGx1cy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly93ZWJjbGllbnQuYW50aW5hcGxheXBsdXMuY29tLmFyLyJ9';
+    var EXTENSION_ID = 'opmeopcambhfimffbomjgemehjkbbmji';
+    var config = null;
 
-    const playerBase = vp.getDirectPlayer();
+    (async () => {
+        const vp = await VideoPlayer.init();
+        
+        if (vp.isInstalled()) {
+            const playerBase = vp.getDirectPlayer();
+            
+   
+            const ckValue = btoa(`"${config.k1}":"${config.k2}"`);
+            const extUrl = `${playerBase}#${config.url}?ck=${ckValue}&headers=${HEADERS}`;
 
-    const extensionUrl =
-        `${playerBase}#${mpdBase}?ck=${encodeURIComponent(base64Key)}&headers=eyJvcmlnaW4iOiJodHRwczovL3BvcnRhbC5hcHAuZmxvdy5jb20uYXIiLCJyZWZlcmVyIjoiaHR0cHM6Ly9wb3J0YWwuYXBwLmZsb3cuY29tLmFyLyJ9`;
-
-    const playerDiv = document.getElementById("player");
-
-    playerDiv.classList.remove("hidden");
-    playerDiv.innerHTML =
-        `<iframe id="iframe"
-                 allow="encrypted-media"
-                 allowfullscreen
-                 src="${extensionUrl}">
-         </iframe>`;
-
-} else {
-
-    document.getElementById("alerta-extension")
- .classList.remove("hidden");
-}
-    })(); 
-
-       }
-
-    </script>
+            const playerDiv = document.getElementById("player");
+            playerDiv.classList.remove("hidden");
+            playerDiv.innerHTML = `
+                <iframe id="iframe" 
+                        allow="encrypted-media" 
+                        allowfullscreen 
+                        src="${extUrl}">
+                </iframe>
+            `;
+        } else {
+            document.getElementById("alerta-extension").classList.remove("hidden");
+        }
+    })();
+</script>
 
 </body>
 </html>
-
