@@ -31,41 +31,59 @@
         }
     </script>
     <style>
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
         .fade-in {
-            animation: fadeIn 0.3s ease-in-out forwards;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             opacity: 0;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         .glass-effect {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
         }
 
         .channel-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
-        .channel-card:hover { transform: translateY(-2px); }
-        .logo-box { min-height: 78px; display:flex; align-items:center; justify-content:center; }
-        .logo-box img { max-width: 150px; max-height: 58px; width:auto; height:auto; object-fit:contain; }
+        .channel-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        
+        .logo-box { min-height: 60px; display:flex; align-items:center; justify-content:center; }
+        .logo-box img { max-width: 140px; max-height: 50px; width:auto; height:auto; object-fit:contain; }
+        
         .compact-grid { grid-template-columns: 1fr !important; }
-        .compact-card { flex-direction:row !important; align-items:center !important; padding: .75rem 1rem !important; }
-        .compact-card .logo-box { width:54px; min-height:54px; flex:0 0 54px; }
-        .compact-card .logo-box img { max-width:48px; max-height:42px; }
+        .compact-card { flex-direction:row !important; align-items:center !important; padding: .75rem 1rem !important; gap: 1rem !important; }
+        .compact-card .logo-box { width:50px; min-height:50px; flex:0 0 50px; }
+        .compact-card .logo-box img { max-width:44px; max-height:38px; }
+        .compact-card .card-main { flex-direction:column; align-items:flex-start; gap:.25rem; }
         .compact-card .card-actions { width:auto !important; margin-left:auto; }
-        .compact-card .mirror-area { display:none; }
+        .compact-card .mirror-area { width:100%; }
+        
         .filter-tool { display:inline-flex; align-items:center; gap:.35rem; padding:.5rem .75rem; border-radius:.7rem; border:1px solid rgb(229 231 235); background:white; color:rgb(55 65 81); font-size:.78rem; font-weight:600; white-space:nowrap; cursor:pointer; transition:all .2s ease; }
         .dark .filter-tool { border-color:rgb(55 65 81); background:rgb(31 41 55); color:rgb(209 213 219); }
         .filter-tool:hover { border-color:rgb(59 130 246); color:rgb(37 99 235); }
+        .dark .filter-tool:hover { border-color:rgb(59 130 246); color:rgb(96 165 250); }
         .filter-tool.active { background:rgb(37 99 235); border-color:rgb(37 99 235); color:white; }
+        
         .category-count { font-size:.68rem; opacity:.75; }
+        
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .summary-icon { transform: rotate(180deg); }
+        .summary-icon { transition: transform 0.2s ease; }
+
+        #backToTopBtn {
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        }
+        #backToTopBtn.hidden-btn {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
         @media (prefers-reduced-motion: reduce) { * { scroll-behavior:auto !important; animation:none !important; transition:none !important; } }
     </style>
 </head>
@@ -77,16 +95,16 @@
             <img src="https://image.qwenlm.ai/public_source/bb7ce037-e2ce-42f0-b86c-4f696d794417/1d6bd0732-9d26-4996-bc46-90ec1a1cd32d.png" alt="Background" class="w-full h-full object-cover opacity-20 dark:opacity-10">
             <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white dark:to-gray-900"></div>
         </div>
-        <div class="relative z-10 max-w-7xl mx-auto px-4 py-8 sm:py-12 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 py-8 sm:py-10 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="text-center sm:text-left">
                 <h1 class="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400">
                     Lista de Canales
                 </h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base">Canales en vivo · búsqueda rápida · favoritos</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base">Canales en vivo · Búsqueda rápida · Favoritos</p>
             </div>
             <button id="themeToggle" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 shadow-md group cursor-pointer">
                 <span id="themeIcon" class="text-xl">🌙</span>
-                <span id="themeText" class="font-medium text-sm">Modo Oscuro</span>
+                <span id="themeText" class="font-medium text-sm hidden sm:inline">Modo Oscuro</span>
             </button>
         </div>
     </header>
@@ -94,16 +112,19 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
         
-        <!-- Search & Filters -->
-        <div class="sticky top-0 z-20 bg-gray-50/80 dark:bg-gray-900/80 glass-effect py-4 -mx-4 px-4 mb-6 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
-            <div class="flex flex-col gap-4">
+        <!-- Search & Filters Sticky -->
+        <div class="sticky top-0 z-30 bg-gray-50/90 dark:bg-gray-900/90 glass-effect py-3 -mx-4 px-4 mb-8 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div class="flex flex-col gap-3">
                 <!-- Search -->
                 <div class="relative w-full max-w-2xl mx-auto">
                     <input type="text" id="searchInput" placeholder="Buscar canales..." 
-                        class="w-full pl-12 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all duration-300 shadow-sm text-base">
+                        class="w-full pl-12 pr-10 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all duration-300 shadow-sm text-base">
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
+                    <button id="clearSearchBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hidden" aria-label="Limpiar búsqueda">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
 
                 <!-- Categories -->
@@ -118,7 +139,7 @@
                         <button id="clearFilters" type="button" class="filter-tool hidden">✕ Limpiar</button>
                     </div>
                     <div class="flex items-center gap-2">
-                        <select id="sortSelect" class="filter-tool bg-white dark:bg-gray-800" aria-label="Ordenar canales">
+                        <select id="sortSelect" class="filter-tool bg-white dark:bg-gray-800 cursor-pointer" aria-label="Ordenar canales">
                             <option value="default">Orden original</option>
                             <option value="az">A → Z</option>
                             <option value="za">Z → A</option>
@@ -131,14 +152,17 @@
             </div>
         </div>
 
-        <!-- External Links Section -->
+        <!-- External Links Section (Collapsible) -->
         <section id="externalSection" class="mb-10">
-            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                <span class="text-2xl">🔗</span> 
-            </h2>
-            <div id="externalGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                <!-- External links injected by JS -->
-            </div>
+            <details class="group">
+                <summary class="flex items-center gap-2 cursor-pointer text-xl font-bold mb-4 select-none">
+                    <span class="text-2xl">🔗</span> Enlaces Externos
+                    <svg class="summary-icon w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div id="externalGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                    <!-- External links injected by JS -->
+                </div>
+            </details>
         </section>
 
         <!-- Channels Section -->
@@ -160,13 +184,10 @@
         </section>
     </main>
 
- <!-- Footer 
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-6 mt-10 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 dark:text-gray-400 text-sm">
-           <p>Lista de Canales &copy; 2024. Todos los derechos reservados.</p>
-         <p class="mt-1 text-xs">Los enlaces son proporcionados por terceros. No alojamos contenido.</p>
-     </div>
-  </footer> -->
+    <!-- Floating Back to Top Button -->
+    <button id="backToTopBtn" class="hidden-btn fixed bottom-6 right-6 z-40 p-3 rounded-full bg-primary-600 text-white shadow-lg hover:bg-primary-700 transition-colors" aria-label="Volver arriba">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
 
     <script>
         const rawData = `Lista de Canales
@@ -396,21 +417,8 @@ Lista de Canales
             { name: "Canales España", url: "https://teleonline.org/", icon: "🌐" },
             { name: "AMC", url: "https://bestleague.life//tok.html?get=QU1D", icon: "🌐" },
             { name: "FXHD", url: "https://bestleague.life/tok2.html?get=RlhIRA==", icon: "🌐" },
-            
-            
         ];
 
-        /*
-         * CLASIFICACIÓN DE CANALES
-         * ------------------------
-         * Se usa el nombre del canal como fuente principal y el emoji como
-         * respaldo. Así los canales que llevan logo HTML también quedan
-         * correctamente clasificados.
-         *
-         * Categorías disponibles:
-         * TV | Cine | Deportes | Basket | Noticias | Docu/Cultura |
-         * Infantil | Música | Adultos | Internacional
-         */
         const CHANNEL_CATEGORIES = {};
 
         function addCategory(category, names) {
@@ -419,7 +427,6 @@ Lista de Canales
             });
         }
 
-        // Cine / series / entretenimiento
         addCategory('Cine',
             'Cinecanal|Space|Star+|A3 Cine|A3 Series|Adult Swim|AEHD|' +
             'AMC Series|AXNHD|BravoTV|ComedyCentral|Cinemax|E Entertainment Television|' +
@@ -430,7 +437,6 @@ Lista de Canales
             'Universal Premiere|Universal Reality|USA Network|Volver|WarnerHD'
         );
 
-        // Deportes
         addCategory('Deportes',
             'ESPN2 Arg|ESPN2 UY|ESPN3 Uy-Py|ESPN4|ESPN UY|' +
             'Eventos1HD|Eventos 2 HD|Eventos HD UY|Fox Sports Premium Backup|' +
@@ -438,16 +444,13 @@ Lista de Canales
             'DSports Plus UY|TNT Sports HD|TNT Sports Backup|TyC International|TyCSport'
         );
 
-        // Baloncesto
         addCategory('Basket', 'NBA TV');
 
-        // Noticias / actualidad
         addCategory('Noticias',
             '26 TV HD|America24|BBC World News|C5N|C9N C4|CronicaTV|Diputados TV|' +
             'Euronews|Fox News|La Nacion|NOTICIAS PY C4|TodoNoticias|Telesur'
         );
 
-        // Documentales, ciencia, historia, cultura y factual
         addCategory('Docu/Cultura',
             'AnimalPlanet|Canal Rural|DiscoveryHD|Discovery Science|Discovery World HD|' +
             'DiscoveryHomeHealthHD|DiscoveryTurbo|El Garage|Encuentro|Film Arts|' +
@@ -455,34 +458,27 @@ Lista de Canales
             'Lifetime|NatGeoHD|Sun Channel|Theater HD|TLC|WOBI'
         );
 
-        // Infantil / familiar
         addCategory('Infantil',
             'Boomerang|CartoonNetwork|Discovery Kids|DisneyJr|Dreamworks|HBO Family|' +
             'Nick Jr|Nickelodeon|PAKA PAKA'
         );
 
-        // Música
         addCategory('Música',
             'Argentinisima|CM|Flow Music 1|Flow Music 2|Flow Music 3|Flow Music XP|' +
             'HTV|MTV00|MTV HD|MTV Hits|Quiero HD'
         );
 
-        // Adultos
         addCategory('Adultos', 'Extreme|Playboy|Venus');
 
-        // Canales de señal internacional / otros países
         addCategory('Internacional',
             'Canal10 URU|Canal12URU|Canal4 URU|Paraguay TV|PARAVISION C4|RPC C4|' +
             'RAI|SNT C4|SUR TV C4|TELEFUTURO C4|Telemundo HD|TV5 Monde|TV Chile|TV Espana'
         );
 
         function getChannelCategory(name, icon) {
-            // 1. Clasificación explícita por nombre.
             if (Object.prototype.hasOwnProperty.call(CHANNEL_CATEGORIES, name)) {
                 return CHANNEL_CATEGORIES[name];
             }
-
-            // 2. Respaldo para cualquier canal nuevo que lleve emoji.
             if (icon.includes('🎥')) return 'Cine';
             if (icon.includes('⚽')) return 'Deportes';
             if (icon.includes('🏀')) return 'Basket';
@@ -492,8 +488,6 @@ Lista de Canales
             if (icon.includes('🎵')) return 'Música';
             if (icon.includes('🔞')) return 'Adultos';
             if (icon.includes('🌐')) return 'Internacional';
-
-            // 3. Cualquier canal no clasificado explícitamente se considera TV general.
             return 'TV';
         }
 
@@ -521,11 +515,7 @@ Lista de Canales
                         mirrors.push({ name: m[1], url: m[2] });
                     }
                     
-                    // La categoría NO se obtiene solo del emoji:
-                    // muchos canales usan su logo (<img>) y no tenían emoji,
-                    // por lo que el código anterior los metía automáticamente en TV.
                     const category = getChannelCategory(name, icon);
-
                     parsedChannels.push({ icon, name, url, mirrors, category });
                 }
             }
@@ -533,17 +523,18 @@ Lista de Canales
         }
 
         const channelsData = parseChannels();
-        console.log("Parsed channels:", channelsData.length);
 
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const themeText = document.getElementById('themeText');
         const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
         const categoryContainer = document.getElementById('categoryContainer');
         const externalGrid = document.getElementById('externalGrid');
         const channelGrid = document.getElementById('channelGrid');
         const channelCount = document.getElementById('channelCount');
         const emptyState = document.getElementById('emptyState');
+        const backToTopBtn = document.getElementById('backToTopBtn');
 
         function applyTheme() {
             if (state.isDarkMode) {
@@ -645,7 +636,11 @@ Lista de Canales
             if (count) count.textContent = state.favorites.length;
             if (favBtn) favBtn.classList.toggle('active', state.favoritesOnly);
             if (recentBtn) recentBtn.classList.toggle('active', state.recentOnly);
-            if (clearBtn) clearBtn.classList.toggle('hidden', !(state.searchQuery || state.activeCategory !== 'Todos' || state.favoritesOnly || state.recentOnly));
+            
+            const isFiltering = state.searchQuery || state.activeCategory !== 'Todos' || state.favoritesOnly || state.recentOnly;
+            if (clearBtn) clearBtn.classList.toggle('hidden', !isFiltering);
+            
+            if (clearSearchBtn) clearSearchBtn.classList.toggle('hidden', !state.searchQuery);
             if (sort) sort.value = state.sort;
             if (view) view.textContent = state.compactView ? '▦ Grande' : '▦ Compacta';
         }
@@ -683,10 +678,11 @@ Lista de Canales
                 const favorite = isFavorite(ch.name);
                 const logoMatch = ch.icon.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i);
                 const logo = logoMatch ? logoMatch[1] : '';
-                const cardIcon = logo ? `<img src="${logo}" alt="${ch.name}" loading="lazy" decoding="async" onerror="this.style.display='none'">` : `<span class="text-4xl">${ch.icon || '📺'}</span>`;
+                const cardIcon = logo ? `<img src="${logo}" alt="${ch.name}" loading="lazy" decoding="async" class="drop-shadow-sm" onerror="this.style.display='none'">` : `<span class="text-4xl">${ch.icon || '📺'}</span>`;
+                
                 return `
-                <article class="channel-card ${state.compactView ? 'compact-card' : ''} fade-in bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-xl hover:border-primary-500/50 dark:hover:border-primary-500/50 flex flex-col gap-3" style="animation-delay:${Math.min(index,20)*15}ms">
-                    <div class="flex items-start gap-3 flex-1 min-w-0">
+                <article class="channel-card ${state.compactView ? 'compact-card' : ''} fade-in bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:border-primary-500 dark:hover:border-primary-500 flex flex-col gap-3" style="animation-delay:${Math.min(index,20)*15}ms">
+                    <div class="card-main flex items-start gap-3 flex-1 min-w-0">
                         <div class="logo-box shrink-0">${cardIcon}</div>
                         <div class="min-w-0 flex-1">
                             <div class="flex items-start justify-between gap-2">
@@ -694,22 +690,26 @@ Lista de Canales
                                     <h3 class="font-bold text-gray-900 dark:text-white text-base leading-tight break-words">${ch.name}</h3>
                                     <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full mt-1 inline-block">${ch.category}</span>
                                 </div>
-                                <button type="button" onclick="window.toggleFavorite(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})" class="shrink-0 text-2xl leading-none ${favorite ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600 hover:text-yellow-400'}" title="${favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}" aria-label="${favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}">${favorite ? '★' : '☆'}</button>
+                                <button type="button" onclick="window.toggleFavorite(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})" class="shrink-0 text-2xl leading-none transition-transform hover:scale-125 ${favorite ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600 hover:text-yellow-400'}" title="${favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}" aria-label="${favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}">${favorite ? '★' : '☆'}</button>
                             </div>
                         </div>
                     </div>
                     <div class="card-actions w-full">
                         <a href="${ch.url}" target="_blank" rel="noopener noreferrer" onclick="window.registerRecent(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})"
-                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg">
-                            ▶ Ver canal
+                            class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-primary-500/30">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
+                            Ver canal
                         </a>
                     </div>
                     ${ch.mirrors.length > 0 ? `
                     <div class="mirror-area">
                         <details>
-                            <summary class="cursor-pointer text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1">↗ Ver alternativas (${ch.mirrors.length})</summary>
-                            <div class="mt-2 flex flex-wrap gap-2">
-                                ${ch.mirrors.map(m => `<a href="${m.url}" target="_blank" rel="noopener noreferrer" onclick="window.registerRecent(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})" class="text-xs px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-400 transition-colors">${m.name}</a>`).join('')}
+                            <summary class="cursor-pointer text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-1 flex items-center gap-1">
+                                <svg class="summary-icon w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                Ver alternativas (${ch.mirrors.length})
+                            </summary>
+                            <div class="mt-2 grid grid-cols-2 gap-2">
+                                ${ch.mirrors.map(m => `<a href="${m.url}" target="_blank" rel="noopener noreferrer" onclick="window.registerRecent(${JSON.stringify(ch.name).replace(/\"/g, '&quot;')})" class="text-xs text-center px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-700 dark:hover:text-primary-400 transition-colors">${m.name}</a>`).join('')}
                             </div>
                         </details>
                     </div>` : ''}
@@ -722,6 +722,16 @@ Lista de Canales
                 state.searchQuery = e.target.value;
                 renderTools();
                 renderChannels();
+            });
+        }
+
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', () => {
+                state.searchQuery = '';
+                searchInput.value = '';
+                renderTools();
+                renderChannels();
+                searchInput.focus();
             });
         }
 
@@ -749,6 +759,20 @@ Lista de Canales
         if (viewToggle) viewToggle.addEventListener('click', () => {
             state.compactView = !state.compactView; saveUserState(); renderTools(); renderChannels();
         });
+
+        // Back to top logic
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('hidden-btn');
+            } else {
+                backToTopBtn.classList.add('hidden-btn');
+            }
+        });
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
 
         function init() {
             try {
